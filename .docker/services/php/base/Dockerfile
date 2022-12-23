@@ -52,6 +52,7 @@ RUN apk --update-cache add ca-certificates && \
         php-redis~=${TARGET_PHP_VERSION} \
         php-xml~=${TARGET_PHP_VERSION} \
         php-openssl~=${TARGET_PHP_VERSION} \
+        php-intl~=${TARGET_PHP_VERSION} \
         php8~=${TARGET_PHP_VERSION} \
     # make "php" as command available by creating a symlink
     # https://github.com/codecasts/php-alpine/issues/20#issuecomment-350477886
