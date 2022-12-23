@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+cwd=$(pwd)/;
+
+dockerfile=${cwd}compose/docker-compose.yml;
+
+echo "Docker down...";
+docker-compose down f ${dockerfile} --remove-orphans;
+
+echo "Removing unused docker images...";
+# shellcheck disable=SC2046
+docker rmi $(docker images | grep "none" | awk '/ / { print $3 }');
+
+echo "Destroying exited docker containers...";
+# shellcheck disable=SC2046
+docker rm $(docker ps -qa --no-trunc --filter "status=exited");
+
+echo "Docker building...";
+
+#echo "Remove persistent database entries."; rm -rf ${cwd}data;
+
+#echo "Remove temporary logs."; rm -rf ${cwd}logs;
+
+#echo "Recreate temporary directories.\n"; mkdir ${cwd}data; mkdir ${cwd}logs;
+
+echo "Docker compose up..."
+docker-compose up f ${dockerfile} --build --force-recreate --remove-orphans -d;
+
+docker ps -a;

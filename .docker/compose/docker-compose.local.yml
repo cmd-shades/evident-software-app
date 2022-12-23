@@ -1,0 +1,139 @@
+version: '3.7'
+services:
+  application:
+    image: ${DOCKER_REGISTRY?}/${DOCKER_NAMESPACE?}/application-${ENV?}:${TAG?}
+    build:
+      context: '../services/php'
+      dockerfile: 'app/Dockerfile'
+      args:
+        - BASE_IMAGE=${DOCKER_REGISTRY?}/${DOCKER_NAMESPACE?}/php-base-${ENV?}:${TAG?}
+        - APP_SSH_PASSWORD=${APP_SSH_PASSWORD?}
+    environment:
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG?}
+    # cap_add and security_opt are required to enable strace
+    # @see https://stackoverflow.com/a/46676868
+    cap_add:
+      - "SYS_PTRACE"
+    security_opt:
+      - "seccomp=unconfined"
+    volumes:
+      - ${APP_CODE_PATH_HOST?}:${APP_CODE_PATH_CONTAINER?}
+    ports:
+      - "${APPLICATION_SSH_HOST_PORT:-2222}:22"
+    tty: true
+    networks:
+      - envx
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  php-fpm:
+    image: ${DOCKER_REGISTRY?}/${DOCKER_NAMESPACE?}/php-fpm-${ENV?}:${TAG?}
+    build:
+      context: '../services/php'
+      dockerfile: 'fpm/Dockerfile'
+      target: ${ENV?}
+      args:
+        - BASE_IMAGE=${DOCKER_REGISTRY?}/${DOCKER_NAMESPACE?}/php-base-${ENV?}:${TAG?}
+        - TARGET_PHP_VERSION=${PHP_VERSION?}
+    ports:
+      - '9000'
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ${APP_CODE_PATH_HOST?}
+        target: ${APP_CODE_PATH_CONTAINER?}
+    environment:
+      XDEBUG_CONFIG: client_host=192.168.0.3
+      DEBUG: 1
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG?}
+    cap_add:
+      - "SYS_PTRACE"
+    security_opt:
+      - "seccomp=unconfined"
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    networks:
+      - envx
+
+  php-worker:
+    image: ${DOCKER_REGISTRY?}/${DOCKER_NAMESPACE?}/php-worker-${ENV?}:${TAG?}
+    build:
+      context: '../services/php'
+      dockerfile: 'worker/Dockerfile'
+      target: ${ENV?}
+      args:
+        - BASE_IMAGE=${DOCKER_REGISTRY?}/${DOCKER_NAMESPACE?}/php-base-${ENV?}:${TAG?}
+        - PHP_WORKER_PROCESS_NUMBER=${PHP_WORKER_PROCESS_NUMBER:-4}
+    environment:
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG?}
+    volumes:
+      - ${APP_CODE_PATH_HOST?}:${APP_CODE_PATH_CONTAINER?}
+    # cap_add and security_opt are required to enable strace
+    # @see https://stackoverflow.com/a/46676868
+    cap_add:
+      - "SYS_PTRACE"
+    security_opt:
+      - "seccomp=unconfined"
+    networks:
+      - envx
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  nginx:
+    image: ${DOCKER_REGISTRY?}/${DOCKER_NAMESPACE?}/nginx-${ENV?}:${TAG?}
+    build:
+      context: '../services/nginx'
+      target: ${ENV?}
+      args:
+        - NGINX_VERSION=${NGINX_VERSION?}
+        - APP_CODE_PATH=${APP_CODE_PATH_CONTAINER:-/var/www/app/public}
+    ports:
+      - "${NGINX_HOST_HTTP_PORT:-80}:80"
+      - "${NGINX_HOST_HTTPS_PORT:-443}:443"
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: .
+        target: '/var/www/app'
+        consistency: cached
+#      - type: bind
+#        source: './.docker/services/nginx/conf/sites-available'
+#        target: '/etc/nginx/sites-available'
+#        consistency: cached
+    networks:
+      - envx
+    depends_on:
+      - php-fpm
+
+  mysql:
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "${MYSQL_HOST_PORT:-3307}:3306"
+    environment:
+      MYSQL_DATABASE: envx
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+      TZ: ${TIMEZONE:-UTC}
+    volumes:
+      - './data/mysql:/var/lib/mysql:rw'
+    networks:
+      - envx
+
+  redis:
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "${REDIS_HOST_PORT:-6379}:6379"
+    command: >
+      --requirepass ${REDIS_PASSWORD?}
+    volumes:
+      - './data/redis:/data:rw'
+    networks:
+      - envx
+
+# Docker Networks
+networks:
+  envx:
+    driver: bridge

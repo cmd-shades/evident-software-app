@@ -1,0 +1,22 @@
+parameters:
+	level: 8
+	phpVersion: 80100
+	tipsOfTheDay: true
+	errorFormat: table
+	paths:
+		- app
+		- src
+		- src/Foundation
+		- src/Domain
+	excludePaths:
+	    - src/DesignPatterns/*
+	    - src/Foundation/Repository/*
+	    - src/Inconcert/*
+	    - tests
+	editorUrl: 'phpstorm://open?file=%%relFile%%&line=%%line%%'
+#	scanFiles:
+#	    - .phpstorm.meta.php
+#	    - _ide_helper.php
+#	scanDirectories:
+#	    - vendor
+
