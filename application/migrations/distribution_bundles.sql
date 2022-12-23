@@ -1,0 +1,1 @@
+ALTER TABLE `distribution_bundles` ADD `schedule_date_time` DATETIME NULL AFTER `base_line`;

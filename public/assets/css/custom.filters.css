@@ -1,0 +1,122 @@
+.single_filter{
+	position: absolute;
+    z-index: 100;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    min-height: 30px;
+    width: calc(100% - 25px);
+    padding: 0 0 0 0;
+    padding-bottom: 0px;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+
+
+.single_filter.open{
+	color: #fff;
+}
+
+.single_filter.closed{
+}
+
+.single_filter.open ul{
+	display: block;
+	width: 100%;
+	background-color: #fff;
+	/* color: #01C7DF; */
+	color: #F93711 ;
+	margin-bottom: 0;
+	border-bottom-left-radius: 7px;
+	border-bottom-right-radius: 7px;
+}
+
+.single_filter.closed ul{
+	display: block;
+}
+
+.single_filter ul{
+	padding: 0 0;
+}
+
+.single_filter ul li{
+	min-height: 35px;
+	list-style-type: none;
+	padding-left: 0px;
+	padding-top: 10px;
+}
+
+.single_filter ul li:not(:last-child){
+	border-bottom: 1px solid #F93711;
+}
+
+.single_filter ul li:last-child{
+	padding-bottom: 1px;
+}
+
+.single_filter > label{
+	display: inline-block;
+	max-width: 100%;
+	width: calc( 100% );
+	padding-top: 8px;
+	padding-bottom: 8px;
+	font-weight: 400;
+	text-align: center;
+    margin-bottom: 0;
+}
+
+.single_filter > label.all_records_btn  > a{
+    font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20.594px;
+    width: 100%;
+    display: block;
+}
+
+.single_filter .checkbox {
+	width: 100%;
+	margin-top: 1px;
+	margin-bottom: 6px;
+}
+
+.single_filter .checkbox label {
+	width: 100%;
+	padding-right: 15px;
+}
+
+.single_filter label input {
+	display: none;
+}
+
+.single_filter label i.fas.fa-chevron-down.pull-right{
+	margin-top: 4px;
+}
+
+.single_filter [type=checkbox]:checked + span:before {
+	content: '\2714';
+	position: absolute;
+	top: -6px;
+	left: -1px;
+	color: #fff;
+	background-color: #F93711;
+	height: 18px;
+	width: 18px;
+	padding-left: 2px;
+	padding-bottom: 20px;
+	padding-top: 0px;
+	margin-top: 2px;
+}
+
+.single_filter label span {
+	height: 18px;
+	width: 18px;
+	border: 1px solid #F93711;
+	display: inline-block;
+	position: relative;
+	margin-right: 0;
+	top: 3px;
+}

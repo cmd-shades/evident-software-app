@@ -1,0 +1,1 @@
+ALTER TABLE `distribution_bundle_content` ADD `archived` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `last_modified_by`;

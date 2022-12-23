@@ -1,0 +1,94 @@
+/** User module custom styles **/
+.nav.side-menu>li.current-page, 
+.nav.side-menu>li.active {
+	background: #3ca643;
+	background-color: #3ca643;
+}
+
+.nav.side-menu>li.active>a {
+	background: #3ca643;
+	background-color: #3ca643;
+}
+
+a{
+	font-weight: bold;
+}
+
+.user-color,
+.color-user,
+.text-user{
+	color:#3ca643 !important;
+}
+
+.user-bg{
+	background: #3ca643 !important;
+	background-color: #3ca643 !important;
+	color: #fff !important;
+}
+
+
+.btn-user {
+	/* background-color: #C8d6C8; */
+	background-color: #023550;
+	border-color: #3ca643;
+	padding: 8px 5%;
+    font-size: 15px;
+    margin: 10px auto 10px auto;
+    text-align: center;
+    min-height: 37px;
+    display: block;
+    width: 100%;
+    color: #fff !important;
+}
+
+.top_search .form-control {
+	border: 1px solid rgba(249, 55, 17, 0.6) !important;
+}
+
+.user-border,
+.border-user {
+	border: 1px solid rgba(249, 55, 17, 0.6) !important;
+}
+
+.user-shadow,
+.shadow-user{
+/* 	-webkit-box-shadow: 4px 4px 4px 0px rgba(249, 55, 17,0.3);
+	-moz-box-shadow: 4px 4px 4px  0px rgba(249, 55, 17,0.3);
+	box-shadow: 4px 4px 4px  0px rgba(249, 55, 17,0.3);	 */
+}
+
+.filters label{
+	color: #fb9736 !important;
+}
+
+.user-shadow:hover,
+.user-shadow:focus,
+.user-shadow:visited,
+.user-shadow:active,
+.shadow-user:hover,
+.shadow-user:focus,
+.shadow-user:visited,
+.shadow-user:active{
+	color: #3ca643;
+}
+
+.form-group.top_search .user-search_input,
+.form-group.top_search .user-search_input:focus{
+	border: 1px solid rgba(249, 55, 17, 0.6);
+	-webkit-box-shadow: 4px 4px 4px 0px rgba(249, 55, 17, 0.3) !important;
+	-moz-box-shadow: 4px 4px 4px 0px rgba( 249, 55, 17, 0.3) !important;
+	box-shadow: 4px 4px 4px 0px rgba( 249, 55, 17, 0.3) !important;
+}
+
+.top_search .user-bg.btn-default, .user-bg.btn-default,
+.top_search .user-bg.btn-default:hover, .user-bg.btn-default:hover,
+.top_search .user-bg.btn-default:focus, .user-bg.btn-default:focus,
+.top_search .user-bg.btn-default:visited, .user-bg.btn-default:visited, 
+.top_search .user-bg.btn-default:active, .user-bg.btn-default:active{
+	background-color: #3ca643;
+	color: #fff;
+	border: 1px solid rgba( 249, 55, 17, 0.6 );
+	-webkit-box-shadow: 4px 4px 4px 0px rgba( 249, 55, 17, 0.3 );
+	-moz-box-shadow: 4px 4px 4px 0px rgba( 249, 55, 17, 0.3 );
+	box-shadow: 4px 4px 4px 0px rgba( 249, 55, 17, 0.3 );
+}

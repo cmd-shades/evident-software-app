@@ -1,0 +1,1 @@
+ALTER TABLE `content_film` ADD `airtime_state` ENUM('offline','published') NULL DEFAULT 'offline' AFTER `external_content_ref`;

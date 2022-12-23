@@ -1,0 +1,1 @@
+ALTER TABLE `distribution_bundles`  ADD `coggins__id` VARCHAR(255) NOT NULL  AFTER `send_status`,  ADD `coggins_uid` VARCHAR(255) NOT NULL  AFTER `coggins__id`,  ADD `coggins_state` VARCHAR(255) NOT NULL  AFTER `coggins_uid`;

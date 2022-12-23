@@ -1,0 +1,1 @@
+ALTER TABLE `content_film` ADD `is_verified_for_airtime` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `archived`;

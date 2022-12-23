@@ -1,0 +1,1 @@
+ALTER TABLE `distribution_bundles` ADD `coggins_name` VARCHAR(255) NULL AFTER `coggins__id`;

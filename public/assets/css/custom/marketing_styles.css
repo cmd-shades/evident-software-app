@@ -1,0 +1,26 @@
+.nav-sm{
+    background-color: #e9e9ea;
+}
+
+.module-item > .img-responsive{
+	padding: 5% 20%;
+}
+
+.module-unit{
+	margin-bottom: 0;
+	padding: 40px;
+}
+
+a.module_link{
+    display: block;
+    margin-bottom: 15px;
+}
+
+
+.input-group.form-group.container-full select.form-control{
+	border-radius: 12px;
+	padding: 5px 15px;
+	font-size: 16px;
+	height: 40px;
+	margin-bottom: 15px;
+}

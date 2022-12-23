@@ -1,0 +1,343 @@
+.product-container{
+	margin-bottom: 20px;
+}
+
+.site-products-container .create-product{
+	position: absolute;
+	top:10px; 
+	right: 10px;
+}
+
+.site-products-container .create-product .fas.fa-plus-circle{
+	color: #fff;
+}
+
+.product-container .group-content, 
+.site-products-container .group-content,
+.contact .group-content,
+.site .group-content{
+	display: none;
+}
+
+.no-item{
+	font-size: 14px; 
+	color: #023550;
+}
+
+.delete_product_container, .delete_price_plan_container{
+	display: block;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+
+.close{
+	position: absolute;
+	top: 25px;
+	right: 25px;
+	color: #fff;
+	z-index: 99;
+	opacity: 1;
+}
+
+.modal-body{
+	min-height: 215px;
+}
+
+
+#createProduct .slide-group{
+	min-height: 180px;
+}
+
+.productForm{
+	padding: 10px 0;
+}
+
+textarea{
+	min-height: 70px; 
+	overflow-y: hidden;
+}
+
+.product-systems{
+	display: block;
+	float: left;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+
+.profile-details-container .product-packages-header{
+	display: block;
+	float: left;
+	color: #fff;
+	background-color: #63c46a;
+	width: 100%;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+.profile-details-container .product-package-container{
+	display: block; 
+	float:left; 
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.profile-details-container .new-package-link{
+	color:#023550;
+}
+
+.profile-details-container .package-name-legend{
+	color: #023550;
+	text-decoration:underline;
+	padding: 5px 10px;
+	margin-bottom: 0;
+}
+
+.profile-details-container .updatePackageBtn{
+	width: 195px;
+	float: right;
+	margin-right: 10px;
+}
+
+.profile-details-container .updateProductBtn{
+	width: 195px;
+	float: right;
+}
+
+.profile-details-container .update_package_div,
+.profile-details-container .update_product_div{
+	width: 50%;
+	float: right;
+	display: block;
+}
+
+
+.profile-details-container .delete-product-package{
+	float: right;
+}
+
+.product-container .row.group-content{
+	padding: 0;
+}
+
+
+#editSite .site_name_in_modal{
+	font-weight: 600;
+}
+
+#editSite .modal-body{
+	padding: 0;
+}
+
+#editSite .modal-header{
+	background: #dfddd7;
+	padding: 20px;
+}
+
+
+#site-profile .modal-content{
+	box-shadow: none;
+	background-color: transparent;
+	border: none;
+}
+
+.edit-site > .fas.fa-copy,
+.edit-site > .fas.fa-ban{
+	font-size: 20px;
+}
+
+.edit-site > .fas.fa-ban{
+	color: #b7001f;
+}
+
+.monthly_value{
+	font-weight: 800;
+}
+
+legend.default-legend {
+	color: #000;
+}
+
+input[type="file"] {
+	position: fixed;
+	right: 100%;
+	bottom: 100%;
+}
+
+.custom-file-upload {
+	display: block;
+	cursor: pointer;
+	color: #000;
+	width: 100%;
+}
+
+
+#product-creation-form .provider-plan-container,
+#add-price-plan-to-product .provider-plan-container{
+	display: block;
+	float: left;
+	width: 100%;
+	padding: 10px;
+	border: 1px solid grey;
+	margin: 20px 0;
+}
+
+
+#product-creation-form .outer-provider-plan-container,
+#add-price-plan-to-product .outer-provider-plan-container{
+	min-height: 100px;
+	overflow: auto;
+	display: block;
+	float: left;
+	width: 100%;
+	padding-right: 20px;
+	margin-top: -20px;
+	max-height: 300px;
+}
+
+
+.easel-plan-reference{
+	float: right;
+	display: inline-block;
+	height: 41px;
+	margin: -5px 40px -5px 0;
+}
+
+.easel-plan-reference > img{
+	width: 30px;
+}
+
+
+.month_name{
+	margin-left: 10px;
+	font-size: 13px;
+}
+
+#months_container{
+	display: block;
+	float: left;
+	width: calc( 70% - 20px );
+	box-sizing: border-box;
+	padding: 10px 10px;
+	list-style-type: none;
+	font-weight: bold;
+	border: 1px solid rgb(188, 188, 188);
+	color: rgb(2, 53, 80);
+	background-color: white;
+}
+
+
+#add-price-plan-to-product .form-control{
+	border-radius: 12px;
+	padding: 5px 15px;
+	font-size: 16px;
+	height: 40px;
+	margin-bottom: 15px;
+}
+
+.add-price-plan-to-product{
+/* 	margin-right: 40px; */
+	display: block;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+.airtime_activate_market_container{
+	/* margin-right: 70px; */
+	margin-right: 30px;
+    display: block;
+    position: absolute;
+    top: 8px;
+    right: 10px;
+}
+
+.airtime_activate_market_container img{
+	width: 35px;
+}
+
+#unlink-device .top_row, #link-device .top_row{
+	margin: 10px 20px; 
+	border: 1px solid black; 
+	padding: 20px 40px; 
+	-webkit-box-shadow: 5px 5px 10px 5px rgb(0 0 0 / 25%); 
+	box-shadow: 5px 5px 10px 5px rgb(0 0 0 / 10%);
+}
+
+
+#unlink-device .table-responsive,
+#link-device .table-responsive{
+    width: calc(100% - 20px);
+    margin: 0 auto;
+}
+
+#unlink-device .top-header,
+#link-device .top-header{
+	margin: 0 0 15px;
+    padding: 0 0 20px;
+    border-bottom: 2px solid #ccc;
+}
+
+#unlink-device .action-to-devices,
+#link-device .action-to-devices{
+	padding-top: 30px;
+	text-align: right;
+}
+
+#unlink-device .action-to-devices > span,
+#link-device .action-to-devices > span{
+	font-style: italic;
+    font-size: 16px;
+}
+
+#unlink-device .disconnect-devices,
+#link-device .reconnect-devices{
+	padding-top: 12px;
+	margin-left: -10px;
+}
+
+#unlink-device .disconnect-devices > span,
+#link-device .reconnect-devices > span{
+	font-size: 30px;
+    font-weight: 600;
+}
+
+#unlink-device .top_search,
+#link-device .top_search{
+    margin-right: -10px;
+}
+
+#unlink-device .unlink_devices_icon,
+#link-device .link_devices_icon{
+	width: 35px;
+	height: auto;
+    display: block;
+    float: left;
+    padding-right: 5px;
+}
+
+#unlink-device #check_all,
+#link-device #check_all{
+	display: block;
+    float: left;
+    margin-top: 10px;
+}
+
+
+#unlink-device #datatable > thead > tr > th,
+#link-device #datatable > thead > tr > th{
+	font-size: 18px;
+}
+
+#unlink-device .action-row,
+#link-device .action-row{
+	display: block;
+    float: left;
+    width: 100%;
+    margin-bottom: 40px;
+	border-top: 2px solid #ccc;
+    padding-top: 20px;
+}

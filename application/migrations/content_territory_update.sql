@@ -1,0 +1,2 @@
+ALTER TABLE `content_territory` ADD `VAT` FLOAT(5,2) UNSIGNED NULL AFTER `code`;
+ALTER TABLE `techlive`.`report_site_royalty_setting` DROP INDEX `Account, Site and Provider`, ADD UNIQUE `Account, Site and Provider` (`account_id`, `site_id`, `provider_id`, `royalty_type_id`) USING BTREE;

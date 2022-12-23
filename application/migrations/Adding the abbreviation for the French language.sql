@@ -1,0 +1,1 @@
+UPDATE `content_language_phrase_language` SET `abbreviation_2` = 'fra' WHERE `content_language_phrase_language`.`language_id` = 2;

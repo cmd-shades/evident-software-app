@@ -1,0 +1,38 @@
+/*
+@font-face {
+  font-family: 'MyWebFont';
+  src: url('webfont.eot'); 										## IE9 Compat Modes
+  src: url('webfont.eot?#iefix') format('embedded-opentype'), 	## IE6-IE8
+	   url('webfont.woff2') format('woff2'), 					## Super Modern Browsers
+	   url('webfont.woff') format('woff'), 						## Pretty Modern Browsers
+	   url('webfont.ttf')  format('truetype'), 					## Safari, Android, iOS
+	   url('webfont.svg#svgFontName') format('svg'); 			## Legacy iOS
+}
+*/
+
+@font-face{
+	font-family: NewsGothicRegular;
+	src: url( "../fonts/NewsGothicMT.ttf" );
+}
+
+@font-face{
+	font-family: NewsGothicBold;
+	src: url( "../fonts/NewsGothicMTBold.ttf" );
+}
+
+@font-face{
+	font-family: NewsGothicItalic;
+	src: url( "../fonts/NewsGothicMTItalic.ttf" );
+}
+
+@font-face{
+	font-family: myFirstFont;
+    src: url(sansation_light.woff);
+}
+
+@font-face{
+	font-family: 'Dubai-Regular', sans-serif;
+	src: url( "../fonts/Dubai-Regular.ttf" );
+}
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
