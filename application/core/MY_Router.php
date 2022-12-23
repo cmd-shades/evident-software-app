@@ -1,6 +1,6 @@
 <?php
 
-(defined('BASEPATH')) or exit('No direct script access allowed');
+namespace Application\Core;
 
 /* load the MX_Router class */
 require APPPATH . "third_party/MX/Router.php";

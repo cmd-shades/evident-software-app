@@ -2,8 +2,6 @@
 
 namespace Application\Service\Models;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use System\Core\CI_Model;
 
 class Modules_model extends CI_Model

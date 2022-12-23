@@ -2,10 +2,6 @@
 
 namespace App\Libraries;
 
-if (! defined('BASEPATH')) {
-    exit('No direct script access allowed');
-}
-
 require_once('/application/libraries/tcpdf/tcpdf.php');
 
 // Extend the TCPDF class to create custom Header and Footer

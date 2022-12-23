@@ -2,7 +2,6 @@
 
 namespace App\Libraries;
 
-defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * Format class

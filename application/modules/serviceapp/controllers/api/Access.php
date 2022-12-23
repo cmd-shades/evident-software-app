@@ -2,8 +2,6 @@
 
 namespace Application\Service\Controllers\Api;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use App\Libraries\REST_Controller;
 
 class Access extends REST_Controller

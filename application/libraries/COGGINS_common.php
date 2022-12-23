@@ -2,10 +2,6 @@
 
 namespace App\Libraries;
 
-if (!defined('BASEPATH')) {
-    exit('No direct script access allowed');
-}
-
 /**
 *   Name: Coggins Library
 *   Author: Evident Software

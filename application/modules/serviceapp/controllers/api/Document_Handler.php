@@ -2,8 +2,6 @@
 
 use App\Libraries\REST_Controller;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 class Document_Handler extends REST_Controller
 {
     public function __construct()

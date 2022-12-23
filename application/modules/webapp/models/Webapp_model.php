@@ -2,9 +2,9 @@
 
 namespace Application\Modules\Web\Models;
 
-defined('BASEPATH') || exit('No direct script access allowed');
 
-use Application\Extentions\MX_Controller;
+use System\Core\CI_Model;
+
 class Webapp_model extends CI_Model
 {
     public function __construct()

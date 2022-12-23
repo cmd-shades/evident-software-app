@@ -2,10 +2,6 @@
 
 namespace App\Libraries;
 
-if (! defined('BASEPATH')) {
-    exit('No direct script access allowed');
-}
-
 //Composer Autoloader
 //require FCPATH . 'vendor/autoload.php';
 //require APPPATH.'vendor/autoload.php';

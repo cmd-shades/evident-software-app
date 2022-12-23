@@ -1,8 +1,6 @@
 <?php
 
 namespace Application\Service\Controllers\Api;
-
-defined('BASEPATH') || exit('No direct script access allowed');
 /**
  * This is an example of a few basic user interaction methods you could use
  * all done with a hardcoded array

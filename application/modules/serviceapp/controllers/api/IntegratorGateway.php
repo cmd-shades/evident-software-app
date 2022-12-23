@@ -4,8 +4,6 @@ namespace Application\Service\Controllers\Api;
 
 use App\Libraries\REST_Controller;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 class IntegratorGateway extends REST_Controller
 {
     public function __construct()

@@ -4,8 +4,6 @@ namespace Application\Service\Controllers\Api;
 
 use App\Libraries\REST_Controller;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 /**
  * Keys Controller
  * This is a basic Key Management REST controller to make and delete keys

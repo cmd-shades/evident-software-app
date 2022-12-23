@@ -1,8 +1,6 @@
 <?php
 
-namespace Application\Extentions;
-
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace Application\Extensions;
 
 /** load the CI class for Modular Extensions **/
 require dirname(__FILE__) . '/Base.php';

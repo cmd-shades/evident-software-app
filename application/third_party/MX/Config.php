@@ -1,10 +1,8 @@
 <?php
 
-namespace Application\Extentions;
+namespace Application\Extensions;
 
 use System\Core\CI_Config;
-
-defined('BASEPATH') || exit('No direct script access allowed');
 
 
 /**

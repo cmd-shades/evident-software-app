@@ -2,8 +2,6 @@
 
 namespace Modules\Services\Models;
 
-defined('BASEPATH') or exit('No direct script access allowed');
-
 use Firebase\JWT\JWT;
 use System\Core\CI_Model;
 

@@ -39,7 +39,7 @@ namespace System\Libraries;
  * @filesource
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+// defined('BASEPATH') or exit('No direct script access allowed');
 
 if (! function_exists('xml_parser_create')) {
     show_error('Your PHP installation does not support XML');

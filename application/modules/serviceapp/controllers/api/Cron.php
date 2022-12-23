@@ -2,8 +2,6 @@
 
 namespace Application\Service\Controllers\Api;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 class Cron extends MX_Controller
 {
     public function __construct()

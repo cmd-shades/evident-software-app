@@ -35,7 +35,7 @@
  * @since	Version 1.4.1
  * @filesource
  */
-defined('BASEPATH') or exit('No direct script access allowed');
+// defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * Oracle Utility Class

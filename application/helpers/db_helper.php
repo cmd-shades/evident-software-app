@@ -4,7 +4,7 @@
  * @author   Natan Felles <natanfelles@gmail.com>
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+// defined('BASEPATH') or exit('No direct script access allowed');
 
 if (! function_exists('add_foreign_key')) {
     /**

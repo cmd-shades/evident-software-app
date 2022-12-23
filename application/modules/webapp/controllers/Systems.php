@@ -2,8 +2,6 @@
 
 namespace Application\Modules\Web\Controllers;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use Application\Extentions\MX_Controller;
 
 class Systems extends MX_Controller

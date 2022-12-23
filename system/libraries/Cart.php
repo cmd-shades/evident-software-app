@@ -39,7 +39,7 @@ namespace System\Libraries;
  * @filesource
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+// defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * Shopping Cart Class

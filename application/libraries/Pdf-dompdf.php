@@ -2,10 +2,6 @@
 
 namespace App\Libraries;
 
-if (! defined('BASEPATH')) {
-    exit('No direct script access allowed');
-}
-
 use Dompdf\Dompdf;
 
 require_once 'dompdf/autoload.inc.php';

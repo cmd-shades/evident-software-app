@@ -2,10 +2,6 @@
 
 namespace App\Libraries;
 
-if (! defined('BASEPATH')) {
-    exit('No direct script access allowed');
-}
-
 /**
 * Name:  SSIDCommon
 * Author: Love Digital TV
@@ -16,10 +12,10 @@ class Ssid_common
 {
     function __construct()
     {
-        $this->ci =& get_instance();
-        $this->ci->load->database();
-        $this->api_end_point = api_end_point();
-        $this->load = clone load_class('Loader');
+//        $this->ci =& get_instance();
+//        $this->ci->load->database();
+//        $this->api_end_point = api_end_point();
+//        $this->load = clone load_class('Loader');
     }
 
     public function doCurl($url = false, $postdata = false, $options = array())

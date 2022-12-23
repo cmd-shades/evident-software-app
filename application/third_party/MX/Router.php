@@ -1,8 +1,6 @@
 <?php
 
-namespace Application\Extentions;
-
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace Application\Extensions;
 
 /* load the MX core module class */
 require dirname(__FILE__) . '/Modules.php';
