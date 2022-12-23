@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# PHP Mess Detector
+./vendor/bin/phpmd . text .tools/phpmd_ruleset.xml --exclude vendor,_ide_helper.php,database,tests
+RESULT=$?
+[[ $RESULT -eq 0 ]] && echo "PHP Mess Detector check passed"
+
+exit $RESULT
