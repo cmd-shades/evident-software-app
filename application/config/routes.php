@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -54,7 +56,7 @@
 
 $route['default_controller'] = 'webapp/home/';
 $route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;
+$route['translate_uri_dashes'] = false;
 $route['webapp'] = "webapp/home/index";
 $route['home'] = "webapp/home/index";
 $route['user'] = "webapp/user/index";

@@ -107,7 +107,7 @@
     @media only screen and (max-width: 600px) {
 
       table[class="w320"] {
-		width: 320px !important;
+        width: 320px !important;
       }
 
       table[class="w300"] {
@@ -299,8 +299,8 @@
                   Your admin account username is <h3><?php echo $account_data->admin_username; ?></h3>
                   <br>
                   Your temp password is <h3><?php echo $account_data->temp_password; ?></h3>
-				  <br>
-				  Please change your password on your first login!<br><br>
+                  <br>
+                  Please change your password on your first login!<br><br>
                 </td>
               </tr>
             </table>

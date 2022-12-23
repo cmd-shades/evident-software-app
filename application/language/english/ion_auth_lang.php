@@ -1,4 +1,8 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Ion Auth Lang - English
 *
@@ -36,7 +40,7 @@ $lang['deactivate_successful']               = 'Account De-Activated';
 $lang['deactivate_unsuccessful']             = 'Unable to De-Activate Account';
 $lang['activation_email_successful']         = 'Activation Email Sent. Please check your inbox or spam';
 $lang['activation_email_unsuccessful']       = 'Unable to Send Activation Email';
-$lang['deactivate_current_user_unsuccessful']= 'You cannot De-Activate your self.';
+$lang['deactivate_current_user_unsuccessful'] = 'You cannot De-Activate your self.';
 
 // Login / Logout
 $lang['login_successful']                    = 'Logged In Successfully';
@@ -79,8 +83,8 @@ $lang['email_new_password_heading']          = 'New Password for %s';
 $lang['email_new_password_subheading']       = 'Your password has been reset to: %s';
 
 // Resources
-$lang['resource_not_found']          		 = 'resource not found';
+$lang['resource_not_found']                  = 'resource not found';
 
 // Business / Account
 $lang['account_subscription_expired']        = 'Business Account trail has expired';
-$lang['account_suspended']       			 = 'Business Account has been suspended';
+$lang['account_suspended']                   = 'Business Account has been suspended';

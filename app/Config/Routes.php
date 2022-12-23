@@ -8,7 +8,7 @@ $routes = Services::routes();
 // Load the system's routing file first, so that the app and ENVIRONMENT
 // can override as needed.
 if (is_file(SYSTEMPATH . 'Config/Routes.php')) {
-    require SYSTEMPATH . 'Config/Routes.php';
+    include SYSTEMPATH . 'Config/Routes.php';
 }
 
 /*
@@ -51,5 +51,5 @@ $routes->get('/', 'Home::index');
  * needing to reload it.
  */
 if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
-    require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
+    include APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }

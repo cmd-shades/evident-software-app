@@ -1,199 +1,199 @@
 <style type="text/css">
-	body {
-		background-color: #F7F7F7;
-	}
-	.table > thead > tr > th {
-		cursor:pointer;
-	}
+    body {
+        background-color: #F7F7F7;
+    }
+    .table > thead > tr > th {
+        cursor:pointer;
+    }
 </style>
 
 <div class="row">
-	<div class="col-md-12 col-sm-12 col-xs-12">
-		<div class="x_panel">
-			<div class="x_content">
-				<legend>System Reports</legend>
-				<div class="row">
-					<div class="col-md-8 col-sm-12 col-xs-12">
-						<form class="form-horizontal" action="<?php echo base_url( '/webapp/report/reports/' ); ?>" method="post">
-							<input type="hidden" name="account_id" value="<?php echo $this->account_id; ?>" />
-							<input type="hidden" name="report_type" value="" />
-							<?php if( !empty( $setup_data ) ) { ?>
-							<h5 class="text-bold">Please select the report type you require</h5>
-								<div class="row">
-									<div class="col-md-12 col-sm-12 col-xs-12">
-										<?php foreach( $setup_data as $report_type=>$report_setup ){ ?>
-											<div class="row col-md-4 col-sm-6 col-xs-12 checkbox inline-block" >
-												<label><input type="checkbox" class="report-type" name="report[<?php echo $report_type; ?>]" id="report-<?php echo $report_type; ?>" value="<?php echo $report_type; ?>" > <?php echo $report_setup->report_type; ?></label>
-											</div>
-										<?php } ?>
-										<div class="clearfix"></div>
-									</div>
-								</div>
-								<div class="clearfix"></div>
-								<div>
-									<?php foreach( $setup_data as $report_type=>$report_setup ){ ?>
-										<div class="report-container report-<?php echo $report_type; ?> hide" style="display:none" >
-											<?php if( $report_setup->table_cols ){ ?>
-												<hr/>
-												<h5 class="text-bold">Select your Report Headers</h5>
-												<div class="row" >
-													<div class="row col-md-12 col-sm-12 col-xs-12">
-														<div class="col-md-3 col-sm-4 col-xs-12 checkbox inline-block" >
-															<label><input type="checkbox" class="check-all" id="column-header-<?php echo $report_type; ?>" value="all" > All</label>
-														</div>
-														<?php foreach( $report_setup->table_cols as $column=>$column_header ){ ?>
-															<div class="col-md-3 col-sm-4 col-xs-12 checkbox inline-block" >
-																<label><input type="checkbox" data-group_class="column-header-<?php echo $report_type; ?>" class="columns column-header-<?php echo $report_type; ?> column-<?php echo $column; ?>" name="report[<?php echo $report_type; ?>][columns][]" id="column-<?php echo $column; ?>" value="<?php echo $column; ?>" checked /> <?php echo $column_header; ?></label>
-															</div>
-														<?php } ?>
-													</div>
-												</div>
-											<?php } ?>
-											<div class="clearfix"></div>
-											<?php if( $report_setup->status_filters ){ ?>
-												<hr/>
-												<h5 class="text-bold">Filter by Statuses</h5>
-												<div class="row" >
-													<div class="row col-md-12 col-sm-12 col-xs-12">
-														<div class="col-md-3 col-sm-4 col-xs-12 checkbox" >
-															<label><input type="checkbox" class="check-all" id="status-filter-<?php echo $report_type; ?>" value="all"> All</label>
-														</div>
-														<?php foreach( $report_setup->status_filters as $status=>$status_name ){ ?>
-															<div class="col-md-3 col-sm-4 col-xs-12 checkbox inline-block" >
-																<label><input type="checkbox" data-group_class="status-filter-<?php echo $report_type; ?>" class="columns status-filter-<?php echo $report_type; ?> status-<?php echo $status; ?>" name="report[<?php echo $report_type; ?>][statuses][]" id="status-<?php echo $status; ?>" value="<?php echo $status; ?>" /> <?php echo $status_name; ?></label>
-															</div>
-														<?php } ?>
-													</div>
-												</div>
-											<?php } ?>
-											<div class="clearfix"></div>
-											<?php if( $report_setup->date_filters ){ ?>
-												<hr/>
-												<h5 class="text-bold">Date Range Filters</h5>
-												<div class="row" >
-													<div class="col-md-12 col-sm-12 col-xs-12">
-														<br/>
-														<?php foreach( $report_setup->date_filters as $date_field=>$field_name ){ ?>
-															<label><?php echo $field_name; ?></label>
-															<div class="row">
-																<div class="col-md-5 col-sm-6 col-xs-12" >
-																	<div class="form-group">
-																		<input name="report[<?php echo $report_type; ?>][<?php echo $date_field; ?>][date_from]" value="" class="form-control datepicker" type="text" placeholder="Date from"  />
-																	</div>
-																</div>
-																<div class="col-md-5 col-sm-6 col-xs-12" >
-																	<div class="form-group">
-																		<input name="report[<?php echo $report_type; ?>][<?php echo $date_field; ?>][date_to]" value="" class="form-control datepicker" type="text" placeholder="Date to"  />
-																	</div>
-																</div>
-															</div>
-														<?php } ?>
-													</div>
-												</div>
-											<?php } ?>
-											<div class="clearfix"></div>
-											<hr/>
-										</div>
-									<?php } ?>
-										<div id="fetch_report" class="row" style="margin-top: 20px; display:none;">
-											<div class="col-md-3 col-sm-3 col-xs-6">
-												<button class="btn btn-info btn-sm pull-right" type="submit">Fetch Report Data</button>
-											</div>
-										</div>
-								</div>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <legend>System Reports</legend>
+                <div class="row">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <form class="form-horizontal" action="<?php echo base_url('/webapp/report/reports/'); ?>" method="post">
+                            <input type="hidden" name="account_id" value="<?php echo $this->account_id; ?>" />
+                            <input type="hidden" name="report_type" value="" />
+                            <?php if (!empty($setup_data)) { ?>
+                            <h5 class="text-bold">Please select the report type you require</h5>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <?php foreach ($setup_data as $report_type => $report_setup) { ?>
+                                            <div class="row col-md-4 col-sm-6 col-xs-12 checkbox inline-block" >
+                                                <label><input type="checkbox" class="report-type" name="report[<?php echo $report_type; ?>]" id="report-<?php echo $report_type; ?>" value="<?php echo $report_type; ?>" > <?php echo $report_setup->report_type; ?></label>
+                                            </div>
+                                        <?php } ?>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div>
+                                    <?php foreach ($setup_data as $report_type => $report_setup) { ?>
+                                        <div class="report-container report-<?php echo $report_type; ?> hide" style="display:none" >
+                                            <?php if ($report_setup->table_cols) { ?>
+                                                <hr/>
+                                                <h5 class="text-bold">Select your Report Headers</h5>
+                                                <div class="row" >
+                                                    <div class="row col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="col-md-3 col-sm-4 col-xs-12 checkbox inline-block" >
+                                                            <label><input type="checkbox" class="check-all" id="column-header-<?php echo $report_type; ?>" value="all" > All</label>
+                                                        </div>
+                                                        <?php foreach ($report_setup->table_cols as $column => $column_header) { ?>
+                                                            <div class="col-md-3 col-sm-4 col-xs-12 checkbox inline-block" >
+                                                                <label><input type="checkbox" data-group_class="column-header-<?php echo $report_type; ?>" class="columns column-header-<?php echo $report_type; ?> column-<?php echo $column; ?>" name="report[<?php echo $report_type; ?>][columns][]" id="column-<?php echo $column; ?>" value="<?php echo $column; ?>" checked /> <?php echo $column_header; ?></label>
+                                                            </div>
+                                                        <?php } ?>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                            <div class="clearfix"></div>
+                                            <?php if ($report_setup->status_filters) { ?>
+                                                <hr/>
+                                                <h5 class="text-bold">Filter by Statuses</h5>
+                                                <div class="row" >
+                                                    <div class="row col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="col-md-3 col-sm-4 col-xs-12 checkbox" >
+                                                            <label><input type="checkbox" class="check-all" id="status-filter-<?php echo $report_type; ?>" value="all"> All</label>
+                                                        </div>
+                                                        <?php foreach ($report_setup->status_filters as $status => $status_name) { ?>
+                                                            <div class="col-md-3 col-sm-4 col-xs-12 checkbox inline-block" >
+                                                                <label><input type="checkbox" data-group_class="status-filter-<?php echo $report_type; ?>" class="columns status-filter-<?php echo $report_type; ?> status-<?php echo $status; ?>" name="report[<?php echo $report_type; ?>][statuses][]" id="status-<?php echo $status; ?>" value="<?php echo $status; ?>" /> <?php echo $status_name; ?></label>
+                                                            </div>
+                                                        <?php } ?>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                            <div class="clearfix"></div>
+                                            <?php if ($report_setup->date_filters) { ?>
+                                                <hr/>
+                                                <h5 class="text-bold">Date Range Filters</h5>
+                                                <div class="row" >
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <br/>
+                                                        <?php foreach ($report_setup->date_filters as $date_field => $field_name) { ?>
+                                                            <label><?php echo $field_name; ?></label>
+                                                            <div class="row">
+                                                                <div class="col-md-5 col-sm-6 col-xs-12" >
+                                                                    <div class="form-group">
+                                                                        <input name="report[<?php echo $report_type; ?>][<?php echo $date_field; ?>][date_from]" value="" class="form-control datepicker" type="text" placeholder="Date from"  />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-5 col-sm-6 col-xs-12" >
+                                                                    <div class="form-group">
+                                                                        <input name="report[<?php echo $report_type; ?>][<?php echo $date_field; ?>][date_to]" value="" class="form-control datepicker" type="text" placeholder="Date to"  />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                            <div class="clearfix"></div>
+                                            <hr/>
+                                        </div>
+                                    <?php } ?>
+                                        <div id="fetch_report" class="row" style="margin-top: 20px; display:none;">
+                                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                                <button class="btn btn-info btn-sm pull-right" type="submit">Fetch Report Data</button>
+                                            </div>
+                                        </div>
+                                </div>
 
-							<?php }else{ ?>
-								<div>
-									<span>Report setup data is not avaiable at the moment. Please try again later</span>
-								</div>
-							<?php } ?>
-							<div class="clearfix"></div>
-							<div class="hide">
+                            <?php } else { ?>
+                                <div>
+                                    <span>Report setup data is not avaiable at the moment. Please try again later</span>
+                                </div>
+                            <?php } ?>
+                            <div class="clearfix"></div>
+                            <div class="hide">
 
-								<div class="checkbox">
-									<label><input name="statuses[]" class="flat" type="checkbox" value="All"> All</label><br/>
-									<label><input name="statuses[]" class="flat" type="checkbox" value="Ok"> OK</label><br/>
-									<label><input name="statuses[]" class="flat" type="checkbox" value="Faulty"> Faulty</label><br/>
-								</div>
-								<!-- <div class="radio">
-									<h4>Prefered Delivery</h4>
-									<label><input type="radio" checked="" value="option1" id="view" name="optionsRadios"> View</label><br/>
-									<label><input type="radio" value="option2" id="download" name="optionsRadios"> Download (csv)</label><br/>
-									<label><input type="radio" value="option3" id="emailoption" name="optionsRadios"> Email me</label><br/>
-								</div> -->
+                                <div class="checkbox">
+                                    <label><input name="statuses[]" class="flat" type="checkbox" value="All"> All</label><br/>
+                                    <label><input name="statuses[]" class="flat" type="checkbox" value="Ok"> OK</label><br/>
+                                    <label><input name="statuses[]" class="flat" type="checkbox" value="Faulty"> Faulty</label><br/>
+                                </div>
+                                <!-- <div class="radio">
+                                    <h4>Prefered Delivery</h4>
+                                    <label><input type="radio" checked="" value="option1" id="view" name="optionsRadios"> View</label><br/>
+                                    <label><input type="radio" value="option2" id="download" name="optionsRadios"> Download (csv)</label><br/>
+                                    <label><input type="radio" value="option3" id="emailoption" name="optionsRadios"> Email me</label><br/>
+                                </div> -->
 
-								<div class="email-report-to" style="display:none">
-									<br/>
-									<div class="form-group">
-										<label class="control-label col-md-12 col-sm-12 col-xs-12">Email address</label>
-										<div class="row col-md-6 col-sm-6 col-xs-12">
-											<br/>
-											<input type="text" name="email_to" value="" class="form-control" placeholder="Email report to...">
-										</div>
-									</div>
-								</div>
-							</div>
+                                <div class="email-report-to" style="display:none">
+                                    <br/>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-12 col-sm-12 col-xs-12">Email address</label>
+                                        <div class="row col-md-6 col-sm-6 col-xs-12">
+                                            <br/>
+                                            <input type="text" name="email_to" value="" class="form-control" placeholder="Email report to...">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-	$(document).ready( function(){
-		$('.report-type').click(function() {
-			$('.report-type').not(this).prop('checked', false);
+    $(document).ready( function(){
+        $('.report-type').click(function() {
+            $('.report-type').not(this).prop('checked', false);
 
-			var reportType = $(this).val();
+            var reportType = $(this).val();
 
-			$('[name="report_type"]').val( reportType );
+            $('[name="report_type"]').val( reportType );
 
-			$('.report-container').not(this).hide();
-			$('.report-'+reportType ).show();
+            $('.report-container').not(this).hide();
+            $('.report-'+reportType ).show();
 
-			$( '.columns, .check-all' ).each(function(){
-				$(this).prop( 'checked', true );
-			});
-			
-			$( "#fetch_report" ).show();
-		});
+            $( '.columns, .check-all' ).each(function(){
+                $(this).prop( 'checked', true );
+            });
+            
+            $( "#fetch_report" ).show();
+        });
 
-		$( '.check-all' ).change( function(){
-			var grpId = $( this ).attr( 'id' );
-			if( $( this ).is(':checked') ){
-				$( '.'+grpId ).each( function(){
-					$(this).prop( 'checked', true );
-				});
-			} else {
-				$( '.'+grpId ).each(function(){
-					$(this).prop( 'checked', false );
-				});
-			}
-		});
+        $( '.check-all' ).change( function(){
+            var grpId = $( this ).attr( 'id' );
+            if( $( this ).is(':checked') ){
+                $( '.'+grpId ).each( function(){
+                    $(this).prop( 'checked', true );
+                });
+            } else {
+                $( '.'+grpId ).each(function(){
+                    $(this).prop( 'checked', false );
+                });
+            }
+        });
 
-		$( '.columns' ).change( function(){
-			var groupClass  = $( this ).data( 'group_class' );
-			var chkCount 	= 0;
-			var totalChekd 	= 0;
-			var unChekd		= 0;
+        $( '.columns' ).change( function(){
+            var groupClass  = $( this ).data( 'group_class' );
+            var chkCount    = 0;
+            var totalChekd  = 0;
+            var unChekd     = 0;
 
-			$( '.'+groupClass ).each( function(){
-				chkCount++;
-				if( $( this ).is( ':checked' ) ){
-					totalChekd++;
-				} else {
-					unChekd++;
-				}
-			});
+            $( '.'+groupClass ).each( function(){
+                chkCount++;
+                if( $( this ).is( ':checked' ) ){
+                    totalChekd++;
+                } else {
+                    unChekd++;
+                }
+            });
 
-			if( chkCount > 0 && ( chkCount == totalChekd ) ){
-				$( '#'+groupClass ).prop( 'checked', true );
-			} else {
-				$( '#'+groupClass ).prop( 'checked', false );
-			};
-		});
-	});
+            if( chkCount > 0 && ( chkCount == totalChekd ) ){
+                $( '#'+groupClass ).prop( 'checked', true );
+            } else {
+                $( '#'+groupClass ).prop( 'checked', false );
+            };
+        });
+    });
 </script>

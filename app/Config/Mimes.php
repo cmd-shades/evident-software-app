@@ -510,8 +510,7 @@ class Mimes
 
         $proposedExtension = trim(strtolower($proposedExtension ?? ''));
 
-        if (
-            $proposedExtension !== ''
+        if ($proposedExtension !== ''
             && array_key_exists($proposedExtension, static::$mimes)
             && in_array($type, (array) static::$mimes[$proposedExtension], true)
         ) {

@@ -1,9 +1,13 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /**
 * Name:  Auth Lang - English
 *
 * Author: Ben Edmunds
-* 		  ben.edmunds@gmail.com
+*         ben.edmunds@gmail.com
 *         @benedmunds
 *
 * Author: Daniel Davis
