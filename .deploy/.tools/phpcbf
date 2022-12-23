@@ -5,4 +5,6 @@
 ./vendor/bin/phpcs --config-set show_progress 1 >> /dev/null
 ./vendor/bin/phpcs --config-set show_warnings 1 >> /dev/null
 
-./vendor/bin/phpcs --standard=PSR12 --parallel=4 -p app
+#./vendor/bin/phpcbf --standard=PSR12 --parallel=4 -p app
+./vendor/bin/phpcbf app --standard=PSR12 --parallel=4 -w -p -v
+./vendor/bin/phpcbf application/modules/serviceapp --standard=PSR12 --parallel=4 -w -p -v
