@@ -1,0 +1,92 @@
+/** Job module custom styles **/
+.nav_menu {
+    background: rgba(0, 146, 205);
+    background-color: #0092CD !important;
+}
+
+.nav.side-menu>li.current-page, 
+.nav.side-menu>li.active {
+    background: rgba(0, 146, 205);
+    background-color: #0092CD !important;
+}
+
+.nav.side-menu>li.active>a {
+   background: rgba(0, 146, 205);
+    background-color: #0092CD !important;
+}
+
+
+.job-color,
+.color-job,
+.text-job{
+	color:#0092CD !important;
+}
+
+.job-bg{
+	background: #0092CD !important;
+    background-color: #0092CD !important;
+	color: #fff !important;
+}
+
+.btn-job {
+    color: #fff !important;
+    background-color: #0092CD;
+    border-color: #0092CD;
+}
+
+.top_search .form-control {
+    border: 1px solid rgba(0, 146, 205, 0.6) !important;
+}
+
+.job-border,
+.border-job {
+	border: 1px solid rgba(0, 146, 205, 0.6) !important;
+}
+
+.job-shadow,
+.shadow-job{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(0, 146, 205,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(0, 146, 205,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(0, 146, 205,0.6);
+}
+
+.job-shadow:hover,
+.job-shadow:focus,
+.job-shadow:visited,
+.job-shadow:active,
+.shadow-job:hover,
+.shadow-job:focus,
+.shadow-job:visited,
+.shadow-job:active{
+	color: #0092CD;
+}
+
+.form-group.top_search .job-search_input,
+.form-group.top_search .job-search_input:focus{
+	border: 1px solid rgba(0, 146, 205, 0.6);
+    -webkit-box-shadow: 4px 4px 4px 0px rgba(0, 146, 205, 0.3) !important;
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 0, 146, 205, 0.3) !important;
+    box-shadow: 4px 4px 4px 0px rgba( 0, 146, 205, 0.3) !important;
+}
+
+.top_search .job-bg.btn-default, .job-bg.btn-default,
+.top_search .job-bg.btn-default:hover, .job-bg.btn-default:hover,
+.top_search .job-bg.btn-default:focus, .job-bg.btn-default:focus,
+.top_search .job-bg.btn-default:visited, .job-bg.btn-default:visited, 
+.top_search .job-bg.btn-default:active, .job-bg.btn-default:active{
+	background-color: #0092CD;
+	color: #fff;
+    border: 1px solid rgba( 0, 146, 205, 0.6 );
+    -webkit-box-shadow: 4px 4px 4px 0px rgba( 0, 146, 205, 0.3 );
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 0, 146, 205, 0.3 );
+    box-shadow: 4px 4px 4px 0px rgba( 0, 146, 205, 0.3 );
+}
+
+input.datepicker-job{
+	border: 1px solid rgba( 0, 146, 205, 0.6 );
+	-webkit-box-shadow: 4px 4px 4px 0px rgba(0, 146, 205, 0.3) !important;
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 0, 146, 205, 0.3) !important;
+    box-shadow: 4px 4px 4px 0px rgba( 0, 146, 205, 0.3) !important;
+	/* color: #0092CD; */
+	color: #8d8d8d;
+}

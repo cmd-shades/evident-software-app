@@ -1,0 +1,55 @@
+/** Workforce module custom styles **/
+.nav_menu {
+    background: rgba(0, 146, 205);
+    background-color: #0092CD !important;
+}
+
+.nav.side-menu>li.current-page, 
+.nav.side-menu>li.active {
+    background: rgba(0, 146, 205);
+    background-color: #0092CD !important;
+}
+
+.nav.side-menu>li.active>a {
+   background: rgba(0, 146, 205);
+    background-color: #0092CD !important;
+}
+
+a{ color: #0092CD;
+	font-weight: bold;
+}
+
+
+.workforcemanager-color,
+.color-workforcemanager,
+.text-workforcemanager{
+	color:#66C8FA !important;
+}
+
+.workforcemanager-bg{
+	background: #66C8FA !important;
+    background-color: #66C8FA !important;
+	color: #fff !important;
+}
+
+.btn-workforcemanager {
+    color: #fff;
+    background-color: #66C8FA;
+    border-color: #66C8FA;
+}
+
+.top_search .form-control {
+    border: 1px solid rgba(0, 146, 205, 0.6) !important;
+}
+
+.workforcemanager-shadow,
+.shadow-workforcemanager{
+	-webkit-box-shadow: 4px 4px 4px 0px rgba(251, 165, 53,0.3);
+	-moz-box-shadow: 4px 4px 4px  0px rgba(251, 165, 53,0.3);
+	box-shadow: 4px 4px 4px  0px rgba(251, 165, 53,0.3);	
+}
+
+.filters label{
+	color: #d5b27a !important;
+	color: rgba( 213, 178, 122 );
+}

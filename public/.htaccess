@@ -2,24 +2,39 @@ order deny,allow
 allow from all
 
 RewriteEngine on
+RewriteCond %{REQUEST_METHOD} ^(CONNECT|TRACE|DELETE|PUT|PROPPATCH|COPY|REPORT|PROPFIND|MOVE|UNLOCK|ACL|LOCK|SEARCH|LINK|VIEW)
+RewriteRule .* - [F]
+
+RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule .* index.php/$0 [PT,L] 
 
 Options -Indexes
 
+# Block all direct access for these folders
+RedirectMatch 404 (.git|tests|.AbiSuite|nbproject|.idea)
+
+# Block access to specific file types for these system folders
+#RedirectMatch 404 (vendor)/(.*)\.(txt|xml|md|html|yaml|php|pl|py|cgi|twig|sh|bat|dist|json|exe)
+
+# Block all direct access to .md files:
+RedirectMatch 404 \.md
+
+# Block all direct access to .svn files:
+RedirectMatch 404 \.svn
+
+# Block all direct access to .db files:
+RedirectMatch 404 \.db
+
+# Block access to specific files in the root folder
+RedirectMatch 404 (composer.lock|composer.json|\.htaccess|LICENSE)
+
 #Localhost
 allow from ::1 
-allow from 127.0.0.1
-
 #ServerIP
 allow from 109.228.9.30 
-
 #LDTV
 allow from 217.20.28.30 
-
 #LDTV
-allow from 109.239.87.242 
-
-#Tracie
-allow from 86.163.100.28 
+allow from 109.239.87.242  

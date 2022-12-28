@@ -1,0 +1,112 @@
+/** Asset module custom styles **/
+.nav_menu {
+    background: rgba( 92, 92, 92, 1);
+    background-color: rgba( 92, 92, 92, 1)!important;
+}
+
+.nav.side-menu>li.current-page, 
+.nav.side-menu>li.active {
+    background: rgba( 92, 92, 92, 1);
+    background-color: rgba( 92, 92, 92, 1)!important;
+}
+
+.nav.side-menu>li.active>a {
+    background: rgba( 92, 92, 92, 1);
+    background-color: rgba( 92, 92, 92, 1)!important;
+}
+
+a{ 
+	color: #0092CD;
+	/*font-weight: bold;*/
+}
+
+.asset-color,
+.color-asset,
+.text-asset{
+	color:#0092CD !important;
+}
+
+.asset-bg{
+	background-color: rgba( 92, 92, 92, 1) !important;
+	color: #FFF !important;
+}
+
+.btn-asset {
+    color: #fff !important;
+    background-color: #0092CD;
+    border-color: #0092CD;
+}
+
+.top_search .form-control {
+    /* border: 1px solid rgba( 92, 92, 92,  0.6) !important; */
+}
+
+.asset-border,
+.border-asset {
+	border: 1px solid rgba( 92, 92, 92,  0.6) !important;
+}
+
+.asset-shadow,
+.shadow-asset{
+	-webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3);
+	-moz-box-shadow: 4px 4px 4px  0px rgba( 92, 92, 92, 0.3);
+	box-shadow: 4px 4px 4px  0px rgba( 92, 92, 92, 0.3);	
+}
+
+.asset-shadow:hover,
+.asset-shadow:focus,
+.asset-shadow:visited,
+.asset-shadow:active,
+.shadow-asset:hover,
+.shadow-asset:focus,
+.shadow-asset:visited,
+.shadow-asset:active{
+	color: #f4f4f4;
+}
+
+.form-group.top_search .asset-search_input,
+.form-group.top_search .asset-search_input:focus{
+	border: 1px solid rgba( 92, 92, 92,  0.6);
+    -webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92,  0.3 ) !important;
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+    box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+	background-color: rgba( 92, 92, 92, 1 );
+	color: #fff;
+}
+
+.top_search .asset-bg.btn-default, .asset-bg.btn-default,
+.top_search .asset-bg.btn-default:hover, .asset-bg.btn-default:hover,
+.top_search .asset-bg.btn-default:focus, .asset-bg.btn-default:focus,
+.top_search .asset-bg.btn-default:visited, .asset-bg.btn-default:visited, 
+.top_search .asset-bg.btn-default:active, .asset-bg.btn-default:active{
+	background-color: #0092CD;
+	color: #fff;
+    border: 1px solid rgba( 92, 92, 92, 0.6 );
+    -webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 );
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 );
+    box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 );
+}
+
+.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front{
+	z-index: 3000;
+}
+
+.site_item{
+    min-height: 36px;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    font-size: 14px;
+    padding-left: 12px !important;
+	font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
+}
+
+.asset_details .search_site_btn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 99;
+}
+
+.asset_details .form-control{
+	min-height: 34.4px;
+}

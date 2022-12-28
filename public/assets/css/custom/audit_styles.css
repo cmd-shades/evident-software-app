@@ -1,0 +1,85 @@
+/** Audit module custom styles **/
+.nav_menu {
+    background: rgba( 92, 92, 92, 1);
+    background-color: rgba( 92, 92, 92, 1)!important;
+}
+
+.nav.side-menu>li.current-page, 
+.nav.side-menu>li.active {
+    background: rgba( 92, 92, 92, 1);
+    background-color: rgba( 92, 92, 92, 1)!important;
+}
+
+.nav.side-menu>li.active>a {
+    background: rgba( 92, 92, 92, 1);
+    background-color: rgba( 92, 92, 92, 1)!important;
+}
+
+
+
+.audit-color,
+.color-audit,
+.text-audit{
+	color:#0092CD !important;
+}
+
+.audit-bg{
+	background-color: rgba( 92, 92, 92, 1) !important;
+	color: #FFF !important;
+}
+
+.btn-audit {
+    color: #fff !important;
+    background-color: #0092CD;
+    border-color: #0092CD;
+}
+
+.top_search .form-control {
+    /* border: 1px solid rgba( 92, 92, 92,  0.6) !important; */
+}
+
+.audit-border,
+.border-audit {
+	border: 1px solid rgba( 92, 92, 92,  0.6) !important;
+}
+
+.audit-shadow,
+.shadow-audit{
+	-webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3);
+	-moz-box-shadow: 4px 4px 4px  0px rgba( 92, 92, 92, 0.3);
+	box-shadow: 4px 4px 4px  0px rgba( 92, 92, 92, 0.3);	
+}
+
+.audit-shadow:hover,
+.audit-shadow:focus,
+.audit-shadow:visited,
+.audit-shadow:active,
+.shadow-audit:hover,
+.shadow-audit:focus,
+.shadow-audit:visited,
+.shadow-audit:active{
+	color: #f4f4f4;
+}
+
+.form-group.top_search .audit-search_input,
+.form-group.top_search .audit-search_input:focus{
+	border: 1px solid rgba( 92, 92, 92,  0.6);
+    -webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92,  0.3 ) !important;
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+    box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+	background-color: rgba( 92, 92, 92, 1 );
+	color: #fff;
+}
+
+.top_search .audit-bg.btn-default, .audit-bg.btn-default,
+.top_search .audit-bg.btn-default:hover, .audit-bg.btn-default:hover,
+.top_search .audit-bg.btn-default:focus, .audit-bg.btn-default:focus,
+.top_search .audit-bg.btn-default:visited, .audit-bg.btn-default:visited, 
+.top_search .audit-bg.btn-default:active, .audit-bg.btn-default:active{
+	background-color: #0092CD;
+	color: #fff;
+    border: 1px solid rgba( 92, 92, 92, 0.6 );
+    -webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 );
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 );
+    box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 );
+}

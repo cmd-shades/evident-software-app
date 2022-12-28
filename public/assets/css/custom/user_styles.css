@@ -1,60 +1,57 @@
 /** User module custom styles **/
+.nav_menu {
+    background: rgba(0, 146, 205);
+    background-color: #0092CD  !important;
+}
+
 .nav.side-menu>li.current-page, 
 .nav.side-menu>li.active {
-	background: #3ca643;
-	background-color: #3ca643;
+    background: rgba(0, 146, 205);
+    background-color: #0092CD  !important;
 }
 
 .nav.side-menu>li.active>a {
-	background: #3ca643;
-	background-color: #3ca643;
+   background: rgba(0, 146, 205);
+    background-color: #0092CD  !important;
 }
 
 a{
+	a{ color: #0092CD;
 	font-weight: bold;
 }
 
 .user-color,
 .color-user,
 .text-user{
-	color:#3ca643 !important;
+	color:#0092CD !important;
 }
 
 .user-bg{
-	background: #3ca643 !important;
-	background-color: #3ca643 !important;
+	background: #0092CD !important;
+    background-color: #0092CD !important;
 	color: #fff !important;
 }
 
-
 .btn-user {
-	/* background-color: #C8d6C8; */
-	background-color: #023550;
-	border-color: #3ca643;
-	padding: 8px 5%;
-    font-size: 15px;
-    margin: 10px auto 10px auto;
-    text-align: center;
-    min-height: 37px;
-    display: block;
-    width: 100%;
     color: #fff !important;
+    background-color: #0092CD;
+    border-color: #0092CD;
 }
 
 .top_search .form-control {
-	border: 1px solid rgba(249, 55, 17, 0.6) !important;
+    border: 1px solid rgba(0, 146, 205, 0.6) !important;
 }
 
 .user-border,
 .border-user {
-	border: 1px solid rgba(249, 55, 17, 0.6) !important;
+	border: 1px solid rgba(0, 146, 205, 0.6) !important;
 }
 
 .user-shadow,
 .shadow-user{
-/* 	-webkit-box-shadow: 4px 4px 4px 0px rgba(249, 55, 17,0.3);
-	-moz-box-shadow: 4px 4px 4px  0px rgba(249, 55, 17,0.3);
-	box-shadow: 4px 4px 4px  0px rgba(249, 55, 17,0.3);	 */
+	-webkit-box-shadow: 4px 4px 4px 0px rgba(0, 146, 205,0.3);
+	-moz-box-shadow: 4px 4px 4px  0px rgba(0, 146, 205,0.3);
+	box-shadow: 4px 4px 4px  0px rgba(0, 146, 205,0.3);	
 }
 
 .filters label{
@@ -69,26 +66,20 @@ a{
 .shadow-user:focus,
 .shadow-user:visited,
 .shadow-user:active{
-	color: #3ca643;
+	color: #0092CD;
 }
 
-.form-group.top_search .user-search_input,
-.form-group.top_search .user-search_input:focus{
-	border: 1px solid rgba(249, 55, 17, 0.6);
-	-webkit-box-shadow: 4px 4px 4px 0px rgba(249, 55, 17, 0.3) !important;
-	-moz-box-shadow: 4px 4px 4px 0px rgba( 249, 55, 17, 0.3) !important;
-	box-shadow: 4px 4px 4px 0px rgba( 249, 55, 17, 0.3) !important;
+
+
+.form-group.top_search .site-search_input, .form-group.top_search .site-search_input:focus {
+    border: 1px solid rgba( 92, 92, 92, 0.6 );
+    -webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+    box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+    background-color: rgba( 92, 92, 92, 1 );
+    color: #fff;
 }
 
-.top_search .user-bg.btn-default, .user-bg.btn-default,
-.top_search .user-bg.btn-default:hover, .user-bg.btn-default:hover,
-.top_search .user-bg.btn-default:focus, .user-bg.btn-default:focus,
-.top_search .user-bg.btn-default:visited, .user-bg.btn-default:visited, 
-.top_search .user-bg.btn-default:active, .user-bg.btn-default:active{
-	background-color: #3ca643;
-	color: #fff;
-	border: 1px solid rgba( 249, 55, 17, 0.6 );
-	-webkit-box-shadow: 4px 4px 4px 0px rgba( 249, 55, 17, 0.3 );
-	-moz-box-shadow: 4px 4px 4px 0px rgba( 249, 55, 17, 0.3 );
-	box-shadow: 4px 4px 4px 0px rgba( 249, 55, 17, 0.3 );
-}
+
+
+

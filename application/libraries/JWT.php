@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Libraries;
-
-use DomainException;
-use InvalidArgumentException;
-use UnexpectedValueException;
-use DateTime;
+namespace Firebase\JWT;
+use \DomainException;
+use \InvalidArgumentException;
+use \UnexpectedValueException;
+use \DateTime;
 
 /**
  * JSON Web Token implementation, based on this spec:
@@ -22,6 +21,7 @@ use DateTime;
  */
 class JWT
 {
+
     /**
      * When checking nbf, iat or expiration times,
      * we want to provide some extra leeway time to
@@ -159,7 +159,7 @@ class JWT
         if ($keyId !== null) {
             $header['kid'] = $keyId;
         }
-        if (isset($head) && is_array($head)) {
+        if ( isset($head) && is_array($head) ) {
             $header = array_merge($head, $header);
         }
         $segments = array();
@@ -191,7 +191,7 @@ class JWT
             throw new DomainException('Algorithm not supported');
         }
         list($function, $algorithm) = static::$supported_algs[$alg];
-        switch ($function) {
+        switch($function) {
             case 'hash_hmac':
                 return hash_hmac($algorithm, $msg, $key, true);
             case 'openssl':
@@ -225,7 +225,7 @@ class JWT
         }
 
         list($function, $algorithm) = static::$supported_algs[$alg];
-        switch ($function) {
+        switch($function) {
             case 'openssl':
                 $success = openssl_verify($msg, $signature, $key, $algorithm);
                 if ($success === 1) {
@@ -278,7 +278,7 @@ class JWT
              *them to strings) before decoding, hence the preg_replace() call.
              */
             $max_int_length = strlen((string) PHP_INT_MAX) - 1;
-            $json_without_bigints = preg_replace('/:\s*(-?\d{' . $max_int_length . ',})/', ': "$1"', $input);
+            $json_without_bigints = preg_replace('/:\s*(-?\d{'.$max_int_length.',})/', ': "$1"', $input);
             $obj = json_decode($json_without_bigints);
         }
 

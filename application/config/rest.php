@@ -1,6 +1,6 @@
 <?php
 
-// defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -10,7 +10,7 @@
 | Set to force the use of HTTPS for REST API calls
 |
 */
-$config['force_https'] = false;
+$config['force_https'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,7 +82,7 @@ $config['rest_message_field_name'] = 'error';
 | Should we enable emulation of the request (e.g. used in Mootools request)
 |
 */
-$config['enable_emulate_request'] = true;
+$config['enable_emulate_request'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -138,8 +138,8 @@ $config['auth_source'] = 'ldap';
 | requests etc), set to TRUE;
 |
 */
-$config['allow_auth_and_keys'] = true;
-$config['strict_api_and_auth'] = true; // force the use of both api and auth before a valid api request is made
+$config['allow_auth_and_keys'] = TRUE;
+$config['strict_api_and_auth'] = TRUE; // force the use of both api and auth before a valid api request is made
 
 /*
 |--------------------------------------------------------------------------
@@ -186,7 +186,7 @@ $config['auth_library_function'] = '';
 // $config['auth_override_class_method']['dashboard']['*'] = 'basic';
 
 
-// ---Uncomment list line for the wildcard unit test
+// ---Uncomment list line for the wildard unit test
 // $config['auth_override_class_method']['wildcard_test_cases']['*'] = 'basic';
 
 /*
@@ -201,29 +201,32 @@ $config['auth_library_function'] = '';
 |            $config['auth_override_class_method_http']['deals']['*']['options'] = 'none';
 */
 
-$config['auth_override_class_method_http']['user']['login']['post']                         = 'none';
-$config['auth_override_class_method_http']['user']['logout']['post']                        = 'none';
-$config['auth_override_class_method_http']['user']['user_types']['get']                     = 'none';
-$config['auth_override_class_method_http']['account']['create']['post']                     = 'none';
-$config['auth_override_class_method_http']['account']['modules']['get']                     = 'none';
-$config['auth_override_class_method_http']['account']['terms_and_conditions']['get']        = 'none';
-$config['auth_override_class_method_http']['account']['activate_account']['post']           = 'none';
-$config['auth_override_class_method_http']['document_handler']['upload']['post']            = 'none';
-$config['auth_override_class_method_http']['notification']['notifications']['get']          = 'none';
-$config['auth_override_class_method_http']['job']['job_types']['get']                       = 'none';
-$config['auth_override_class_method_http']['job']['job_statuses']['get']                    = 'none';
-$config['auth_override_class_method_http']['job']['fail_codes']['get']                      = 'none';
-$config['auth_override_class_method_http']['alert_handler']['sia_codes']['get']             = 'none';
-$config['auth_override_class_method_http']['coggins']['aws_upload_webhook']['post']         = 'none';
-$config['auth_override_class_method_http']['coggins']['aws_test']['post']                   = 'none';
-$config['auth_override_class_method_http']['coggins']['lambda_file_process']['post']        = 'none';
-$config['auth_override_class_method_http']['easeltv']['webhook']['post']                    = 'none';
-$config['auth_override_class_method_http']['integratorgateway']['isRunning']['get']         = 'none';
-$config['auth_override_class_method_http']['integratorgateway']['isrunning']['get']         = 'none';
-$config['auth_override_class_method_http']['integratorgateway']['activeSites']['get']       = 'none';
-$config['auth_override_class_method_http']['integratorgateway']['activesites']['get']       = 'none';
-$config['auth_override_class_method_http']['integratorgateway']['installedFilms']['get']    = 'none';
-$config['auth_override_class_method_http']['integratorgateway']['installedfilms']['get']    = 'none';
+$config['auth_override_class_method_http']['user']['login']['post'] 						= 'none';
+$config['auth_override_class_method_http']['user']['logout']['post'] 						= 'none';
+$config['auth_override_class_method_http']['user']['user_types']['get'] 					= 'none';
+$config['auth_override_class_method_http']['account']['create']['post'] 					= 'none';
+$config['auth_override_class_method_http']['account']['modules']['get'] 					= 'none';
+$config['auth_override_class_method_http']['account']['terms_and_conditions']['get'] 		= 'none';
+$config['auth_override_class_method_http']['account']['activate_account']['post']			= 'none';
+$config['auth_override_class_method_http']['account']['packages']['get']					= 'none';
+$config['auth_override_class_method_http']['account']['tiers']['get']						= 'none';
+$config['auth_override_class_method_http']['account']['client_list']['get']					= 'none';
+$config['auth_override_class_method_http']['document_handler']['upload']['post'] 			= 'none';
+$config['auth_override_class_method_http']['notification']['notifications']['get'] 			= 'none';
+$config['auth_override_class_method_http']['job']['job_types']['get'] 						= 'none';
+$config['auth_override_class_method_http']['job']['job_statuses']['get'] 					= 'none';
+$config['auth_override_class_method_http']['job']['fail_codes']['get'] 						= 'none';
+$config['auth_override_class_method_http']['alert_handler']['sia_codes']['get'] 			= 'none';
+$config['auth_override_class_method_http']['tesseract']['change_notification']['get'] 		= 'none';
+$config['auth_override_class_method_http']['tesseract']['change_notification']['post'] 		= 'none';
+$config['auth_override_class_method_http']['discipline']['discipline_stats']['get'] 		= 'none';
+$config['auth_override_class_method_http']['discipline']['building_stats']['get'] 			= 'none';
+$config['auth_override_class_method_http']['discipline']['buildings_by_discipline']['get']	= 'none';
+$config['auth_override_class_method_http']['discipline']['building_outcomes']['get']		= 'none';
+$config['auth_override_class_method_http']['discipline']['overdue_jobs']['get']				= 'none';
+$config['auth_override_class_method_http']['discipline']['building_recommendations']['get']	= 'none';
+$config['auth_override_class_method_http']['discipline']['building_outcomes_summary']['get']= 'none';
+
 
 // ---Uncomment list line for the wildard unit test
 // $config['auth_override_class_method_http']['wildcard_test_cases']['*']['options'] = 'basic';
@@ -253,7 +256,7 @@ $config['rest_valid_logins'] = ['admin' => '1234'];
 |    restrict certain methods to IPs in your white-list
 |
 */
-$config['rest_ip_whitelist_enabled'] = false;
+$config['rest_ip_whitelist_enabled'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -263,7 +266,7 @@ $config['rest_ip_whitelist_enabled'] = false;
 | Handle exceptions caused by the controller
 |
 */
-$config['rest_handle_exceptions'] = true;
+$config['rest_handle_exceptions'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -291,7 +294,7 @@ $config['rest_ip_whitelist'] = '';
 | 1. Set to TRUE and add any IP address to 'rest_ip_blacklist'
 |
 */
-$config['rest_ip_blacklist_enabled'] = false;
+$config['rest_ip_blacklist_enabled'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -349,7 +352,7 @@ $config['rest_keys_table'] = 'service_api_keys';
 |   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 |
 */
-$config['rest_enable_keys'] = false;
+$config['rest_enable_keys'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -430,7 +433,7 @@ $config['rest_key_name'] = 'X-API-KEY';
 |
 */
 
-$config['rest_enable_logging'] = false;
+$config['rest_enable_logging'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -463,7 +466,7 @@ $config['rest_logs_table'] = 'service_api_logs';
 |    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 |
 */
-$config['rest_enable_access'] = false;
+$config['rest_enable_access'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -485,7 +488,7 @@ $config['rest_access_table'] = 'service_api_access';
 | Set to FALSE to log as serialized PHP
 |
 */
-$config['rest_logs_json_params'] = false;
+$config['rest_logs_json_params'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -513,7 +516,7 @@ $config['rest_logs_json_params'] = false;
 |
 | See application/controllers/api/example.php for examples
 */
-$config['rest_enable_limits'] = false;
+$config['rest_enable_limits'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -535,7 +538,7 @@ $config['rest_limits_table'] = 'service_api_limits';
 | Only do this if you are using the $this->rest_format or /format/xml in URLs
 |
 */
-$config['rest_ignore_http_accept'] = false;
+$config['rest_ignore_http_accept'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -550,7 +553,7 @@ $config['rest_ignore_http_accept'] = false;
 | Hint: This is good for production environments
 |
 */
-$config['rest_ajax_only'] = false;
+$config['rest_ajax_only'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -572,7 +575,7 @@ $config['rest_language'] = 'english';
 | will access it through a browser
 |
 */
-$config['check_cors'] = true;
+$config['check_cors'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -616,7 +619,7 @@ $config['allowed_cors_methods'] = [
 | source domain
 |
 */
-$config['allow_any_cors_domain'] = true;
+$config['allow_any_cors_domain'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------

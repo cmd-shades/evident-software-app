@@ -1,0 +1,973 @@
+.greenbrownKGR,
+.greenbrownKGR *
+{
+	margin:0px;
+	padding:0px;
+}
+
+.greenbrownKGR,
+.greenbrownKGR_UpdatePanel
+{
+	display:inline-block;
+	zoom:1;
+	*display:inline;
+}
+
+.greenbrownKGR *,
+.greenbrownKGR input,
+.greenbrownKGR select,
+.greenbrownKGR textarea
+{
+	font-family:arial,sans-serif;
+}
+
+/*TableView*/
+.greenbrownKGR .kgrTableView
+{
+	/*overflow:hidden;*/
+	font-family:arial,sans-serif;
+	font-size:12px;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #BBB99D;
+    color: #272522;
+}
+
+
+.greenbrownKGR .kgrTable
+{
+	border-collapse: separate;
+    border-spacing: 0;
+}
+
+.greenbrownKGR .kgrTable tr .kgrCell:first-child,
+.greenbrownKGR .kgrTable tr .kgrFilterCell:first-child,
+.greenbrownKGR .kgrTable tr .kgrHeader:first-child,
+.greenbrownKGR .kgrTable tr .kgrFooter:first-child
+{
+	border-left-style:none;
+	padding-left:1px;
+}
+.greenbrownKGR .kgrTable tr .kgrCell:last-child,
+.greenbrownKGR .kgrTable tr .kgrFilterCell:last-child,
+.greenbrownKGR .kgrTable tr .kgrHeader:last-child,
+.greenbrownKGR .kgrTable tr .kgrFooter:last-child
+{
+	border-right-style:none;
+	padding-right:1px;
+}
+
+
+
+.greenbrownKGR .kgrDesc
+{
+	color:green;
+	padding-top:3px;
+	padding-bottom:3px;	
+}
+
+.greenbrownKGR .kgrDetailTablesPanel
+{
+	border-bottom:solid 1px #D0D7E5;
+	padding-right:1px;
+}
+
+
+
+
+/*Header*/
+.greenbrownKGR .kgrHeader
+{
+	background:url(sprite.gif) repeat-x scroll 0 -2300px #B94D0A;
+	border-bottom:1px solid #71250A;
+	border-left:1px solid #872B07;
+	border-right:1px solid #CD6A3F;
+	font-weight:normal;
+	text-align:left;
+	color: #FFFFFF;
+}
+.greenbrownKGR th.kgrSorted
+{
+	background-position:0 -2600px;
+	background-color: #C36624;
+	border-color: #EC9883 #CD6A3F #854324 #8B3312;
+}
+
+
+.greenbrownKGR .kgrFilterCell
+{
+	background: none repeat scroll 0 0 #E1DAC7;
+	border-style:none none solid solid;
+	border-width:1px;
+	border-color:#FFFFFF #FFFFFF #FFFFFF #CABAAB;	
+}
+.greenbrownKGR .kgrSortHeaderText,
+.greenbrownDummyHeader .kgrSortHeaderText
+{
+	color:#FFFFFF;
+	font-size:12px;
+	text-decoration:none;
+}
+
+.greenbrownKGR .kgrIn,
+.greenbrownDummyHeader .kgrIn
+{
+	overflow:hidden;
+	margin:4px 7px 3px 7px;
+}
+.greenbrownKGR .kgrGroup .kgrIn
+{
+	margin:0px 3px 0px 3px;
+}
+
+.greenbrownKGR .kgrHeader .kgrIn,
+.greenbrownDummyHeader .kgrIn
+{
+	color: #FFFFFF;
+	font-size:12px;
+	cursor:default;	
+}
+
+.greenbrownKGR .kgrEditIn
+{
+	padding-right:4px;
+}
+
+.greenbrownKGR .kgrFilterCell .kgrIn div
+{
+	padding-bottom:1px;	
+}
+
+
+/*Data*/
+.greenbrownKGR .kgrCell
+{
+	border-width:1px;
+	border-style:none none none solid;		
+	border-left-color:#CABAAB;
+	padding-top:1px;
+	padding-bottom:1px;
+}
+
+
+.greenbrownKGR .kgrRow .kgrCell .kgrIn
+{
+	margin:4px 8px 3px 8px;
+	cursor: default;
+}
+
+.greenbrownKGR .kgrAltRow
+{
+	background: none repeat scroll 0 0 #F1E9DC;
+}
+.greenbrownKGR .kgrAltRow .kgrCell
+{
+	border-color: #F1E9DC #F1E9DC #F1E9DC #CABAAB;
+}
+
+.greenbrownKGR .kgrRow .kgrSorted
+{
+	background-color: #F6F1E8;
+    border-bottom-color: #F6F1E8;	
+}
+.greenbrownKGR .kgrAltRow .kgrSorted
+{
+	background-color: #F1E9DC;
+	border-bottom-color: #F1E9DC;
+}
+
+
+.greenbrownKGR .kgrRowEdit,
+.greenbrownKGR tr.kgrValidator
+{
+	background:none repeat scroll 0 0 #E1DAC7;
+}
+
+
+.greenbrownKGR .kgrRowOver
+{
+	background:url(sprite.gif) repeat-x scroll 0 -2901px #F2D328;
+}
+.greenbrownKGR .kgrRowOver .kgrCell
+{
+	border-style:solid none solid none;
+	border-top-color:#CA9A3E;
+	border-bottom-color:#CA9A3E;	
+	padding: 0px 0px 0px 1px;
+}
+
+
+.greenbrownKGR .kgrRowSelected
+{
+	background:url(sprite.gif) repeat-x scroll 0 -3901px #E38443;	
+}
+.greenbrownKGR .kgrRowSelected .kgrCell
+{
+	border-top-color:#AD5E2F;
+	border-bottom-color:#AD5E2F;
+	border-style:solid none solid none;
+	padding: 0px 0px 0px 1px;		
+}
+.greenbrownKGR .kgrGroupCol
+{
+	background-color: #A39787;
+	border-color: #A39787 #A39787 #A39787 #A39787 !important;
+}
+
+
+.greenbrownKGR .kgrRowSelected .kgrSorted,
+.greenbrownKGR .kgrRowOver .kgrSorted
+{
+	background-color: transparent;
+}
+
+
+
+.greenbrownKGR .kgrRowEdit input[type=text],
+.greenbrownKGR .kgrRowEdit select,
+.greenbrownKGR .kgrRowEdit textarea
+{
+	color:green;
+}
+
+
+.greenbrownKGR tr.kgrValidator .kgrIn
+{
+	color:red;
+}
+
+
+/*Grouping*/
+.greenbrownKGR .kgrGroup
+{
+    background: none repeat scroll 0 0 #A39787;
+}
+.greenbrownKGR .kgrGroup .kgrCell
+{
+    border-color: #A39787;	
+}
+.greenbrownKGR .kgrGroup .kgrHeaderText
+{
+	color: #FFFFFF;
+	font-family:arial,sans-serif;
+	font-size:12px;
+	font-size-adjust:none;
+	font-style:normal;
+	font-variant:normal;
+	line-height:18px;
+	cursor:pointer;
+}
+
+
+
+.greenbrownKGR .kgrGroupPanel
+{
+	background:url(sprite.gif) repeat-x scroll 0 -1900px #AFA79A;
+	border-bottom:1px solid #504B41;
+	color:#FFFFFF;
+	padding:3px 3px 2px 3px;
+	min-height:17px;
+	cursor:default;
+}
+.greenbrownKGR .kgrGroupItem,
+.greenbrownDummyGroupItem
+{
+	background: url(sprite.gif) repeat-x scroll 0 -6500px #E38443;
+    border: 1px solid #904C23;
+	cursor:move;
+}
+.greenbrownDummyGroupItem
+{
+	cursor:default;
+}
+
+.greenbrownKGR .kgrGroupItem .kgrIn,
+.greenbrownDummyGroupItem .kgrIn
+{
+	white-space:nowrap;
+	font-family:arial,sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	margin:1px 1px 2px 4px;	
+	color: #5D1F00;
+	line-height:17px;
+}
+.greenbrownDummyGroupItem
+{
+	filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	opacity:0.5;	
+}
+
+
+.greenbrownKGR .kgrTopIndicator,
+.greenbrownKGR .kgrBottomIndicator
+{
+	width:9px;
+	height:12px;
+	background:url(sprite.gif) 0 1px no-repeat;
+}
+.greenbrownKGR .kgrBottomIndicator
+{
+	background-position:0px -49px;
+}
+
+.greenbrownDummyHeader
+{
+	background:url(sprite.gif) repeat-x scroll 0 -2300px #B94D0A;
+    border-bottom: 1px solid #71250A;
+    border-left: 1px solid #872B07;
+    border-right: 1px solid #CD6A3F;
+    color: #FFFFFF;
+    font-weight: normal;
+    text-align: left;	
+	
+	filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	opacity:0.5;
+		
+}
+.greenbrownDummyHeader .kgrIn
+{
+	color: #FFFFFF;
+	font-size:12px;
+	margin:3px 4px;
+	overflow:hidden;
+	font-family:arial,sans-serif;
+}
+.greenbrownDummyHeader .kgrSortHeaderText 
+{
+	color:#27413E;
+	font-size:12px;
+	text-decoration:none;
+}
+
+
+/*Footer*/
+.greenbrownKGR .kgrFooter
+{
+	border-width:1px;
+	border-style:none none none solid;		
+	border-left-color:#CABAAB;
+	padding-top:1px;
+	padding-bottom:1px;
+}
+
+
+
+
+/*Status*/
+.greenbrownKGR .kgrStatus,
+.greenbrownKGR .kgrPager
+{
+	background-color:#E1DAC7;
+	line-height:20px;
+	padding: 5px 0 4px;
+    border-color: #CABAAB #F1E9DC #F1E9DC;
+    border-style: solid;
+    border-width: 1px 0 1px 1px;
+}
+.greenbrownKGR .kgrStatus
+{
+	padding-left:10px;
+}
+.greenbrownKGR .kgrTop .kgrPager
+{
+	border-bottom:1px solid #567DB0;
+	border-top:1px solid #FFFFFF;
+}
+
+
+/*Pager*/
+
+.greenbrownKGR .kgrPager .kgrPageSize,
+.greenbrownKGR .kgrPager .kgrNav
+{
+	float:left;
+	padding: 0 10px;
+	line-height: 22px;
+}
+.greenbrownKGR .kgrPager .kgrInfo
+{
+	float:right;
+	color: #676462;
+	line-height: 22px;
+    padding: 0 10px;
+    white-space: nowrap;
+	cursor: default;
+}
+
+.greenbrownKGR .kgrPager .kgrPrev,
+.greenbrownKGR .kgrPager .kgrNext,
+.greenbrownKGR .kgrPager .kgrFirst,
+.greenbrownKGR .kgrPager .kgrLast
+{
+	line-height:22px;
+	float:left;
+	margin:0px 1px 0px 1px;
+}
+
+.greenbrownKGR .kgrPager .kgrPrev input,
+.greenbrownKGR .kgrPager .kgrNext input,
+.greenbrownKGR .kgrPager .kgrFirst input,
+.greenbrownKGR .kgrPager .kgrLast input
+{
+	background :transparent url(sprite.gif) no-repeat;
+	border:0 none;
+	cursor:pointer;
+	font-size:1px;
+	height:22px;
+	padding:0;
+	vertical-align:top;
+	width:22px;
+}
+
+
+.greenbrownKGR .kgrPager .kgrFirst input
+{
+	background-position: 0 -550px;
+}
+.greenbrownKGR .kgrPager .kgrFirst:hover input
+{
+	background-position: 0 -600px;
+}
+
+.greenbrownKGR .kgrPager .kgrLast input
+{
+	background-position: 0 -1000px;
+}
+.greenbrownKGR .kgrPager .kgrLast:hover input
+{
+	background-position: 0 -1050px;
+}
+
+.greenbrownKGR .kgrPager .kgrPrev input
+{
+	background-position: 0 -700px;
+}
+.greenbrownKGR .kgrPager .kgrPrev:hover input
+{
+	background-position: 0 -750px;
+}
+
+.greenbrownKGR .kgrPager .kgrNext input
+{
+	background-position: 0 -850px;
+}
+.greenbrownKGR .kgrPager .kgrNext:hover input
+{
+	background-position: 0 -900px;
+}
+
+
+
+.greenbrownKGR .kgrPager .kgrPrev a,
+.greenbrownKGR .kgrPager .kgrNext a,
+.greenbrownKGR .kgrPager .kgrFirst a,
+.greenbrownKGR .kgrPager .kgrLast a
+{
+	display:none;	
+}
+
+.greenbrownKGR .kgrPager a.kgrNum
+{
+	color: #272522;
+    float: left;
+    line-height: 22px;
+    margin: 0;
+    padding: 0 5px 0 0;
+    text-decoration: none;
+}
+.greenbrownKGR .kgrPager a.kgrNum:hover
+{
+	background-image:url(sprite.gif);
+	background-position: 100% -1250px;
+	color:#863D02;
+}
+
+
+.greenbrownKGR .kgrPager a.kgrNum span
+{
+    float: left;
+    padding: 0 0 0 5px;
+	line-height: 22px;
+}
+
+.greenbrownKGR .kgrPager a.kgrNum:hover span
+{
+	background-image:url(sprite.gif);
+	background-position: 0 -1150px;
+}
+
+
+
+.greenbrownKGR .kgrPager a.kgrNumSelected,
+.greenbrownKGR .kgrPager a.kgrNumSelected:hover
+{
+	background-image:url(sprite.gif);
+	background-position: 100% -1450px;
+    color: #5D1F00;
+}
+.greenbrownKGR .kgrPager a.kgrNumSelected:hover
+{
+	cursor:default;
+}
+
+.greenbrownKGR .kgrPager a.kgrNumSelected span,
+.greenbrownKGR .kgrPager a.kgrNumSelected:hover span
+{
+	background-image:url(sprite.gif);
+	background-position: 0 -1350px;
+}
+
+
+
+.greenbrownKGR .kgrPager .kgrPageSize select
+{
+	font-family:arial,sans-serif;
+	font-size:12px;
+}
+
+.greenbrownKGR .kgrPager .kgrPageSize
+{
+	padding:0 10px;
+}
+.greenbrownKGR .kgrPager .kgrPageSize select
+{
+	margin-left:5px;
+}
+
+
+
+/*FunctionPanel*/
+.greenbrownKGR .kgrFunctionPanel
+{
+	background:url(function_panel.gif) repeat-x scroll 0 1px #968E7C;
+	line-height:22px;
+	color:#FFFFFF;
+	border-top:1px solid #36332C;
+	padding:1px 7px 3px 7px;
+}
+.greenbrownKGR .kgrTop .kgrFunctionPanel
+{
+
+}
+
+/*For Chrome and Safari*/
+body:nth-of-type(1) .greenbrownKGR .kgrFunctionPanel
+{
+	border-top:1px solid #36332C;
+}
+body:nth-of-type(1) .greenbrownKGR .kgrTop .kgrFunctionPanel
+{
+	border-top:none;	
+}
+
+
+
+
+.greenbrownKGR .kgrRefresh input,
+.greenbrownKGR .kgrInsert input
+{
+	height:18px;
+	width:18px;
+	background:transparent url(sprite.gif) no-repeat;
+	border:0 none;
+	cursor:pointer;
+	font-size:1px;
+	padding:0;
+	vertical-align:middle;
+	margin-right:3px;
+}
+
+.greenbrownKGR .kgrRefresh
+{
+	float:right;
+	clear:both;	
+}
+
+
+.greenbrownKGR .kgrRefresh input
+{
+	background-position:0px -1600px;
+}
+.greenbrownKGR .kgrInsert input
+{
+	background-position:0 -1650px;	
+}
+
+.greenbrownKGR .kgrRefresh a,
+.greenbrownKGR .kgrInsert a
+{
+	color:#FFFFFF;
+	text-decoration:none;
+}
+/*Auto button in Edit/Delete column */
+
+.greenbrownKGR .kgrLinkEdit,
+.greenbrownKGR .kgrLinkDelete,
+.greenbrownKGR .kgrLinkConfirm,
+.greenbrownKGR .kgrLinkCancel
+{
+	font-size:1px;
+	text-indent:-4000px;
+	display:inline-block;
+	height:18px;
+	width:18px;
+	background:transparent url(sprite.gif) no-repeat;
+	margin-left:1px;
+	margin-right:1px;
+}
+
+.greenbrownKGR .kgrLinkEdit
+{
+	background-position:0px -1700px;
+}
+
+.greenbrownKGR .kgrLinkDelete
+{
+	background-position:0px -1750px;
+}
+
+
+.greenbrownKGR .kgrLinkConfirm
+{
+	background-position:0px -1800px;
+}
+
+.greenbrownKGR .kgrLinkCancel
+{
+	background-position:0px -1850px;
+}
+
+
+/*Insert/Edit Form */
+.greenbrownKGR .kgrEditForm,
+.greenbrownKGR .kgrInsertForm
+{
+	padding:4px;
+	border-bottom:1px solid #CABAAB;
+	background-color:#EAE5D7;
+}
+
+.greenbrownKGR label.kgrCaption
+{
+	padding-right:5px;
+}
+
+.greenbrownKGR ul.kgrValidator
+{
+	padding:3px 5px 5px 4px;	
+	color:red;
+	list-style-type:decimal;
+}
+.greenbrownKGR ul.kgrValidator li
+{
+	margin-left:16px;	
+}
+
+.greenbrownKGR .kgrFormHeader
+{
+	color:#0066CC;
+	font-size:14px;
+	padding:4px;
+}
+.greenbrownKGR .kgrFormFooter
+{
+	text-align:right;
+}
+
+.greenbrownKGR .kgrCancel,
+.greenbrownKGR .kgrConfirm
+{
+	margin-left:1px;
+	margin-right:1px;
+}
+
+
+.greenbrownKGR .kgrCancel input,
+.greenbrownKGR .kgrConfirm input
+{
+	height:18px;
+	width:18px;
+	background:transparent url(sprite.gif) no-repeat;
+	border:0 none;
+	cursor:pointer;
+	font-size:1px;
+	padding:0;
+	vertical-align:middle;
+}
+
+.greenbrownKGR .kgrCancel input
+{
+	background-position:0px -1850px;
+}
+.greenbrownKGR .kgrConfirm input
+{
+	background-position:0px -1800px;
+}
+
+.greenbrownKGR .kgrConfirm a,
+.greenbrownKGR .kgrCancel a
+{
+	display:none;
+	color:#27413E;
+	text-decoration:underline;	
+}
+
+/*Columns*/
+
+.greenbrownKGR .kgrSortNone,
+.greenbrownKGR .kgrSortAsc,
+.greenbrownKGR .kgrSortDesc,
+.greenbrownDummyHeader .kgrSortNone,
+.greenbrownDummyHeader .kgrSortAsc,
+.greenbrownDummyHeader .kgrSortDesc,
+.greenbrownDummyGroupItem .kgrSortNone,
+.greenbrownDummyGroupItem .kgrSortAsc,
+.greenbrownDummyGroupItem .kgrSortDesc
+{
+	background-color:transparent;
+	background-image:url(sprite.gif);
+	background-repeat:no-repeat;
+	border:0 none;
+	cursor:pointer;
+	font-size:1px;
+	height:10px;
+	padding:0;
+	vertical-align:middle;
+	width:16px;	
+}
+.greenbrownKGR .kgrSortNone,
+.greenbrownDummyHeader .kgrSortNone,
+.greenbrownDummyGroupItem .kgrSortNone
+{
+	background-image:url(sort_none.gif);
+}
+
+.greenbrownKGR .kgrSortNone,
+.greenbrownDummyHeader .kgrSortNone,
+.greenbrownDummyGroupItem .kgrSortNone
+{
+	height:11px;
+	background-position: 3px 0px;
+}
+
+.greenbrownKGR .kgrSortAsc,
+.greenbrownDummyHeader .kgrSortAsc,
+.greenbrownDummyGroupItem .kgrSortAsc
+{
+	background-position: 3px -247px;
+}
+.greenbrownKGR .kgrGroupItem .kgrSortAsc
+{
+	background-position: 3px -97px;
+}
+
+.greenbrownKGR .kgrSortDesc,
+.greenbrownDummyHeader .kgrSortDesc,
+.greenbrownDummyGroupItem .kgrSortDesc
+{
+	background-position: 3px -197px;
+}
+.greenbrownKGR .kgrGroupItem .kgrSortDesc
+{
+	background-position: 4px -147px;
+}
+/*IE7 only*/
+
+*+html .greenbrownKGR .kgrSortNone,
+*+html .greenbrownDummyHeader .kgrSortNone,
+*+html .greenbrownDummyGroupItem .kgrSortNone
+{
+	height:11px;
+}
+
+
+*+html .greenbrownKGR .kgrSortAsc,
+*+html .greenbrownDummyHeader .kgrSortAsc,
+*+html .greenbrownDummyGroupItem .kgrSortAsc
+{
+	background-position: 3px -245px;
+}
+*+html .greenbrownKGR .kgrGroupItem .kgrSortAsc
+{
+	background-position: 3px -95px;
+}
+
+
+*+html .greenbrownKGR .kgrSortDesc,
+*+html .greenbrownDummyHeader .kgrSortDesc,
+*+html .greenbrownDummyGroupItem .kgrSortDesc
+{
+	background-position: 3px -195px;
+}
+*+html .greenbrownKGR .kgrGroupItem .kgrSortDesc
+{
+	background-position: 4px -145px;
+}
+/*IE7 only*/
+
+/*IE6 only*/
+
+* html .greenbrownKGR .kgrSortNone,
+* html .greenbrownDummyHeader .kgrSortNone,
+* html .greenbrownDummyGroupItem .kgrSortNone
+{
+	height:11px;
+	background-position: 4px 0px;
+}
+
+* html .greenbrownKGR .kgrSortAsc,
+* html .greenbrownDummyHeader .kgrSortAsc,
+* html .greenbrownDummyGroupItem .kgrSortAsc
+{
+	background-position: 3px -245px;
+}
+* html .greenbrownKGR .kgrGroupItem .kgrSortAsc
+{
+	background-position: 3px -95px;
+}
+
+* html .greenbrownKGR .kgrSortDesc,
+* html .greenbrownDummyHeader .kgrSortDesc,
+* html .greenbrownDummyGroupItem .kgrSortDesc
+{
+	background-position:  3px -195px;
+}
+* html .greenbrownKGR .kgrGroupItem .kgrSortDesc
+{
+	background-position: 4px -145px;
+}
+/*IE6 only*/
+
+
+
+.greenbrownKGR col.kgrColumnExpand,
+.greenbrownKGR col.kgrColumnGroup
+{
+	width:20px;
+}
+.greenbrownKGR col.kgrColumnSelect
+{
+	width:30px;
+}
+
+.greenbrownKGR .kgrSelectAllRows
+{
+	margin:3px 0px 0px 4px;
+}
+
+.greenbrownKGR .kgrExpand,
+.greenbrownKGR .kgrCollapse
+{
+	display:inline-block;
+	width:16px;
+	height:16px;
+	background:url(sprite.gif) no-repeat 3px -444px;
+	cursor:pointer;
+}
+
+.greenbrownKGR .kgrCollapse
+{
+	background-position: 5px -497px;
+}
+
+
+.greenbrownKGR .kgrPartHeader
+{
+	overflow:hidden;
+	margin-right:17px;
+}
+
+.greenbrownKGR .kgrPartData
+{
+	overflow:scroll;
+}
+
+.greenbrownKGR .kgrFrozenScroller
+{
+	height:17px;
+	margin-right:17px;
+	overflow-y:hidden;
+	overflow-x:scroll;
+}
+
+.greenbrownKGR .kgrFrozenScroller div
+{
+	height:17px;
+}
+
+
+
+.greenbrownKGR .kgrScrollingIndicator
+{
+	border-radius:4px;
+	background:#AAAAAA;
+	border-color:#555555;
+	filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	opacity:0.5;
+	color:#555555;
+	display:inline-block;
+	position:absolute;
+	padding:3px;
+	font-weight:bold;
+}
+
+
+.greenbrownKGR .kgrPartFooter
+{
+	overflow:hidden;
+	margin-right:17px;
+}
+
+
+.greenbrownKGR .kgrHidden
+{
+	display:none;
+}
+
+
+.greenbrownKGR .kgrStatus .kgrLoadingText
+{
+	display:none;
+}
+.greenbrownKGR .kgrLoading .kgrLoadingText
+{
+	display:inline;
+}
+.greenbrownKGR .kgrLoading .kgrDoneText
+{
+	display:none;
+}
+
+
+.greenbrownKGR .kgrHideGrid
+{
+	border:1px solid #3B5A82;
+}
+
+.greenbrownKGR .kgrFilterCell .kgrIn .kgrDateTimePickerOut,
+.greenbrownKGR .kgrFilterCell .kgrIn .kgrDateTimePickerIn
+{
+	padding:0px;	
+	margin:0px;
+	border:0px;
+	margin-bottom:-2px;
+}
+
+
+.greenbrownKGR .kgrDateTimePickerOpening
+{
+	height:21px;
+}
+
+.greenbrownKGR .kgrCell .kgrDateTimePickerOpening
+{
+	height:19px;
+}
+
+.greenbrownKGR .kgrIn .kgrDateTimePickerOpening .kgrDateTimePickerIn
+{
+	position:absolute;
+}

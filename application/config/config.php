@@ -1,6 +1,4 @@
-<?php
-
-// defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -10,7 +8,7 @@
 | URL to your CodeIgniter root. Typically this will be your base URL,
 | WITH a trailing slash:
 |
-|   http://example.com/
+|	http://example.com/
 |
 | WARNING: You MUST set this value!
 |
@@ -24,11 +22,11 @@
 | a PHP script and you can easily do that on your own.
 |
 */
-$root = ( isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . ( isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '' );
-$root .= str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
+$root = ( isset($_SERVER['HTTPS']) ? "https://" : "http://" ) . $_SERVER['HTTP_HOST'];
+$root .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 
 $config['base_url'] = $root;
-$config['app_path'] = $root . '/application/';
+$config['app_path'] = $root.'/application/';
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +55,7 @@ $config['index_page'] = '';
 |
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
-$config['uri_protocol'] = 'REQUEST_URI';
+$config['uri_protocol']	= 'REQUEST_URI';
 
 /*
 |--------------------------------------------------------------------------
@@ -71,10 +69,6 @@ $config['uri_protocol'] = 'REQUEST_URI';
 */
 $config['url_suffix'] = '';
 
-
-
-$config['controller_suffix'] = '';
-
 /*
 |--------------------------------------------------------------------------
 | Default Language
@@ -85,7 +79,7 @@ $config['controller_suffix'] = '';
 | than english.
 |
 */
-$config['language'] = 'english';
+$config['language']	= 'english';
 
 /*
 |--------------------------------------------------------------------------
@@ -109,7 +103,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = false;
+$config['enable_hooks'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,20 +127,19 @@ $config['subclass_prefix'] = 'MY_';
 | Enabling this setting will tell CodeIgniter to look for a Composer
 | package auto-loader script in application/vendor/autoload.php.
 |
-|   $config['composer_autoload'] = TRUE;
+|	$config['composer_autoload'] = TRUE;
 |
 | Or if you have your vendor/ directory located somewhere else, you
 | can opt to set a specific path as well:
 |
-|   $config['composer_autoload'] = '/path/to/vendor/autoload.php';
+|	$config['composer_autoload'] = '/path/to/vendor/autoload.php';
 |
 | For more information about Composer, please visit http://getcomposer.org/
 |
 | Note: This will NOT disable or override the CodeIgniter-specific
-|   autoloading (application/config/autoload.php)
+|	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FCPATH . 'vendor/autoload.php';
-;
+$config['composer_autoload'] = FCPATH . 'vendor/autoload.php'; ;
 
 /*
 |--------------------------------------------------------------------------
@@ -192,7 +185,7 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | use segment based URLs.
 |
 */
-$config['enable_query_strings'] = false;
+$config['enable_query_strings'] = FALSE;
 $config['controller_trigger'] = 'c';
 $config['function_trigger'] = 'm';
 $config['directory_trigger'] = 'd';
@@ -209,7 +202,7 @@ $config['directory_trigger'] = 'd';
 |          for backwards compatibility purposes!
 |
 */
-$config['allow_get_array'] = true;
+$config['allow_get_array'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -219,15 +212,15 @@ $config['allow_get_array'] = true;
 | You can enable error logging by setting a threshold over zero. The
 | threshold determines what gets logged. Threshold options are:
 |
-|   0 = Disables logging, Error logging TURNED OFF
-|   1 = Error Messages (including PHP errors)
-|   2 = Debug Messages
-|   3 = Informational Messages
-|   4 = All Messages
+|	0 = Disables logging, Error logging TURNED OFF
+|	1 = Error Messages (including PHP errors)
+|	2 = Debug Messages
+|	3 = Informational Messages
+|	4 = All Messages
 |
 | You can also pass an array with threshold levels to show individual error types
 |
-|   array(2) = Debug Messages, without Error Messages
+| 	array(2) = Debug Messages, without Error Messages
 |
 | For a live site you'll usually only enable Errors (1) to be logged otherwise
 | your log files will fill up very fast.
@@ -313,15 +306,15 @@ $config['cache_path'] = '';
 | Whether to take the URL query string into consideration when generating
 | output cache files. Valid options are:
 |
-|   FALSE      = Disabled
-|   TRUE       = Enabled, take all query parameters into account.
-|                Please be aware that this may result in numerous cache
-|                files generated for the same page over and over again.
-|   array('q') = Enabled, but only take into account the specified list
-|                of query parameters.
+|	FALSE      = Disabled
+|	TRUE       = Enabled, take all query parameters into account.
+|	             Please be aware that this may result in numerous cache
+|	             files generated for the same page over and over again.
+|	array('q') = Enabled, but only take into account the specified list
+|	             of query parameters.
 |
 */
-$config['cache_query_string'] = false;
+$config['cache_query_string'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -343,57 +336,57 @@ $config['encryption_key'] = '';
 |
 | 'sess_driver'
 |
-|   The storage driver to use: files, database, redis, memcached
+|	The storage driver to use: files, database, redis, memcached
 |
 | 'sess_cookie_name'
 |
-|   The session cookie name, must contain only [0-9a-z_-] characters
+|	The session cookie name, must contain only [0-9a-z_-] characters
 |
 | 'sess_expiration'
 |
-|   The number of SECONDS you want the session to last.
-|   Setting to 0 (zero) means expire when the browser is closed.
+|	The number of SECONDS you want the session to last.
+|	Setting to 0 (zero) means expire when the browser is closed.
 |
 | 'sess_save_path'
 |
-|   The location to save sessions to, driver dependent.
+|	The location to save sessions to, driver dependent.
 |
-|   For the 'files' driver, it's a path to a writable directory.
-|   WARNING: Only absolute paths are supported!
+|	For the 'files' driver, it's a path to a writable directory.
+|	WARNING: Only absolute paths are supported!
 |
-|   For the 'database' driver, it's a table name.
-|   Please read up the manual for the format with other session drivers.
+|	For the 'database' driver, it's a table name.
+|	Please read up the manual for the format with other session drivers.
 |
-|   IMPORTANT: You are REQUIRED to set a valid save path!
+|	IMPORTANT: You are REQUIRED to set a valid save path!
 |
 | 'sess_match_ip'
 |
-|   Whether to match the user's IP address when reading the session data.
+|	Whether to match the user's IP address when reading the session data.
 |
-|   WARNING: If you're using the database driver, don't forget to update
-|            your session table's PRIMARY KEY when changing this setting.
+|	WARNING: If you're using the database driver, don't forget to update
+|	         your session table's PRIMARY KEY when changing this setting.
 |
 | 'sess_time_to_update'
 |
-|   How many seconds between CI regenerating the session ID.
+|	How many seconds between CI regenerating the session ID.
 |
 | 'sess_regenerate_destroy'
 |
-|   Whether to destroy session data associated with the old session ID
-|   when auto-regenerating the session ID. When set to FALSE, the data
-|   will be later deleted by the garbage collector.
+|	Whether to destroy session data associated with the old session ID
+|	when auto-regenerating the session ID. When set to FALSE, the data
+|	will be later deleted by the garbage collector.
 |
 | Other session cookie settings are shared with the rest of the application,
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
 */
-$config['sess_driver']          = 'database';
-$config['sess_cookie_name']     = '_ssid_session';
-$config['sess_expiration']      = 7200;
-$config['sess_save_path']       = 'user_sessions';
-$config['sess_match_ip']        = false;
-$config['sess_time_to_update']  = 300;
-$config['sess_regenerate_destroy'] = false;
+$config['sess_driver'] 			= 'database';
+$config['sess_cookie_name'] 	= '_ssid_session';
+$config['sess_expiration'] 		= 7200;
+$config['sess_save_path'] 		= 'user_sessions';
+$config['sess_match_ip'] 		= FALSE;
+$config['sess_time_to_update'] 	= 300;
+$config['sess_regenerate_destroy']= FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -410,11 +403,11 @@ $config['sess_regenerate_destroy'] = false;
 |       'cookie_httponly') will also affect sessions.
 |
 */
-$config['cookie_prefix']    = '';
-$config['cookie_domain']    = ''; //$root;
-$config['cookie_path']      = '/';
-$config['cookie_secure']    = false;
-$config['cookie_httponly']  = false;
+$config['cookie_prefix']	= '';
+$config['cookie_domain']	= ''; //$root;
+$config['cookie_path']		= '/';
+$config['cookie_secure']	= FALSE;
+$config['cookie_httponly'] 	= FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -428,7 +421,7 @@ $config['cookie_httponly']  = false;
 |          for backwards compatibility purposes!
 |
 */
-$config['standardize_newlines'] = false;
+$config['standardize_newlines'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -442,7 +435,7 @@ $config['standardize_newlines'] = false;
 |          for backwards compatibility purposes!
 |
 */
-$config['global_xss_filtering'] = false;
+$config['global_xss_filtering'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -458,11 +451,11 @@ $config['global_xss_filtering'] = false;
 | 'csrf_regenerate' = Regenerate token on every submission
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection']  = false;
-$config['csrf_token_name']  = 'csrf_test_name';
+$config['csrf_protection'] 	= FALSE;
+$config['csrf_token_name'] 	= 'csrf_test_name';
 $config['csrf_cookie_name'] = 'csrf_cookie_name';
-$config['csrf_expire']      = 7200;
-$config['csrf_regenerate']  = true;
+$config['csrf_expire'] 		= 7200;
+$config['csrf_regenerate'] 	= TRUE;
 $config['csrf_exclude_uris'] = array();
 
 /*
@@ -485,7 +478,7 @@ $config['csrf_exclude_uris'] = array();
 | by the output class.  Do not 'echo' any values with compression enabled.
 |
 */
-$config['compress_output'] = false;
+$config['compress_output'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -512,7 +505,7 @@ $config['time_reference'] = 'local';
 | Note: You need to have eval() enabled for this to work.
 |
 */
-$config['rewrite_short_tags'] = false;
+$config['rewrite_short_tags'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -527,13 +520,16 @@ $config['rewrite_short_tags'] = false;
 | You can use both an array or a comma-separated list of proxy addresses,
 | as well as specifying whole subnets. Here are a few examples:
 |
-| Comma-separated:  '10.0.1.200,192.168.5.0/24'
-| Array:        array('10.0.1.200', '192.168.5.0/24')
+| Comma-separated:	'10.0.1.200,192.168.5.0/24'
+| Array:		array('10.0.1.200', '192.168.5.0/24')
 */
-$config['proxy_ips']          = '';
-$config['no_records']         = 'There\'s currently no records to display.';
-$config['no_data']            = 'There\'s currently no data to display.';
-$config['ajax_access_denied'] = 'Access Denied! You do not have the right permissions to this area of the system.';
+$config['proxy_ips']  		  = '';
+$config['no_records'] 		  = 'There\'s currently no records to display.';
+$config['no_data'] 		  	  = 'There\'s currently no data to display.';
+$config['ajax_access_denied'] = '<small>Access Denied! You do not have the right permissions to completed this action.</small>';
 
 /* --------------- HMVC Setup ---------------- */
-$config['modules_locations'] = array(APPPATH . 'modules/' => '../modules/');
+$config['modules_locations'] = array(APPPATH.'modules/' => '../modules/');
+
+/* --------------- TESSERACT LOGIN -----------*/
+$config['enable_tesseract_login'] = FALSE;

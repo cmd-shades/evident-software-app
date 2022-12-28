@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Simply SID - Welcome</title>
+  <title>Evident Software - Welcome</title>
   <style type="text/css">
 
   /* Take care of image borders and formatting */
@@ -188,44 +188,44 @@
 
     <table cellspacing="0" cellpadding="0" width="100%">
       <tr>
-        <td style="background:#F89C1C" width="100%">
+        <td width="100%">
 
           <center>
             <table cellspacing="0" cellpadding="0" width="600" class="w320">
               <tr>
-                <td valign="top" class="mobile-block mobile-no-padding-bottom mobile-center" width="270" style="background:#F89C1C;padding:10px 10px 10px 20px;">
+                <td valign="top" class="mobile-block mobile-no-padding-bottom mobile-center" width="270" style="padding:10px 10px 10px 20px;">
                   <a href="#" style="text-decoration:none;">
                     <!-- <img src="https://www.filepicker.io/api/file/X9R4FqRPaEIS3vMxFXgl" width="142" height="30" alt="Your Logo"/> -->
-                    <img src="<?php echo base_url('assets/images/logos/ssid-logo-white-on-orange.png'); ?>" width="32" height="32" alt="Your Logo"/>
+                    <img src="<?php echo base_url('assets/images/logos/main-logo-small.png'); ?>" width="32" height="32" alt="Evident Logo"/>
                   </a>
                 </td>
-                <td valign="top" class="mobile-block mobile-center" width="270" style="background:#F89C1C;padding:10px 15px 10px 10px">
+                <td valign="top" class="mobile-block mobile-center" width="270" style="padding:10px 15px 10px 10px">
                   <table border="0" cellpadding="0" cellspacing="0" class="mobile-center-block" align="right">
                     <tr>
-                      <td align="right">
-                        <a href="#">
+                      <td align="right" width="30px">
+                        <?php /* <a href="https://www.facebook.com/lovedigitaltv/">
                         <img src="http://keenthemes.com/assets/img/emailtemplate/social_facebook.png"  width="30" height="30" alt="social icon"/>
-                        </a>
+                        </a> */ ?>
                       </td>
-                      <td align="right" style="padding-left:5px">
-                        <a href="#">
+                      <td align="right" style="padding-left:5px" width="30px">
+                        <?php /* <a href="https://twitter.com/LoveDigitalTV">
                         <img src="http://keenthemes.com/assets/img/emailtemplate/social_twitter.png"  width="30" height="30" alt="social icon"/>
-                        </a>
+                        </a> */ ?>
                       </td>
-                      <td align="right" style="padding-left:5px">
-                        <a href="#">
+                      <td align="right" style="padding-left:5px" width="30px">
+                        <?php /* <a href="#">
                         <img src="http://keenthemes.com/assets/img/emailtemplate/social_googleplus.png"  width="30" height="30" alt="social icon"/>
-                        </a>
+                        </a> */ ?>
                       </td>
-                      <td align="right" style="padding-left:5px">
-                        <a href="#">
+                      <td align="right" style="padding-left:5px" width="30px">
+                        <?php /* <a href="https://www.linkedin.com/company/love-digital-tv/">
                         <img src="http://keenthemes.com/assets/img/emailtemplate/social_linkedin.png"  width="30" height="30" alt="social icon"/>
-                        </a>
+                        </a> */ ?>
                       </td>
-                      <td align="right" style="padding-left:5px">
-                        <a href="#">
+                      <td align="right" style="padding-left:5px" width="30px">
+                        <?php /* <a href="#">
                         <img src="http://keenthemes.com/assets/img/emailtemplate/social_rss.png"  width="30" height="30" alt="social icon"/>
-                        </a>
+                        </a> */ ?>
                       </td>
                     </tr>
                   </table>
@@ -246,7 +246,7 @@
 
                   <br class="mobile-hide" />
 
-                  <h2>Welcome to Simply SID</h2>
+                  <h3>Welcome to Evident Software</h3>
 
                   <br>
                   We're excited you're here! Please Activate your new account by clicking the link below!<br>
@@ -261,8 +261,7 @@
                             <w:anchorlock/>
                             <center>
                           <![endif]-->
-                              <a href="<?php echo base_url('webapp/account/activate/'.$account_data->activation_code); ?>"
-                        style="background-color:#5cb85c;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:33px;text-align:center;text-decoration:none;width:130px;-webkit-text-size-adjust:none;">Activate</a>
+                              <a href="<?php echo base_url('webapp/account/activate/'.$account_data->activation_code); ?>" style="background-color:#5cb85c;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:33px;text-align:center;text-decoration:none;width:130px;-webkit-text-size-adjust:none; text-align:center">Activate</a>
                           <!--[if mso]>
                             </center>
                           </v:rect>
@@ -309,15 +308,15 @@
         </td>
       </tr>
       <tr>
-        <td style="background-color:#F89C1C;">
+        <td style="">
           <center>
-            <table border="0" cellpadding="0" cellspacing="0" width="600" class="w320" style="height:100%;color:#ffffff" bgcolor="#F89C1C" >
+            <table border="0" cellpadding="0" cellspacing="0" width="600" class="w320" style="height:100%;color:#ffffff" bgcolor="" >
               <tr>
-                <td align="right" valign="middle" class="mobile-padding" style="font-size:12px;padding:20px; background-color:#F89C1C; color:#ffffff; text-align:left; ">
-                  <a style="color:#ffffff;"  href="#">Contact Us</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                  <a style="color:#ffffff;" href="#">Facebook</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                  <a style="color:#ffffff;" href="#">Twitter</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                  <a style="color:#ffffff;" href="#">Support</a>
+                <td align="right" valign="middle" class="mobile-padding" style="font-size:12px;padding:20px; color:#ffffff; text-align:left; ">
+                  <a style="color:#ffffff;"  href="http://lovedigitaltv.co.uk">Contact Us</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                  <a style="color:#ffffff;" href="https://www.facebook.com/lovedigitaltv/">Facebook</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                  <a style="color:#ffffff;" href="https://twitter.com/LoveDigitalTV">Twitter</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                  <a style="color:#ffffff;" href="http://lovedigitaltv.co.uk">Support</a>
                 </td>
               </tr>
             </table>

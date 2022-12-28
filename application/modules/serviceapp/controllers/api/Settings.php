@@ -1,360 +1,208 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+ 
+class Settings extends REST_Controller {
 
-namespace Application\Service\Controllers\Api;
-
-use App\Libraries\REST_Controller;
-
-class Settings extends REST_Controller
-{
-    public function __construct()
-    {
+    function __construct(){
         // Construct the parent class
         parent::__construct();
-        $this->load->model("Settings_model", "settings_service");
-        $this->load->library("Ssid_common");
-        $this->load->library("form_validation");
-        $this->load->library("email");
+		$this->load->model( 'Settings_model','settings_service' );
     }
 
-    /**
-    *   Get settings result based on given parameter(s)
-    */
-    public function settings_get()
-    {
-        $get_set        = $this->get();
-
-        $account_id     = (!empty($get_set['account_id'])) ? (int) $get_set['account_id'] : false;
-        $setting_id     = (!empty($get_set['setting_id'])) ? (int) $get_set['setting_id'] : false;
-        $where          = (!empty($get_set['where'])) ? $get_set['where'] : false;
-        $limit          = (!empty($get_set['limit'])) ? (int) $get_set['limit'] : false;
-        $offset         = (!empty($get_set['offset'])) ? $get_set['offset'] : false;
-
-        $expected_data = [
-            'account_id'    => $account_id ,
-        ];
-
-        $this->form_validation->set_data($expected_data);
-        $this->form_validation->set_rules('account_id', 'Account ID', 'required');
-
-        if ($this->form_validation->run() == false) {
-            $validation_errors = (validation_errors()) ? validation_errors() : '';
+	/** 
+	* Process an Add Request from the Settings module
+	*/
+    public function add_option_post(){
+		$postdata   = $this->post();
+		$account_id = (int) $this->post('account_id');
+		$table_name = $this->post('table_name');
+		
+		$this->form_validation->set_rules( 'account_id', 'Main Account ID', 'required' );
+        $this->form_validation->set_rules( 'module_id', 'Module Name', 'required' );
+        $this->form_validation->set_rules( 'table_name', 'Table Name', 'required' );
+		
+		if ( $this->form_validation->run() == false ){
+			$validation_errors = ( validation_errors() ) ? validation_errors() : '';
+		}
+	
+		if( !$account_id || ( isset( $validation_errors ) && !empty( $validation_errors ) ) ){
+			## One of the required fields is invalid
+			$message = [
+				'status' => FALSE,
+				'message' => 'Invalid data: ',
+				'add_option' => NULL
+			];
+			
+			$message['message'] = (!$account_id)? $message['message'].'account_id, ': $message['message'];
+			$message['message'] = ( isset( $validation_errors ) && !empty( $validation_errors ) ) 	? 'Validation errors: '.$validation_errors 	: $message['message'];
+			$this->response( $message, REST_Controller::HTTP_OK );
+		}
+		
+		if( !$this->account_service->check_account_status( $account_id ) ){
+			$message = [
+				'status' => FALSE,
+				'message' => 'Invalid main Account ID',
+				'add_option' => NULL
+			];
+			$this->response($message, REST_Controller::HTTP_OK);
+		}
+		
+		$add_option = $this->settings_service->add_table_option( $account_id, $table_name, $postdata );
+		
+		if( !empty( $add_option ) ){
+			$message = [
+				'status' => TRUE,
+				'message' => $this->session->flashdata( 'message' ),
+				'add_option' => null
+			];
+			$this->response( $message, REST_Controller::HTTP_OK ); 
+		}else{
+			$message = [
+				'status' => FALSE,
+				'message' => $this->session->flashdata( 'message' ),
+				'add_option' => NULL
+			];
+			$this->response( $message, REST_Controller::HTTP_OK );
+		}
+		
+    }
+	
+	/** Retrieve an Option **/
+	public function fetch_option_get(){
+        $postdata 	= $this->get();
+		$account_id = (int) $this->get( 'account_id' );
+		$record_id  = (int) $this->get( 'record_id' );
+		$table_name = $this->get( 'table_name' );
+		
+		if ( $record_id <= 0 ){
+            $this->response( NULL, REST_Controller::HTTP_BAD_REQUEST ); // BAD_REQUEST (400) being the HTTP response code
         }
-
-        if (isset($validation_errors) && !empty($validation_errors)) {
-            $message = [
-                'status'        => false,
-                'message'       => 'Validation errors: ' . $validation_errors,
-                'settings'      => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        if (!$this->account_service->check_account_status($account_id)) {
-            $message = [
-                'status'        => false,
-                'message'       => $this->session->flashdata('message'),
-                'settings'      => null
-            ];
-
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        ## Validate the setting ID.
-        if (!empty($setting_id) && ((int) $setting_id <= 0)) {
-            $message = [
-                'status'        => false,
-                'message'       => "Invalid Setting ID",
-                'settings'      => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        $settings = $this->settings_service->get_settings($account_id, $setting_id, $where, $limit, $offset);
-
-        if (!empty($settings)) {
-            $message = [
-                'status'    => true,
-                'message'   => $this->session->flashdata('message'),
-                'settings'  => $settings
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        } else {
-            $message = [
-                'status'    => false,
-                'message'   => $this->session->flashdata('message'),
-                'settings'  => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
+		
+		if( !$this->account_service->check_account_status( $account_id ) ){
+			$message = [
+				'status' => FALSE,
+				'message' => 'Invalid main Account ID.',
+				'fetch_option' => NULL
+			];
+			$this->response( $message, REST_Controller::HTTP_OK );
+		}
+		
+		$fetch_option = $this->settings_service->fetch_table_option( $account_id, $table_name, $postdata );
+		
+		if( !empty( $fetch_option ) ){
+			$message = [
+				'status' => TRUE,
+				'message' => $this->session->flashdata('message'),
+				'fetch_option' => $fetch_option
+			];
+			$this->response($message, REST_Controller::HTTP_OK);
+		}else{
+			$message = [
+				'status' => FALSE,
+				'message' => $this->session->flashdata('message'),
+				'fetch_option' => NULL
+			];
+			$this->response($message, REST_Controller::HTTP_OK);
+		}
+	}
+	
+	/** 
+	* Process a Delete Request from the Settings module
+	*/
+    public function delete_option_post(){
+		$account_id  = (int) $this->post('account_id');
+		$table_name  = $this->post('table_name');
+		$postdata  	 = $this->post();
+		
+		$this->form_validation->set_rules( 'account_id', 'Main Account ID', 'required' );
+        $this->form_validation->set_rules( 'module_id', 'Module Name', 'required' );
+        $this->form_validation->set_rules( 'table_name', 'Table Name', 'required' );
+        $this->form_validation->set_rules( 'record_id', 'Record ID', 'required' );
+		
+		if( !$this->account_service->check_account_status( $account_id ) ){
+			$message = [
+				'status' => FALSE,
+				'message' => 'Invalid main Account ID',
+				'delete_option' => NULL
+			];
+			$this->response($message, REST_Controller::HTTP_OK);
+		}
+		
+		$delete_option = $this->settings_service->delete_table_option( $account_id, $table_name, $postdata );
+		
+		if( !empty( $delete_option ) ){
+			$message = [
+				'status' => TRUE,
+				'message' => $this->session->flashdata( 'message' ),
+				'delete_option' => null
+			];
+			$this->response( $message, REST_Controller::HTTP_OK ); 
+		}else{
+			$message = [
+				'status' => FALSE,
+				'message' => $this->session->flashdata( 'message' ),
+				'delete_option' => NULL
+			];
+			$this->response( $message, REST_Controller::HTTP_OK );
+		}
+		
+    }
+	
+	/** 
+	* Process an Edit Request from the Settings module
+	*/
+    public function edit_option_post(){
+		$postdata   = $this->post();
+		$account_id = (int) $this->post('account_id');
+		$table_name = $this->post('table_name');
+		
+		$this->form_validation->set_rules( 'account_id', 'Main Account ID', 'required' );
+        $this->form_validation->set_rules( 'module_id', 'Module Name', 'required' );
+        $this->form_validation->set_rules( 'table_name', 'Table Name', 'required' );
+		
+		if ( $this->form_validation->run() == false ){
+			$validation_errors = ( validation_errors() ) ? validation_errors() : '';
+		}
+	
+		if( !$account_id || ( isset( $validation_errors ) && !empty( $validation_errors ) ) ){
+			## One of the required fields is invalid
+			$message = [
+				'status' => FALSE,
+				'message' => 'Invalid data: ',
+				'edit_option' => NULL
+			];
+			
+			$message['message'] = (!$account_id)? $message['message'].'account_id, ': $message['message'];
+			$message['message'] = ( isset( $validation_errors ) && !empty( $validation_errors ) ) 	? 'Validation errors: '.$validation_errors 	: $message['message'];
+			$this->response( $message, REST_Controller::HTTP_OK );
+		}
+		
+		if( !$this->account_service->check_account_status( $account_id ) ){
+			$message = [
+				'status' => FALSE,
+				'message' => 'Invalid main Account ID',
+				'edit_option' => NULL
+			];
+			$this->response($message, REST_Controller::HTTP_OK);
+		}
+		
+		$edit_option = $this->settings_service->edit_table_option( $account_id, $table_name, $postdata );
+		
+		if( !empty( $edit_option ) ){
+			$message = [
+				'status' => TRUE,
+				'message' => $this->session->flashdata( 'message' ),
+				'edit_option' => $edit_option
+			];
+			$this->response( $message, REST_Controller::HTTP_OK ); 
+		}else{
+			$message = [
+				'status' => FALSE,
+				'message' => $this->session->flashdata( 'message' ),
+				'edit_option' => NULL
+			];
+			$this->response( $message, REST_Controller::HTTP_OK );
+		}
+		
     }
 
-
-    /**
-    *   Get settings result based on given parameter(s)
-    */
-    public function setting_names_get()
-    {
-        $get_set        = $this->get();
-
-        $account_id         = (!empty($get_set['account_id'])) ? (int) $get_set['account_id'] : false;
-        $setting_name_id    = (!empty($get_set['setting_name_id'])) ? (int) $get_set['setting_name_id'] : false;
-        $where              = (!empty($get_set['where'])) ? $get_set['where'] : false;
-        $limit              = (!empty($get_set['limit'])) ? (int) $get_set['limit'] : false;
-        $offset             = (!empty($get_set['offset'])) ? $get_set['offset'] : false;
-
-        $expected_data = [
-            'account_id'    => $account_id,
-        ];
-
-        $this->form_validation->set_data($expected_data);
-        $this->form_validation->set_rules('account_id', 'Account ID', 'required');
-
-        if ($this->form_validation->run() == false) {
-            $validation_errors = (validation_errors()) ? validation_errors() : '';
-        }
-
-        if (isset($validation_errors) && !empty($validation_errors)) {
-            $message = [
-                'status'            => false,
-                'message'           => 'Validation errors: ' . $validation_errors,
-                'setting_names'     => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        if (!$this->account_service->check_account_status($account_id)) {
-            $message = [
-                'status'            => false,
-                'message'           => $this->session->flashdata('message'),
-                'setting_names'     => null
-            ];
-
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        ## Validate the setting ID.
-        if (!empty($setting_name_id) && ((int) $setting_name_id <= 0)) {
-            $message = [
-                'status'            => false,
-                'message'           => "Invalid Setting ID",
-                'setting_names'     => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        $setting_names = $this->settings_service->get_setting_name($account_id, $setting_name_id, $where, $limit, $offset);
-
-        if (!empty($setting_names)) {
-            $message = [
-                'status'            => true,
-                'message'           => $this->session->flashdata('message'),
-                'setting_names'     => $setting_names
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        } else {
-            $message = [
-                'status'            => false,
-                'message'           => $this->session->flashdata('message'),
-                'setting_names'     => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-    }
-
-
-    public function update_setting_post()
-    {
-        $post_set       = $this->post();
-
-        $account_id     = (!empty($post_set['account_id'])) ? (int) $post_set['account_id'] : false;
-        $setting_id     = (!empty($post_set['setting_id'])) ? (int) $post_set['setting_id'] : false;
-        $setting_data   = (!empty($post_set['setting_data'])) ? $post_set['setting_data'] : false;
-
-        $expected_data = [
-            'account_id'    => $account_id ,
-            'setting_id'    => $setting_id ,
-            'setting_data'  => $setting_data ,
-        ];
-
-        $this->form_validation->set_data($expected_data);
-        $this->form_validation->set_rules('account_id', 'Account ID', 'required');
-        $this->form_validation->set_rules('setting_id', 'Setting ID', 'required');
-        $this->form_validation->set_rules('setting_data', 'Setting Data', 'required');
-
-        if ($this->form_validation->run() == false) {
-            $validation_errors = (validation_errors()) ? validation_errors() : '';
-        }
-
-        if (isset($validation_errors) && !empty($validation_errors)) {
-            $message = [
-                'status'        => false,
-                'message'       => 'Validation errors: ' . $validation_errors,
-                'u_setting'     => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        if (!$this->account_service->check_account_status($account_id)) {
-            $message = [
-                'status'        => false,
-                'message'       => $this->session->flashdata('message'),
-                'u_setting'     => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        ## check the setting exists
-        $setting_exists = $this->settings_service->get_settings($account_id, $setting_id);
-        if ((!$setting_exists) || empty($setting_id) || ((int) $setting_id <= 0)) {
-            $message = [
-                'status'        => false,
-                'message'       => "Invalid Setting ID",
-                'u_setting'     => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        $u_setting = $this->settings_service->update_setting($account_id, $setting_id, $setting_data);
-
-        if (!empty($u_setting)) {
-            $message = [
-                'status'        => true,
-                'message'       => $this->session->flashdata('message'),
-                'u_setting'     => $u_setting
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        } else {
-            $message = [
-                'status'        => false,
-                'message'       => $this->session->flashdata('message'),
-                'u_setting'     => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-    }
-
-
-    public function delete_setting_post()
-    {
-        $post_set       = $this->post();
-
-        $account_id     = (!empty($post_set['account_id'])) ? (int) $post_set['account_id'] : false;
-        $setting_id     = (!empty($post_set['setting_id'])) ? (int) $post_set['setting_id'] : false;
-
-        $expected_data = [
-            'account_id'    => $account_id ,
-            'setting_id'    => $setting_id ,
-        ];
-
-        $this->form_validation->set_data($expected_data);
-        $this->form_validation->set_rules('account_id', 'Account ID', 'required');
-        $this->form_validation->set_rules('setting_id', 'Setting ID', 'required');
-
-        if ($this->form_validation->run() == false) {
-            $validation_errors = (validation_errors()) ? validation_errors() : '';
-        }
-
-        if (isset($validation_errors) && !empty($validation_errors)) {
-            $message = [
-                'status'        => false,
-                'message'       => 'Validation errors: ' . $validation_errors,
-                'd_setting'     => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        if (!$this->account_service->check_account_status($account_id)) {
-            $message = [
-                'status'        => false,
-                'message'       => $this->session->flashdata('message'),
-                'd_setting'     => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        ## check the setting exists
-        $setting_exists = $this->settings_service->get_settings($account_id, $setting_id);
-        if ((!$setting_exists) || empty($setting_id) || ((int) $setting_id <= 0)) {
-            $message = [
-                'status'        => false,
-                'message'       => "Invalid Setting ID",
-                'd_setting'     => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        $d_setting = $this->settings_service->delete_setting($account_id, $setting_id);
-
-        if (!empty($d_setting)) {
-            $message = [
-                'status'        => true,
-                'message'       => $this->session->flashdata('message'),
-                'd_setting'     => $d_setting
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        } else {
-            $message = [
-                'status'        => false,
-                'message'       => $this->session->flashdata('message'),
-                'd_setting'     => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-    }
-
-
-
-    public function create_post()
-    {
-        $post_set       = $this->post();
-
-        $account_id         = (!empty($post_set['account_id'])) ? (int) $post_set['account_id'] : false;
-        $module_id          = (!empty($post_set['module_id'])) ? (int) $post_set['module_id'] : false;
-        $setting_data       = (!empty($post_set['setting_data'])) ? $post_set['setting_data'] : false ;
-        $setting_name_data  = (!empty($post_set['setting_name_data'])) ? $post_set['setting_name_data'] : false ;
-
-        $this->form_validation->set_rules('account_id', 'Account ID', 'required');
-        $this->form_validation->set_rules('module_id', 'Module ID', 'required');
-        $this->form_validation->set_rules('setting_data', 'Setting Data', 'required');
-
-        if ($this->form_validation->run() == false) {
-            $validation_errors = (validation_errors()) ? validation_errors() : '';
-        }
-
-        if (isset($validation_errors) && !empty($validation_errors)) {
-            $message = [
-                'status'        => false,
-                'message'       => 'Validation errors: ' . $validation_errors,
-                'setting'       => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        if (!$this->account_service->check_account_status($account_id)) {
-            $message = [
-                'status'        => false,
-                'message'       => $this->session->flashdata('message'),
-                'setting'   => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-
-        $setting = $this->settings_service->create_setting($account_id, $module_id, $setting_name_data, $setting_data);
-
-        if (!empty($setting)) {
-            $message = [
-                'status'        => true,
-                'message'       => $this->session->flashdata('message'),
-                'setting'       => $setting
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        } else {
-            $message = [
-                'status'        => false,
-                'message'       => $this->session->flashdata('message'),
-                'setting'   => null
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        }
-    }
 }

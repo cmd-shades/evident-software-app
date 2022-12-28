@@ -1,6 +1,5 @@
 <?php
-
-// defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +11,7 @@
 | of this setting
 |
 */
-defined('SHOW_DEBUG_BACKTRACE') or define('SHOW_DEBUG_BACKTRACE', true);
+defined('SHOW_DEBUG_BACKTRACE') OR define('SHOW_DEBUG_BACKTRACE', TRUE);
 
 /*
 |--------------------------------------------------------------------------
@@ -27,10 +26,10 @@ defined('SHOW_DEBUG_BACKTRACE') or define('SHOW_DEBUG_BACKTRACE', true);
 | always be used to set the mode correctly.
 |
 */
-defined('FILE_READ_MODE')  or define('FILE_READ_MODE', 0644);
-defined('FILE_WRITE_MODE') or define('FILE_WRITE_MODE', 0666);
-defined('DIR_READ_MODE')   or define('DIR_READ_MODE', 0755);
-defined('DIR_WRITE_MODE')  or define('DIR_WRITE_MODE', 0755);
+defined('FILE_READ_MODE')  OR define('FILE_READ_MODE', 0644);
+defined('FILE_WRITE_MODE') OR define('FILE_WRITE_MODE', 0666);
+defined('DIR_READ_MODE')   OR define('DIR_READ_MODE', 0755);
+defined('DIR_WRITE_MODE')  OR define('DIR_WRITE_MODE', 0755);
 
 /*
 |--------------------------------------------------------------------------
@@ -40,14 +39,14 @@ defined('DIR_WRITE_MODE')  or define('DIR_WRITE_MODE', 0755);
 | These modes are used when working with fopen()/popen()
 |
 */
-defined('FOPEN_READ')                           or define('FOPEN_READ', 'rb');
-defined('FOPEN_READ_WRITE')                     or define('FOPEN_READ_WRITE', 'r+b');
-defined('FOPEN_WRITE_CREATE_DESTRUCTIVE')       or define('FOPEN_WRITE_CREATE_DESTRUCTIVE', 'wb'); // truncates existing file data, use with care
-defined('FOPEN_READ_WRITE_CREATE_DESTRUCTIVE')  or define('FOPEN_READ_WRITE_CREATE_DESTRUCTIVE', 'w+b'); // truncates existing file data, use with care
-defined('FOPEN_WRITE_CREATE')                   or define('FOPEN_WRITE_CREATE', 'ab');
-defined('FOPEN_READ_WRITE_CREATE')              or define('FOPEN_READ_WRITE_CREATE', 'a+b');
-defined('FOPEN_WRITE_CREATE_STRICT')            or define('FOPEN_WRITE_CREATE_STRICT', 'xb');
-defined('FOPEN_READ_WRITE_CREATE_STRICT')       or define('FOPEN_READ_WRITE_CREATE_STRICT', 'x+b');
+defined('FOPEN_READ')                           OR define('FOPEN_READ', 'rb');
+defined('FOPEN_READ_WRITE')                     OR define('FOPEN_READ_WRITE', 'r+b');
+defined('FOPEN_WRITE_CREATE_DESTRUCTIVE')       OR define('FOPEN_WRITE_CREATE_DESTRUCTIVE', 'wb'); // truncates existing file data, use with care
+defined('FOPEN_READ_WRITE_CREATE_DESTRUCTIVE')  OR define('FOPEN_READ_WRITE_CREATE_DESTRUCTIVE', 'w+b'); // truncates existing file data, use with care
+defined('FOPEN_WRITE_CREATE')                   OR define('FOPEN_WRITE_CREATE', 'ab');
+defined('FOPEN_READ_WRITE_CREATE')              OR define('FOPEN_READ_WRITE_CREATE', 'a+b');
+defined('FOPEN_WRITE_CREATE_STRICT')            OR define('FOPEN_WRITE_CREATE_STRICT', 'xb');
+defined('FOPEN_READ_WRITE_CREATE_STRICT')       OR define('FOPEN_READ_WRITE_CREATE_STRICT', 'x+b');
 
 /*
 |--------------------------------------------------------------------------
@@ -74,130 +73,105 @@ defined('FOPEN_READ_WRITE_CREATE_STRICT')       or define('FOPEN_READ_WRITE_CREA
 |       http://tldp.org/LDP/abs/html/exitcodes.html
 |
 */
-defined('EXIT_SUCCESS')        or define('EXIT_SUCCESS', 0); // no errors
-defined('EXIT_ERROR')          or define('EXIT_ERROR', 1); // generic error
-defined('EXIT_CONFIG')         or define('EXIT_CONFIG', 3); // configuration error
-defined('EXIT_UNKNOWN_FILE')   or define('EXIT_UNKNOWN_FILE', 4); // file not found
-defined('EXIT_UNKNOWN_CLASS')  or define('EXIT_UNKNOWN_CLASS', 5); // unknown class
-defined('EXIT_UNKNOWN_METHOD') or define('EXIT_UNKNOWN_METHOD', 6); // unknown class member
-defined('EXIT_USER_INPUT')     or define('EXIT_USER_INPUT', 7); // invalid user input
-defined('EXIT_DATABASE')       or define('EXIT_DATABASE', 8); // database error
-defined('EXIT__AUTO_MIN')      or define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
-defined('EXIT__AUTO_MAX')      or define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+defined('EXIT_SUCCESS')        OR define('EXIT_SUCCESS', 0); // no errors
+defined('EXIT_ERROR')          OR define('EXIT_ERROR', 1); // generic error
+defined('EXIT_CONFIG')         OR define('EXIT_CONFIG', 3); // configuration error
+defined('EXIT_UNKNOWN_FILE')   OR define('EXIT_UNKNOWN_FILE', 4); // file not found
+defined('EXIT_UNKNOWN_CLASS')  OR define('EXIT_UNKNOWN_CLASS', 5); // unknown class
+defined('EXIT_UNKNOWN_METHOD') OR define('EXIT_UNKNOWN_METHOD', 6); // unknown class member
+defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user input
+defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
+defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
+defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 /*
 |---------- API CONFIGS ---------- |*/
-defined('SERVICE_END_POINT')    or define('SERVICE_END_POINT', 'serviceapp/api/'); // no errors
-defined('COOKIE_DOMAIN')        or define('COOKIE_DOMAIN', ''); // no errors
-defined('API_JWT_ALGORITHM')    or define('API_JWT_ALGORITHM', 'HS512'); // JWT Default Algorithm
-defined('API_SECRET_KEY')       or define('API_SECRET_KEY', 'fa973f03622b7b02bd1b8ef4d9525273edbdf6a6'); // JWT Key production version
-defined('API_SECRET_KEY_TEST')  or define('API_SECRET_KEY_TEST', '237a2edf4bb55407f086267ec28c949350533a1a'); // JWT Key production version TEST
+defined('SERVICE_END_POINT')	OR define('SERVICE_END_POINT', 'serviceapp/api/'); // no errors
+defined('COOKIE_DOMAIN')		OR define('COOKIE_DOMAIN', ''); // no errors
+defined('API_JWT_ALGORITHM')   	OR define('API_JWT_ALGORITHM', 'HS512'); // JWT Default Algorithm
+defined('API_SECRET_KEY')   	OR define('API_SECRET_KEY', 'fa973f03622b7b02bd1b8ef4d9525273edbdf6a6'); // JWT Key production version
+defined('API_SECRET_KEY_TEST')  OR define('API_SECRET_KEY_TEST', '237a2edf4bb55407f086267ec28c949350533a1a'); // JWT Key production version TEST
 
 /**------ ACCOUNT TRIAL PERIOD ------ **/
-defined('API_ACCOUNT_TRIAL_PERIOD')  or define('API_ACCOUNT_TRIAL_PERIOD', '3 Months'); //Trial period in months
+defined('API_ACCOUNT_TRIAL_PERIOD')  OR define('API_ACCOUNT_TRIAL_PERIOD', '3 Months'); //Trial period in months
 
 
-## ORIG:: if( in_array( $_SERVER['REMOTE_ADDR'], array( "127.0.0.1", "::1" ) ) ){
-
-if (!isset($_SERVER['REMOTE_ADDR']) || ( isset($_SERVER['REMOTE_ADDR']) && in_array($_SERVER['REMOTE_ADDR'], array( "127.0.0.1", "::1" )) )) {
-    define('API_SEARCH_KEY', 'PCWK9-K775Q-XJKZF-YRPL8'); //Test Account
-} else {
-    define('API_SEARCH_KEY', 'PCW7Z-P5CKZ-CJVJ5-ZCPP3'); //Live Account
+/*
+|-------- ADDRESS LOOKUP API ----- | */
+if( in_array($_SERVER['REMOTE_ADDR'], array("127.0.0.1", "::1")) ){	
+	define('API_SEARCH_KEY',		'PCWK9-K775Q-XJKZF-YRPL8'); //Test Account
+}else{
+	define('API_SEARCH_KEY',		'PCW7Z-P5CKZ-CJVJ5-ZCPP3'); //Live Account
 }
 
-/* ---------- CaCTI SETTINGS -----------*/
-defined('APP_NAME')                     or define('APP_NAME', 'TechLive');
-defined('APP_VERSION')                  or define('APP_VERSION', '1.0');
-defined('APP_TAG_LINE')                 or define('APP_TAG_LINE', 'TechLive CMS');
-defined('APNS_CERTIFICATE')             or define('APNS_CERTIFICATE', 'WolfAlertCertificate.pem'); //APNS Certificate from Apple
-defined('APNS_CERTIFICATES_PATH')       or define('APNS_CERTIFICATES_PATH', 'assets/apns-certificates/'); // no errors
+// define( "WWO_SOCKET", "62.133.28.58" ); ## WebWayOne socket for LDTV - original - test environment
+define( "WWO_SOCKET", "37.152.38.1203" ); ## WebWayOne socket for LDTV
+define( "WWO_SOCKET2", "62.8.115.203" ); ## WebWayOne socket for LDTV - alternative, not used currently
+
+/* ---------- APP SETTINGS -----------*/
+defined('APP_NAME')	OR define('APP_NAME', 'Evident Software CMS');
+defined('APP_VERSION')	OR define('APP_VERSION', '2.10.19');
+defined('APP_TAG_LINE')	OR define('APP_TAG_LINE', 'What you need to know, when you need to know it');
+defined('APNS_CERTIFICATE')	OR define('APNS_CERTIFICATE', 'WolfAlertCertificate.pem'); //APNS Certificate from Apple
+defined('APNS_CERTIFICATES_PATH')	OR define('APNS_CERTIFICATES_PATH', 'assets/apns-certificates/'); // no errors
 
 /** SYSTEM DEFAULT LIMIT / OFFSET **/
-defined('DEFAULT_LIMIT')                or define('DEFAULT_LIMIT', 15);
-defined('DEFAULT_MAX_LIMIT')            or define('DEFAULT_MAX_LIMIT', 99999);
-defined('DEFAULT_OFFSET')               or define('DEFAULT_OFFSET', 0);
-defined('DEFAULT_PASSWORD')             or define('DEFAULT_PASSWORD', 'W3lc0m3!');
-defined('DEFAULT_USER_TYPE')            or define('DEFAULT_USER_TYPE', 2);
+define( 'SUPER_ADMIN_ACCESS', [1, 171,331] );
+defined('NO_WEB_ACCESS_USER_TYPES')	OR define('NO_WEB_ACCESS_USER_TYPES', [3]);
+defined('EXTERNAL_USER_TYPES')	OR define('EXTERNAL_USER_TYPES', [4,5]);
+defined('DEFAULT_LIMIT')	OR define('DEFAULT_LIMIT', 15);
+defined('DEFAULT_MAX_LIMIT')	OR define('DEFAULT_MAX_LIMIT', 9999);
+defined('DEFAULT_OFFSET')	OR define('DEFAULT_OFFSET', 0);
+defined('DEFAULT_PASSWORD')	OR define('DEFAULT_PASSWORD', 'W3lc0m3!' );
+defined('DEFAULT_USER_TYPE')	OR define('DEFAULT_USER_TYPE', 2 );
+defined('DEFAULT_PERIOD_DAYS') OR define('DEFAULT_PERIOD_DAYS', 30 ); //Days 30 / 60 / 90 / 180 / 365
+defined('DEFAULT_AUDIT_REQ_PERCENTAGE') OR define('DEFAULT_AUDIT_REQ_PERCENTAGE', 100 ); //Days 30 / 60 / 90 / 180 / 365
+// defined('DEFAULT_TOKEN_VALIDITY') OR define( 'DEFAULT_TOKEN_VALIDITY', 28800 ); //8 Hours in Seconds - Default value, changed 15/06/2020 upon TSG request
+defined('DEFAULT_TOKEN_VALIDITY') OR define( 'DEFAULT_TOKEN_VALIDITY', 32400 ); //9 Hours in Seconds
+// defined('DEFAULT_TOKEN_VALIDITY') OR define( 'DEFAULT_TOKEN_VALIDITY', 120 ); //2 minutes in Seconds
 
 /*------------ COMPANY DETAILS --------------*/
 ################################## DEFINE COMPANY DETAILS #########################################
-######################### Ideally these should come from the DB per company ########################
+######################### Idealy these should come from the DB per company ########################
 
-defined('COMPANY_NAME')                 or define('COMPANY_NAME', 'TechLive');
-defined('COMPANY_LOGO')                 or define('COMPANY_LOGO', '');
-defined('COMPANY_SLOGAN')               or define('COMPANY_SLOGAN', '');
-defined('COMPANY_REGISTRATION_NO')      or define('COMPANY_REGISTRATION_NO', '');
-defined('COMPANY_VAT_REGISTRATION_NO')  or define('COMPANY_VAT_REGISTRATION_NO', '');
-defined('COMPANY_FAX')                  or define('COMPANY_FAX', '');
-defined('COMPANY_TELEPHONE')            or define('COMPANY_TELEPHONE', '');
-defined('ADDRESS_LINE1')                or define('ADDRESS_LINE1', '');
-defined('ADDRESS_LINE2')                or define('ADDRESS_LINE2', '');
-defined('ADDRESS_LINE3')                or define('ADDRESS_LINE3', '');
-defined('ADDRESS_TOWN')                 or define('ADDRESS_TOWN', '');
-defined('ADDRESS_COUNTY')               or define('ADDRESS_COUNTY', '');
-defined('ADDRESS_POSTCODE')             or define('ADDRESS_POSTCODE', '');
-defined('COMPANY_ADDRESS_SUMMARYLNE')   or define('COMPANY_ADDRESS_SUMMARYLNE', '');
+defined('COMPANY_NAME')  				OR define('COMPANY_NAME', 'Evident Software Limited' );
+defined('COMPANY_LOGO')  				OR define('COMPANY_LOGO', '/assets/images/logos/WA-logo-final.png' );
+defined('COMPANY_SLOGAN')  				OR define('COMPANY_SLOGAN', 'Everything you need in one safe and secure place');
+defined('COMPANY_REGISTRATION_NO')  	OR define('COMPANY_REGISTRATION_NO', '0208045676');
+defined('COMPANY_VAT_REGISTRATION_NO')  OR define('COMPANY_VAT_REGISTRATION_NO', '000-000-000');
+defined('COMPANY_FAX')  				OR define('COMPANY_FAX', '0208045676' );
+defined('COMPANY_TELEPHONE')  			OR define('COMPANY_TELEPHONE', '0208045676' );
+defined('ADDRESS_LINE1')  				OR define('ADDRESS_LINE1', 'Unit 1 Mariner Business Center' );
+defined('ADDRESS_LINE2')  				OR define('ADDRESS_LINE2', 'Kings Way' );
+defined('ADDRESS_LINE3')  				OR define('ADDRESS_LINE3', 'Evident Software Limited' );
+defined('ADDRESS_TOWN')  				OR define('ADDRESS_TOWN', 'Croydon' );
+defined('ADDRESS_COUNTY')  				OR define('ADDRESS_COUNTY', 'Croydon' );
+defined('ADDRESS_POSTCODE')  			OR define('ADDRESS_POSTCODE', 'CR0 4GE' );
+defined('COMPANY_ADDRESS_SUMMARYLNE')  	OR define('COMPANY_ADDRESS_SUMMARYLNE', 'Evident Software Limited, Unit 3, Rooks Nest, Godstone, Surrey, RH9 8BY');
+defined('DOCUMENT_POWERED_BY')  		OR define('DOCUMENT_POWERED_BY', 'EviDoc&trade; powered by Evident Software');
+
 
 #####################################################################################################
-/* ---- OMDb Fetch Configuration ---- */
-defined('OMDb_API_KEY')               or define('OMDb_API_KEY', 'f16f97f8'); ## DEV Team API key
 
-/* ---- The constants needed for the Site monthly value ---- */
-defined('MONTHLY_SITE_VALUE')         or define('MONTHLY_SITE_VALUE', '30.4375'); ## A static value for the site for a month provided by TechLive: 365.25 / 12
+/* Default module price for the module (Tier 1 and Tier 2) */
+defined( 'MODULE_PRICE' )  				OR define( 'MODULE_PRICE', 10 );
+defined( 'MODULE_PRICE_MANAGEMENT' )  	OR define( 'MODULE_PRICE_MANAGEMENT', 100 );
+defined( 'MODULE_PRICE_INTELLIGENCE' )  OR define( 'MODULE_PRICE_INTELLIGENCE', 300 );
+defined( 'STRING_ENCRYPTION_KEY' )  	OR define( 'STRING_ENCRYPTION_KEY', 'qJB0rGtIn5UB1xG03efyCp' );
+defined( 'STRING_ENCRYPTION_CYPHER_METHOD' )  	OR define( 'STRING_ENCRYPTION_CYPHER_METHOD', 'aes-128-ctr' );
 
-/* ---- Movies Location ---- */
-defined('ALLOWED_MOVIE_PATH')         or define('ALLOWED_MOVIE_PATH', '/assets/movies/');
-defined('PREP_FOLDER')                or define('PREP_FOLDER', 'C:/Web/Ingestion/Prep/');
-defined('PROCESSED_FOLDER')           or define('PROCESSED_FOLDER', 'C:/Web/Ingestion/Processed/');
+defined( 'GOOGLE_API_KEY' )  OR define( 'GOOGLE_API_KEY', 'AIzaSyCYdFFWPQ5XLKAv4nDywPT6SXootbK6NIY' );
 
-/* ---- Stream Decoding values ---- */
-defined('TRAILER_MAX_FILE_SIZE')      or define('TRAILER_MAX_FILE_SIZE', 500000000);
-defined('SD_MAX_BIT_RATE')            or define('SD_MAX_BIT_RATE', 7000000);
+/* ---- TESSERACT Api Configs ------ */
+#defined( 'TESSERACT_API_BASE_URL' )  		OR define( 'TESSERACT_API_BASE_URL', 'http://tesseract.co.uk/asmx/ServiceCentreAPI.asmx?wsdl' );
+define( 'TESSERACT_API_BASE_URL', 'https://rea.sccialphatrack.co.uk/SC51/asmx/ServiceCentreAPI.asmx?wsdl' );
+define( 'TESSERACT_API_AUTH_USER', 'EKabungo' );
+define( 'TESSERACT_API_AUTH_PWD', 'Eno-0807' );
+define( 'TESSERACT_BRIDGE_API_BASE_URL', 'http://neweviapi.sccialphatrack.co.uk:8080/service-api/' );
+define( 'TESSERACT_ATTACHMENTS_PATH_NAME', 'D:\inetpub\wwwroot\SC51\attachments' );
+define( 'TESSERACT_LINKED_ACCOUNTS', [8] );
 
-defined('LIBRARY_AGING_PERIOD_IN_DAYS')       or define('LIBRARY_AGING_PERIOD_IN_DAYS', 18);
-defined('LIBRARY_AGING_PERIOD_IN_MONTHS')     or define('LIBRARY_AGING_PERIOD_IN_MONTHS', 547);
-
-
-/* ---- Easel TV API Configs ------ */
-## Test server
-// defined( 'EASEL_TV_API_BASE_URL' )   OR define( 'EASEL_TV_API_BASE_URL', 'https://arw-uat.suggestedtv.com/api/dashboard/v1/' );
-## Live server
-defined('EASEL_TV_API_BASE_URL')      or define('EASEL_TV_API_BASE_URL', 'https://arw.suggestedtv.com/api/dashboard/v1/');
-
-#defined( 'EASEL_TV_API_AUTH_STRING' )  OR define( 'EASEL_TV_API_AUTH_STRING', 'wojciechcupa@evidentsoftware.co.uk:539LZojSFo' );//Username:password
-defined('EASEL_TV_API_AUTH_STRING')   or define('EASEL_TV_API_AUTH_STRING', 'airtime@techlive.co.uk:NR6Nn7tmWf');//Username:password
-
-define('EASEL_WEBHOOK_SIGNINGSECRET', 'UgHlovRf1osdY4lF/n1nRD7PXQTEJGG0mAhyM9izoFA=');
-define('EASEL_WEBHOOK_DEBUG', true);
-define('EASEL_UAT_API_KEY', 'cMAXmalt3C1NpdrEjKib'); #UAT
-define('EASEL_PROD_API_KEY', 'f15t1eF7kSkt0U0ZqpWW'); #Production'
-define('EASEL_UPDATE_DEBUG', true);
-
-
-/* ----- BUNDLE PREPARATION LOCATIONS ----*/
-defined('CDS_PICKUP_LOCATION')        or define('CDS_PICKUP_LOCATION', 'C:/Web/Ingestion/Processed/');
-defined('CDS_DESTINATION_LOCATION')   or define('CDS_DESTINATION_LOCATION', 'D:/CDS/Distribution/');//E.g.E:\Distribution\directstreamshq_202007141612\abominable
-
-
-/* ----- Coggins API Configs ----*/
-defined('COGGINS_API_BASE_URL')       or define('COGGINS_API_BASE_URL', 'http://coggins.techliveint.co.uk/v1/');
-defined('COGGINS_ADD_QUEUE_PATH')     or define('COGGINS_ADD_QUEUE_PATH', '/srv/Content/Cacti/');
-defined('AWS_BUCKET_NAME')            or define('AWS_BUCKET_NAME', 'easeltv');
-defined('AWS_BUCKET_NAME_TEST')       or define('AWS_BUCKET_NAME_TEST', 'basilica');
-
-define('AWS_TOKEN', 'jkhfieuhf8734yriwh493rhioerf98re');
-
-defined('COGGINS_TEMP_TOKEN')         or define('COGGINS_TEMP_TOKEN', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJjYWN0aSIsImlzcyI6InRlY2hsaXZlIiwic3ViIjoiYWRtaW5AdGVjaGxpdmUuY28udWsiLCJzY29wZSI6ImF3c0NyZWF0ZUJ1Y2tldCxhd3NOb3RpZnlUcmFuc2ZlcjEsYXdzTm90aWZ5VHJhbnNmZXIyLGF3c1RyYW5zZmVyLGF3c1RyYW5zZmVyMSxhd3NUcmFuc2ZlcjIsYXdzVXBsb2FkLGNkc0NhbmNlbCxjZHNDb21wbGV0ZWQsY2RzQ29udGVudCxjZHNSdW5uaW5nLGNkc1NlcnZlcnMscXVldWVBZGQscXVldWVDYW5jZWwscXVldWVEZWxldGUscXVldWVGaW5pc2hlZCxxdWV1ZVJlc2V0LHF1ZXVlUnVubmluZyxxdWV1ZVdhaXRpbmciLCJjZHMiOnsidXNyIjoiYmFzaWxAYWlyd2F2ZS50diIsInB3ZCI6IkExcndhdjMifSwiaWF0IjoxNjQ3NTE3OTQzfQ.4Y9e17Y0I-EveAOFKOA8xssOSMl0G8dtg6JXPfG1ZxE');
-
-
-/* ----- Age Rating Images Path ----*/
-define('AGE_RATING_IMAGE_PATH_PDF', '\assets\images\age-certificates\\');
-
-/* ----- Integrator API Configs ----*/
-define('INTEGRATOR_KEY', 'NXyB93kJEXO7e7U7Rj3HRo6pb0R2t07tpEUZskpmWQneY1X96FCc4c8ilORDXip1');
-// define( 'INTEGRATOR_TOKEN'                   , 'ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnBjM01pT2lKRmRtbGtaVzUwSUZOdlpuUjNZWEpsSWl3aWFXRjBJam94TmpZeE5EazROemsyTENKbGVIQWlPakU0TVRreU5qVXhPVFlzSW1GMVpDSTZJa05oUTFSSklpd2ljM1ZpSWpvaVNXNTBaV2R5WVhSdmNpQkJVRWtpTENKR2FYSnpkQ0J1WVcxbElqb2lVbWxqYUdGeVpDSXNJbE4xY201aGJXVWlPaUpGZUdObGJHd2lMQ0pGYldGcGJDSTZJbEpwWTJoaGNtUXVSWGhqWld4c1FGUmxZMmhzYVhabExuUjJJaXdpVW05c1pTSTZXeUpOWVc1aFoyVnlJaXdpVUhKdmFtVmpkQ0JCWkcxcGJtbHpkSEpoZEc5eUlsMTkuYk15RjdkdndvdXVXNlhZR19PaXRBX0ZmSnRQQ1cxT0pKX0FKdjZYRXlfWQ==' );
-define('INTEGRATOR_TOKEN', 'simple-test-header');
-define('INTEGRATOR_FIXED_ID', 32);
-define('LOG_INTEGRATOR_REQUEST', true);
-define('EASEL_INVITED_MARKET_ID', 'invited');
-define('DELETE_PRICE_BAND_DEBUGGING', true);
+/* ------- DISCIPLINE DASHBOADS CONFIGS --------- */
+define( 'APP_ROOT_FOLDER', 'evident-core' ); //With a leading slash
+define( 'CLIENT_ACCESS_TOKEN', 'AIzaSyCYdFFWPQ5XLKA' );
+define( 'SCHEDULE_CLONE_DEFAULT_LIMIT', 800 );

@@ -1,18 +1,13 @@
 .single_filter{
 	position: absolute;
-    z-index: 100;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
-    min-height: 30px;
-    width: calc(100% - 25px);
-    padding: 0 0 0 0;
-    padding-bottom: 0px;
-    font-size: 14px;
-    font-weight: 400;
-    margin-top: 0;
-    margin-bottom: 0px;
+	z-index: 100;
+	min-height: 30px;
+    width: calc(100% - 20px);
+	padding: 0 0 0 0;
+	font-size: 14px;
+	font-weight: 400;
+	margin-top: 0;
+	margin-bottom: 10px;
 }
 
 
@@ -27,11 +22,8 @@
 	display: block;
 	width: 100%;
 	background-color: #fff;
-	/* color: #01C7DF; */
-	color: #F93711 ;
+	color: #5c5c5c ;
 	margin-bottom: 0;
-	border-bottom-left-radius: 7px;
-	border-bottom-right-radius: 7px;
 }
 
 .single_filter.closed ul{
@@ -50,7 +42,7 @@
 }
 
 .single_filter ul li:not(:last-child){
-	border-bottom: 1px solid #F93711;
+	border-bottom: 1px solid #5c5c5c;
 }
 
 .single_filter ul li:last-child{
@@ -60,21 +52,15 @@
 .single_filter > label{
 	display: inline-block;
 	max-width: 100%;
-	width: calc( 100% );
+	margin-bottom: 8px;
+	margin-left: 15px;
+	margin-right: 15px;
+	width: calc( 100% - 30px);
 	padding-top: 8px;
-	padding-bottom: 8px;
+	padding-bottom: 0;
 	font-weight: 400;
 	text-align: center;
-    margin-bottom: 0;
-}
-
-.single_filter > label.all_records_btn  > a{
-    font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20.594px;
-    width: 100%;
-    display: block;
+	color: #fff;
 }
 
 .single_filter .checkbox {
@@ -102,7 +88,7 @@
 	top: -6px;
 	left: -1px;
 	color: #fff;
-	background-color: #F93711;
+	background-color: #5c5c5c;
 	height: 18px;
 	width: 18px;
 	padding-left: 2px;
@@ -114,7 +100,7 @@
 .single_filter label span {
 	height: 18px;
 	width: 18px;
-	border: 1px solid #F93711;
+	border: 1px solid #0092CD;
 	display: inline-block;
 	position: relative;
 	margin-right: 0;

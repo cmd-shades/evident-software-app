@@ -1,76 +1,66 @@
-.input-group.form-group.container-full select.form-control{
-	border-radius: 12px;
-	padding: 5px 15px;
-	font-size: 16px;
-	height: 40px;
-	margin-bottom: 15px;
+/** Home module custom styles **/
+.green-shadow,
+.shadow-green,
+.red-shadow,
+.shadow-red,
+.dark-red-shadow,
+.shadow-dark-red,
+.orange-shadow,
+.shadow-orange,
+.orange-light-shadow,
+.shadow-orange-light,
+.light-yellow-shadow,
+.shadow-light-yellow,
+.yellow-shadow,
+.shadow-yellow{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(92, 92, 92,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(92, 92, 92,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(92, 92, 92,0.6);
 }
 
-.custom-file-upload{
-    display: block;
-    cursor: pointer;
-    color: #000;
-    width: 100%;
-}
-
-#report {
-	padding-bottom: 20px;
-	margin-bottom: 20px;
-}
-
-#report input[type="file"]{
-    position: fixed;
-    right: 100%;
-    bottom: 100%;
-}
-
-#report .system-reports #doc-upload-btn{
-	max-width: 300px;
-	float: left;
-}
-
-.report-fileupload{
-	display: block;
-	border-radius: 12px;
-	padding: 5px 15px;
-	font-size: 16px;
-	padding: 6px 20px 2px 20px;
-	border: 1px solid #ccc;
-	margin-bottom: 15px;
-}
-
-.files-selected{
-	border-radius: 12px;
-	padding: 5px 10px;
-	font-size: 16px;
-	border: 1px solid #ccc;
-	margin-bottom: 15px;
-}
-
-.files-selected > ul{
-	padding-inline-start: 10px;
-	list-style-type: none;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-.light{
-	font-weight: 400;
+/** USE THIS IF THE SHADOWS NEED TO BE SPECIFIC TO THE COLOUR**/
+/*
+.green-shadow,
+.shadow-green{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(108, 209, 103,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(108, 209, 103,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(108, 209, 103,0.6);
 }
 
 
-.report-page .generated-reports .files-summary{
-	color: #337ab7;
-	display: block;
+.red-shadow,
+.shadow-red{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(252, 91, 91,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(252, 91, 91,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(252, 91, 91,0.6);
 }
 
-.report-page .generated-reports .document-counter{
-	margin-right: 20px;
-	float: right;
+.dark-red-shadow,
+.shadow-dark-red{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(192, 54, 54,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(192, 54, 54,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(192, 54, 54,0.6);
 }
-.report-page .generated-reports .row-link-container{
-	display: block;
-	float: left;
-    width: 100%;
-	padding: 5px 0;
+
+
+.orange-shadow,
+.shadow-orange{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(255, 140, 0,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(255, 140, 0,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(255, 140, 0,0.6);
 }
+
+.light-yellow-shadow,
+.shadow-light-yellow{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(255, 221, 99,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(255, 221, 99,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(255, 221, 99,0.6);
+}
+
+.yellow-shadow,
+.shadow-yellow{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(247, 200, 72,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(247, 200, 72,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(247, 200, 72,0.6);
+}
+*/

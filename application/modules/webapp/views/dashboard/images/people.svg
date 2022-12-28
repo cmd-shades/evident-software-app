@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="37.77" height="37.77" viewBox="0 0 37.77 37.77">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_86" data-name="Path 86" d="M0,0H37.77V-37.77H0Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Group_173" data-name="Group 173" transform="translate(0 37.77)" style="isolation: isolate">
+    <g id="Group_172" data-name="Group 172" clip-path="url(#clip-path)">
+      <g id="Group_169" data-name="Group 169" transform="translate(26.085 -22.485)">
+        <path id="Path_83" data-name="Path 83" d="M0,0A7.2,7.2,0,0,1-7.2,7.2,7.2,7.2,0,0,1-14.4,0,7.2,7.2,0,0,1-7.2-7.2,7.2,7.2,0,0,1,0,0Z" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Group_170" data-name="Group 170" transform="translate(18.885 -0.885)">
+        <path id="Path_84" data-name="Path 84" d="M0,0A17.942,17.942,0,0,0,12.909-5.462C11.047-10.243,5.978-13.68,0-13.68s-11.047,3.437-12.909,8.218A17.942,17.942,0,0,0,0,0Z" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Group_171" data-name="Group 171" transform="translate(33.826 -8.844)">
+        <path id="Path_85" data-name="Path 85" d="M0,0A17.912,17.912,0,0,0,3.06-10.041a18,18,0,0,0-18-18,18,18,0,0,0-18,18A17.919,17.919,0,0,0-29.881,0" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+To prevent A Cross-Site Tracing vulnerability:
+ - added a line in the httpd.conf file: TraceEnable off
+ - also added into the .htaccess
+RewriteEngine on
+RewriteCond %{REQUEST_METHOD} ^(CONNECT|TRACE|DELETE|PUT|PROPPATCH|COPY|REPORT|PROPFIND|MOVE|UNLOCK|ACL|LOCK|SEARCH|LINK|VIEW)
+RewriteRule .* - [F]
+
+To fix the 'HTTP response header discloses system information' issue:
+ - added a line in the httpd.conf file: ServerSignature Off

@@ -1,203 +1,51 @@
-<div id="settings-dashboard" class="row">
-    <div class="x_panel no-border">
-        <div class="row">
-            <div class="x_content">
-                <div class="row">
-                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                        <h2>Settings</h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="row">
-                            <a href="<?php echo base_url('webapp/settings/module/1') ?>">Module #1</a>
-                        </div>
-                        <div class="row">
-                            <a href="<?php echo base_url('webapp/settings/module/2') ?>">Module #2</a>
-                        </div>
-                        <div class="row">
-                            <a href="<?php echo base_url('webapp/settings/module/3') ?>">Module #3</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-<div id="settings-dashboard2" class="row hide">
-    <div class="x_panel no-border">
-        <div class="row">
-            <div class="x_content">
-                <div class="row">
-                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                        <h2>Settings</h2>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 hide">
-                                <a href="<?php echo base_url('/webapp/settings/create'); ?>" class="btn btn-block btn-new">New System</a>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 pull-right">
-                                <?php
-                                $this->load->view('webapp/_partials/search_bar'); ?>
-                            </div>
-                            
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 hide">
-                                <a href="<?php echo base_url('/webapp/settings'); ?>" class="btn btn-block btn-secondary">Settings</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Search by Filters -->
-                <div id="filters-container" class="table-responsive filters-container <?php echo $module_identier; ?>-color <?php echo 'border-' . $module_identier; ?>" role="alert">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="filters">
-                            <div class="col-md-3 col-sm-3 col-xs-12" style="margin:0">
-                                <div class="row">
-                                    <h5 class="text-bold text-auto">System Statuses</h5>
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <span class="checkbox" style="margin:0">
-                                                <label><input type="checkbox" id="check-all" value="all" > All</label>
-                                            </span>
-                                        </div>
-                                        <?php if (!empty($system_statuses)) {
-                                            foreach ($system_statuses as $k => $status) { ?>
-                                            <div class="col-md-6 col-sm-6 col-xs-6">
-                                                <span class="checkbox" style="margin:0">
-                                                    <label><input type="checkbox" class="user-types" name="system_statuses[]" value="<?php echo $status->status_id; ?>" > <?php echo ucwords($status->status_name); ?></label>
-                                                </span>
-                                            </div>
-                                            <?php }
-                                            } ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Clear Filter -->
-                        <?php $this->load->view('webapp/_partials/clear_filters.php') ?>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-
-                <div class="clearfix"></div>
-                <div class="table-responsive alert alert-ssid" role="alert" style="overflow-y: hidden;" >
-                    <table id="datatable" class="table table-responsive" style="margin-bottom:0px;" >
-                        <thead>
-                            <tr>
-                                <th width="20%">Setting ID</th>
-                                <th width="20%">Module</th>
-                                <th width="20%">Setting Group</th>
-                                <th width="20%">Setting Name</th>
-                                <th width="20%">Setting Order</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-results">
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+<style>
+	.btn.btn-app {
+		position: relative;
+		padding: 12px 5px;
+		margin: 15px;
+		min-width: 25%;
+		height: 110px;
+		box-shadow: none;
+		border-radius: 0;
+		text-align: center;
+		color: #fff;
+		border: 1px solid #0092cd;
+		background-color: #0092cd;
+		font-size: 12px;
+	}
+	
+	.btn.btn-app:hover {
+		background: #EBC700;
+		color: #444;
+		border-color: #EBC700;
+	}
+	
+	.btn.btn-app>.fa, .btn.btn-app>.glyphicon, .btn.btn-app>.ion {
+		font-size: 25px;
+		display: block;
+		margin-top: 15px;
+	}
+</style>
+<div class="col-md-4 col-md-offset-4 col-sm-12 col-xs-12">
+	<legend class="evidocs-legend">Select your Module Settings</legend>		
+	<div class="x_panel no-border has-shadow">
+		<div class="x_content">
+			<div class="box-body">
+				<div style="text-align:center">
+					<?php if( !empty( $permitted_modules ) ){ foreach( $permitted_modules as $key => $module ){ ?>
+					<a href="<?php echo base_url('webapp/settings/module/'.$module->module_id ); ?>" class="btn btn-app">
+						<i class="fa fa-cogs"></i> 
+						<div style="margin-top:10px;"><?php echo $module->module_name; ?></div>
+					</a>
+					<?php } } else { ?>
+						<div>
+							<p>You do not currently have any modules setup.</p>
+						</div>
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>		
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function(){
 
-        var search_str          = null;
-        var settings_statuses_arr   = [];
-        var start_index         = 0;
-
-        //Load default brag-statuses
-        $('.user-types').each(function(){
-            if( $(this).is(':checked') ){
-                settings_statuses_arr.push( $(this).val() );
-            }
-        });
-
-        load_data( search_str, settings_statuses_arr );
-
-        //Do Search when filters are changed
-        $('.user-types').change(function(){
-            settings_statuses_arr =  get_statuses( '.user-types' );
-            load_data( search_str, settings_statuses_arr );
-        });
-
-        //Do search when All is selected
-        $('#check-all').change(function(){
-            var search_str  = $('#search_term').val();
-
-            if( $(this).is(':checked') ){
-                $('.user-types').each(function(){
-                    $(this).prop( 'checked', true );
-                });
-            }else{
-                $('.user-types').each(function(){
-                    $(this).prop( 'checked', false );
-                });
-            }
-            settings_statuses_arr =  get_statuses( '.user-types' );
-            load_data( search_str, settings_statuses_arr );
-        });
-
-        //Pagination links
-        $("#table-results").on("click", "li.page", function( event ){
-            event.preventDefault();
-            //var off_set = $(this).data('ciPaginationPage');
-            var start_index = $(this).find('a').data('ciPaginationPage');
-            load_data( search_str, settings_statuses_arr, start_index );
-        });
-
-/*      function load_data( search_str, settings_statuses_arr, start_index ){
-            $.ajax({
-                url:"<?php echo base_url('webapp/settings/lookup'); ?>",
-                method:"POST",
-                data:{search_term:search_str,settings_statuses:settings_statuses_arr,start_index:start_index},
-                success:function(data){
-                    $('#table-results').html(data);
-                }
-            });
-        } */
-
-        $('#search_term').keyup(function(){
-            var search = encodeURIComponent( $(this).val() );
-            if( search.length > 0 ){
-                load_data( search , settings_statuses_arr );
-            }else{
-                load_data( search_str, settings_statuses_arr );
-            }
-        });
-
-        function get_statuses( identifier ){
-            settings_statuses_arr = [];
-            var chkCount  = 0;
-            var totalChekd= 0;
-            var unChekd   = 0;
-            $( identifier ).each(function(){
-                chkCount++;
-                if( $(this).is(':checked') ){
-                    totalChekd++;
-                    settings_statuses_arr.push( $(this).val() );
-                }else{
-                    unChekd++;
-                }
-            });
-
-            if( chkCount > 0 && ( chkCount == totalChekd ) ){
-                $( '#check-all' ).prop( 'checked', true );
-            }else{
-                $( '#check-all' ).prop( 'checked', false );
-            }
-            return settings_statuses_arr;
-        }
-    });
-</script>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="31.307" height="37.214" viewBox="0 0 31.307 37.214">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_26" data-name="Path 26" d="M0,0H31.307V-37.214H0Z" transform="translate(0 37.214)" fill="none" stroke="#707070" stroke-linecap="round" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="Group_41" data-name="Group 41" style="isolation: isolate">
+    <g id="Group_40" data-name="Group 40" clip-path="url(#clip-path)">
+      <g id="Group_39" data-name="Group 39" transform="translate(0.885 0.885)">
+        <path id="Path_25" data-name="Path 25" d="M0,0C0,3.806-2.657,5.907-4.923,5.907S-9.845,3.806-9.845,0s4.922-8.861,4.922-8.861S0-3.806,0,0ZM7.555-15.753a14.91,14.91,0,0,1-3.669,3.965c-.548-9.339-8.809-16.764-8.809-16.764s-8.26,7.425-8.808,16.764A15.245,15.245,0,0,1-17.4-15.835a14.967,14.967,0,0,0-2.291,7.959A14.768,14.768,0,0,0-4.923,6.892,14.768,14.768,0,0,0,9.845-7.876,14.683,14.683,0,0,0,7.555-15.753Z" transform="translate(19.691 28.552)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

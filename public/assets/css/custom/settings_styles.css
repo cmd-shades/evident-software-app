@@ -1,163 +1,66 @@
-.item, .item_link, .territories_link, .distribution_server_link{
-	width: 100%;
-	display: block;
-	margin: 4px auto;
+/** Home module custom styles **/
+.green-shadow,
+.shadow-green,
+.red-shadow,
+.shadow-red,
+.dark-red-shadow,
+.shadow-dark-red,
+.orange-shadow,
+.shadow-orange,
+.orange-light-shadow,
+.shadow-orange-light,
+.light-yellow-shadow,
+.shadow-light-yellow,
+.yellow-shadow,
+.shadow-yellow{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(92, 92, 92,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(92, 92, 92,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(92, 92, 92,0.6);
 }
 
-a.item_link,
-a.item_link:link,
-a.item_link:visited,
-a.item_link:hover,
-a.item_link:active,
-a.territories_link,
-a.territories_link:link,
-a.territories_link:visited,
-a.territories_link:hover,
-a.territories_link:active,
-a.distribution_server_link,
-a.distribution_server_link:link,
-a.distribution_server_link:visited,
-a.distribution_server_link:hover,
-a.distribution_server_link:active,
-a.item,
-a.item:link,
-a.item:visited,
-a.item:hover,
-a.item:active{
-	color: #0f0d12;
-}
-
-a.item:hover, 
-a.item_link:hover, 
-a.territories_link:hover,
-a.distribution_server_link:hover{
-	font-weight: 800;
-	cursor: pointer;
-}
-
-.modal-content{
-	min-height: 230px;
-	background: none;
-	box-shadow: none;
-	border: none;
-}
-
-.no-permission-btn{
-	width: 100%;
-	margin-top: 10px;
-}
-
-#setting-profile-modal .close,
-#create-setting-modal .close{
-    position: absolute;
-    top: 25px;
-    right: 25px;
-}
-
-#delete_update_in_modal, #delete_server_in_modal{
-    position: absolute;
-    bottom: 30px;
-    right: 35px;
-    width: 50%;
-}
-
-.delete_div{
-	width: 60%;
-    margin-right: 10px;
-}
-
-.new_item{
-	display: inline-block;
-	float: right;
-	position: absolute;
-    right: 10px;
-    top: -20px;
-    width: 100%;
-	text-align: right;
-}
-
-.new_item button{
-	width: auto;
-	float: right;
-	text-align: right;
-	position: static;
-}
-
-.add-setting-plus{
-	font-size: 16px;
-    margin-left: 10px;
-    position: relative;
-    top: -10px;
-}
-
-.active{
-	font-weight: 800;
-}
-
-.close {
-    position: absolute;
-    color: #fff;
-    z-index: 99;
-    opacity: 1;
-}
-
-.form-setting-value{
-	float: left; 
-	width: 60%;
-}
-
-.form-value-order{
-	float: right; 
-	width: 25%;
-}
-
-.value_attributes .form-control,
-#outputArea .form-control{
-	margin-bottom: 5px !important;
-}
-
-.value_attributes{
-	margin: 15px 0;
-}
-
-.add_another_attribute a{
-	cursor: pointer;
+/** USE THIS IF THE SHADOWS NEED TO BE SPECIFIC TO THE COLOUR**/
+/*
+.green-shadow,
+.shadow-green{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(108, 209, 103,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(108, 209, 103,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(108, 209, 103,0.6);
 }
 
 
-#update_setting_modal .slide-group{
-	padding-bottom: 70px;
+.red-shadow,
+.shadow-red{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(252, 91, 91,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(252, 91, 91,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(252, 91, 91,0.6);
 }
 
-#territory_update_in_modal{
-	min-height: 180px;
+.dark-red-shadow,
+.shadow-dark-red{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(192, 54, 54,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(192, 54, 54,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(192, 54, 54,0.6);
 }
 
-div#settings_outside_group > a.subgroup{
-	margin-left: 20px;
+
+.orange-shadow,
+.shadow-orange{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(255, 140, 0,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(255, 140, 0,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(255, 140, 0,0.6);
 }
 
-div#settings_outside_group .warning{
-	display: block;
-    float: left;
-    color: red;
-    font-style: italic;
-    margin-left: 20px;
+.light-yellow-shadow,
+.shadow-light-yellow{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(255, 221, 99,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(255, 221, 99,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(255, 221, 99,0.6);
 }
 
-div#settings_outside_group .paragraph{
-	margin-bottom: 0;
+.yellow-shadow,
+.shadow-yellow{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(247, 200, 72,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(247, 200, 72,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(247, 200, 72,0.6);
 }
-
-form#servers_update_in_modal .input-container{
-	position: relative;
-    display: block;
-    float: left;
-    width: 100%;
-	margin-top: 0px;
-    margin-bottom: 0px;
-}
-
-form#servers_update_in_modal .add-point{
-	padding-right: 10px;
-}
+*/

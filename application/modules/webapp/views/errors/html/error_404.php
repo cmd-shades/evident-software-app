@@ -1,64 +1,124 @@
-<?php
-defined('BASEPATH') || exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>404 Page Not Found</title>
-<style type="text/css">
+<html>
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+		<style>
+			body {
 
-::selection { background-color: #E13300; color: white; }
-::-moz-selection { background-color: #E13300; color: white; }
+				width: 100%;
+			  color: #0092CD;
+			  background: -webkit-linear-gradient(#0092CD, #67c8f0);
+				
+				height: 100%;
+				overflow: hidden;
+			}
+			
+			.pointer{
+				cursor:pointer;
+			}
+			
+			.evident-logo {
+				width: 500px;
+				border-radius: 3px;
+			}
+			
+			h1{
+			  font-size: 82px;
+			  background-color: #ededed;
+			  background-image: linear-gradient(to bottom, white, #c7c7c7);
+			  -webkit-background-clip: text;
+			  -webkit-text-fill-color: transparent;
+			  margin-bottom: 0px;
+			  text-align: center;
+			  margin-top: 121px;
+			}
+			
+			h2{
+			  font-size: 20.5px;
+			  background-color: #ededed;
+			  -webkit-background-clip: text;
+			  -webkit-text-fill-color: transparent;
+			  margin-bottom: 0px;
+			  text-align: center;
+			  margin-top: 10px;
+			}
+			
+			.error-info-container {
+				width:500px;
+				margin-left:calc(50vw - 250px);
+				text-align:center;
+				font-family: 'roboto', sans-serif;
+				margin-top: calc(40vh - 250px);
+				height: 500px;
+			}
+			
+			span {
+				color: white;
+			}
+			
+			a:link {
+			  text-decoration: none;
+			  color: white;
+			  font-weight:bold;
+			}
 
-body {
-    background-color: #fff;
-    margin: 40px;
-    font: 13px/20px normal Helvetica, Arial, sans-serif;
-    color: #4F5155;
-}
+			a:visited {
+			  text-decoration: none;
+			  color: white;
+			}
 
-a {
-    color: #003399;
-    background-color: transparent;
-    font-weight: normal;
-}
+			a:hover {
+			  text-decoration: none;
+			}
 
-h1 {
-    color: #444;
-    background-color: transparent;
-    border-bottom: 1px solid #D0D0D0;
-    font-size: 19px;
-    font-weight: normal;
-    margin: 0 0 14px 0;
-    padding: 14px 15px 10px 15px;
-}
+			a:active {
+			  text-decoration: none;
+			}
+			
+			p {
+				color: white;
+			}
+			
+			
+		</style>
+	</head>
+	<body>
+		<div class='error-info-container'>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<img src="<?php echo base_url( 'assets/images/logos/web-login-logo-small.png' ); ?>" class='evident-logo'>
+			<h1>- Error 404 -</h1>
+			<h2><span style="font-size:30px;">Oops! something went wrong</h2>
+			<h3><span style="font-size:19px;">We are unable to find the page you are you looking for!</h2>
+			
+			<br>
+			<p>Click <a href="<?php echo base_url( 'webapp/home' ); ?>">here</a> to go to the <a href="<?php echo base_url( 'webapp/home' ); ?>" >homepage</a> or <strong class="pointer" onclick="goBack()" title="Go back" ><i class="fas fa-arrow-circle-left"></i>Back</strong> to return to your previous page.</p>
+		</div>
+	</body>
+	<script>
+		window.goBack = function (e){
+			var homeLocation = "<?php echo base_url('webapp/home'); ?>";
+			var oldHash = window.location.hash;
 
-code {
-    font-family: Consolas, Monaco, Courier New, Courier, monospace;
-    font-size: 12px;
-    background-color: #f9f9f9;
-    border: 1px solid #D0D0D0;
-    color: #002166;
-    display: block;
-    margin: 14px 0 14px 0;
-    padding: 12px 10px 12px 10px;
-}
+			history.back(); // Try to go back
 
-#container {
-    margin: 10px;
-    border: 1px solid #D0D0D0;
-    box-shadow: 0 0 8px #D0D0D0;
-}
+			var newHash = window.location.hash;
 
-p {
-    margin: 12px 15px 12px 15px;
-}
-</style>
-</head>
-<body>
-    <div id="container">
-        <h1><?php echo $heading; ?></h1>
-        <?php echo $message; ?>
-    </div>
-</body>
+			if( newHash === oldHash && ( typeof(document.referrer ) !== "string" || document.referrer  === "" )	){
+				window.setTimeout(function(){
+					// redirect to default location
+					window.location.href = homeLocation;
+				},1000); // set timeout in ms
+			}
+			
+			if(e){
+				if( e.preventDefault )
+					e.preventDefault();
+				if( e.preventPropagation )
+					e.preventPropagation();
+			}
+			return false; // stop event propagation and browser default event
+		}
+	</script>
 </html>

@@ -1,6 +1,8 @@
 <?php
 
-// defined('BASEPATH') or exit('No direct script access allowed');
+if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 
 function debug($todebug, $print_OR_dump = "print", $exit = true)
 {
@@ -25,5 +27,14 @@ function debug($todebug, $print_OR_dump = "print", $exit = true)
     }
 }
 
-
+if (false === function_exists('dd')) {
+    function dd(...$arg)
+    {
+        echo '<pre>';
+        //var_dump($arg);
+        print_r($arg);
+        echo '</pre>';
+        exit();
+    }
+}
 /* End of file dump_helper.php */

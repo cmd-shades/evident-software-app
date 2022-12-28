@@ -1,7 +1,7 @@
 <style type="text/css">
 	body {
 		/*font-family: Calibri;*/
-		background-color: #F7F7F7;
+		background-color: #FFFFFF;
 	}
 	.table > thead > tr > th {
 		cursor:pointer;

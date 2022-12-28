@@ -1,19 +1,18 @@
 <?php if ( !defined('BASEPATH') ) exit('No direct script access allowed');
 	
 	$section = explode("/", $_SERVER["SCRIPT_NAME"]);
-	$appDir  = str_replace('/index.php','', $_SERVER["DOCUMENT_ROOT"]."/".$section[1]."/" );
+	$appDir  = $_SERVER["DOCUMENT_ROOT"]."/".$section[1]."/";
 
-	require_once( $appDir.'/application/libraries/tcpdf/tcpdf.php' );
+	require_once( str_replace( "/index.php/", "", $appDir ).'/application/libraries/tcpdf/tcpdf.php' );
 
 	class SIDD_PDF extends TCPDF {
 		
 		function __construct(){
 			parent::__construct();
 			$this->section = explode("/", $_SERVER["SCRIPT_NAME"]);
-			$this->appDir  = $_SERVER["DOCUMENT_ROOT"]."/".$this->section[1]."/";
-			$this->appDir  = str_replace('/index.php','',$this->appDir);
+			$this->appDir  = str_replace( "/index.php/", "", $_SERVER["DOCUMENT_ROOT"]."/".$this->section[1]."/" );
 		}
-		
+
 		//Render images into an HTML strong
 		public function renderImages( $doc_type = false, $images = false ){
 			return false;

@@ -1,7 +1,4 @@
-<?php
-
-// defined('BASEPATH') or exit('No direct script access allowed');
-
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 * Name:  Ion Auth Lang - English
 *
@@ -28,7 +25,7 @@ $lang['account_creation_invalid_default_group'] = 'Invalid default group name se
 
 // Password
 $lang['password_change_successful']          = 'Password Successfully Changed';
-$lang['password_change_unsuccessful']        = 'Unable to Change Password';
+$lang['password_change_unsuccessful']        = 'Unable to Change Password / Incorrect current username or password';
 $lang['forgot_password_successful']          = 'Password Reset Email Sent';
 $lang['forgot_password_unsuccessful']        = 'Unable to email the Reset Password link';
 
@@ -39,7 +36,7 @@ $lang['deactivate_successful']               = 'Account De-Activated';
 $lang['deactivate_unsuccessful']             = 'Unable to De-Activate Account';
 $lang['activation_email_successful']         = 'Activation Email Sent. Please check your inbox or spam';
 $lang['activation_email_unsuccessful']       = 'Unable to Send Activation Email';
-$lang['deactivate_current_user_unsuccessful'] = 'You cannot De-Activate your self.';
+$lang['deactivate_current_user_unsuccessful']= 'You cannot De-Activate your self.';
 
 // Login / Logout
 $lang['login_successful']                    = 'Logged In Successfully';
@@ -49,8 +46,8 @@ $lang['login_timeout']                       = 'Temporarily Locked Out.  Try aga
 $lang['logout_successful']                   = 'Logged Out Successfully';
 
 // Account Changes
-$lang['update_successful']                   = 'Account Information Successfully Updated';
-$lang['update_unsuccessful']                 = 'Unable to Update Account Information';
+$lang['update_successful']                   = 'User profile updated Successfully ';
+$lang['update_unsuccessful']                 = 'Unable to Update User profile';
 $lang['delete_successful']                   = 'User Deleted';
 $lang['delete_unsuccessful']                 = 'Unable to Delete User';
 
@@ -82,8 +79,8 @@ $lang['email_new_password_heading']          = 'New Password for %s';
 $lang['email_new_password_subheading']       = 'Your password has been reset to: %s';
 
 // Resources
-$lang['resource_not_found']                  = 'resource not found';
+$lang['resource_not_found']          		 = 'resource not found';
 
 // Business / Account
 $lang['account_subscription_expired']        = 'Business Account trail has expired';
-$lang['account_suspended']                   = 'Business Account has been suspended';
+$lang['account_suspended']       			 = 'Business Account has been suspended';

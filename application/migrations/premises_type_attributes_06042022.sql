@@ -1,0 +1,1 @@
+INSERT INTO `system_config_data` (`entry_id`, `entry_name`, `entry_group`, `entry_url_link`, `entry_ranking`, `entry_description`, `entry_img_url`, `is_active`, `archived`, `is_mobile_visible`) VALUES (NULL, 'Premises Attributes', 'Attributes', 'premises/type_attributes', '', 'Premises Attributes', '/assets/images/config-icons/premises-attributes.png', '1', '0', '0')

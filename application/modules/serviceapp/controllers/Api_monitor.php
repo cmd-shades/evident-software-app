@@ -1,11 +1,7 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-namespace Application\Service\Controllers\Api;
+class Api_monitor extends CI_Controller {
 
-use System\Core\CI_Controller;
-
-class Api_monitor extends CI_Controller
-{
     public function index()
     {
         $this->load->helper('url');
