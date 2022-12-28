@@ -19,6 +19,7 @@ require_once APPPATH . '/libraries/JWT.php';
 require_once APPPATH . '/libraries/ExpiredException.php';
 
 use Firebase\JWT\JWT;
+use System\Core\CI_Controller;
 
 
 abstract class REST_Controller extends CI_Controller

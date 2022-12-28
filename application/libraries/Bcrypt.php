@@ -2,6 +2,8 @@
 
 namespace App\Libraries;
 
+use Exception;
+
 class Bcrypt
 {
     private $rounds;
