@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Service\Models;
+namespace Application\Modules\Service\Models;
 
 use System\Core\CI_Model;
 

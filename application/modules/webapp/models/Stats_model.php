@@ -1,5 +1,7 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
+namespace Application\Modules\Web\Models;
+
 class Stats_model extends CI_Model {
 
 	function fetchAPI($getData, $getType = false){

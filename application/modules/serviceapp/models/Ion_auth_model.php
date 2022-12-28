@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
 * Name:  Ion Auth Model
 *
@@ -18,6 +18,8 @@
 * Requirements: PHP5 or above
 *
 */
+
+namespace Application\Modules\Service\Models;
 
 require_once APPPATH . '/libraries/JWT.php';
 require_once APPPATH . '/libraries/ExpiredException.php';

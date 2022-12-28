@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+namespace Application\Modules\Service\Controllers\Api;
 
 /*@comment: Risk Assessment, abbreviated as RA in all system references */
 

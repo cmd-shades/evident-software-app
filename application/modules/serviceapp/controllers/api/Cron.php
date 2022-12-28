@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Service\Controllers\Api;
+namespace Application\Modules\Service\Controllers\Api;
 
 class Cron extends MX_Controller
 {

@@ -1,4 +1,6 @@
-<?php if (!defined('BASEPATH'))exit('No direct script access allowed');
+<?php
+
+namespace Application\Modules\Service\Models;
 
 class Risk_Assessment_model extends CI_Model {
 

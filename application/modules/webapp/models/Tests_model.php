@@ -1,4 +1,6 @@
-<?php if (!defined('BASEPATH'))exit('No direct script access allowed');
+<?php
+
+namespace Application\Modules\Web\Models;
 
 class Tests_mode extends CI_Model {
 

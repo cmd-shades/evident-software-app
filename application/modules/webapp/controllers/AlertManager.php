@@ -1,10 +1,12 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
 * Name:  AlertManager
 * Author: Simpyl SID Team
 * Created:  10.02.2018
 * Description:  This is library for all system interactions with external services like Web Way One.
 */
+
+namespace Application\Modules\Web\Controllers;
 
 class AlertManager extends MX_Controller{
 

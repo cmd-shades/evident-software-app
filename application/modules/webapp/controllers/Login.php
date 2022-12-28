@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+namespace Application\Modules\Web\Controllers;
 
 class Login extends MX_Controller {
 

@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+namespace Application\Modules\Service\Controllers\Api;
 
 class Stock extends REST_Controller {
 

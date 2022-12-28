@@ -32,13 +32,13 @@
  * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
- * @since	Version 2.0.0
+ * @since	Version 2.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+// defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
- * CodeIgniter APC Caching Class
+ * CodeIgniter Dummy Caching Class
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -46,172 +46,126 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link
  */
-class CI_Cache_apc extends CI_Driver {
+class CI_Cache_dummy extends CI_Driver
+{
+    /**
+     * Get
+     *
+     * Since this is the dummy class, it's always going to return FALSE.
+     *
+     * @param	string
+     * @return	bool	FALSE
+     */
+    public function get($id)
+    {
+        return false;
+    }
 
-	/**
-	 * Class constructor
-	 *
-	 * Only present so that an error message is logged
-	 * if APC is not available.
-	 *
-	 * @return	void
-	 */
-	public function __construct()
-	{
-		if ( ! $this->is_supported())
-		{
-			log_message('error', 'Cache: Failed to initialize APC; extension not loaded/enabled?');
-		}
-	}
+    // ------------------------------------------------------------------------
 
-	// ------------------------------------------------------------------------
+    /**
+     * Cache Save
+     *
+     * @param	string	Unique Key
+     * @param	mixed	Data to store
+     * @param	int	Length of time (in seconds) to cache the data
+     * @param	bool	Whether to store the raw value
+     * @return	bool	TRUE, Simulating success
+     */
+    public function save($id, $data, $ttl = 60, $raw = false)
+    {
+        return true;
+    }
 
-	/**
-	 * Get
-	 *
-	 * Look for a value in the cache. If it exists, return the data
-	 * if not, return FALSE
-	 *
-	 * @param	string
-	 * @return	mixed	value that is stored/FALSE on failure
-	 */
-	public function get($id)
-	{
-		$success = FALSE;
-		$data = apc_fetch($id, $success);
+    // ------------------------------------------------------------------------
 
-		return ($success === TRUE) ? $data : FALSE;
-	}
+    /**
+     * Delete from Cache
+     *
+     * @param	mixed	unique identifier of the item in the cache
+     * @return	bool	TRUE, simulating success
+     */
+    public function delete($id)
+    {
+        return true;
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Cache Save
-	 *
-	 * @param	string	$id	Cache ID
-	 * @param	mixed	$data	Data to store
-	 * @param	int	$ttl	Length of time (in seconds) to cache the data
-	 * @param	bool	$raw	Whether to store the raw value (unused)
-	 * @return	bool	TRUE on success, FALSE on failure
-	 */
-	public function save($id, $data, $ttl = 60, $raw = FALSE)
-	{
-		return apc_store($id, $data, (int) $ttl);
-	}
+    /**
+     * Increment a raw value
+     *
+     * @param	string	$id	Cache ID
+     * @param	int	$offset	Step/value to add
+     * @return	mixed	New value on success or FALSE on failure
+     */
+    public function increment($id, $offset = 1)
+    {
+        return true;
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Delete from Cache
-	 *
-	 * @param	mixed	unique identifier of the item in the cache
-	 * @return	bool	true on success/false on failure
-	 */
-	public function delete($id)
-	{
-		return apc_delete($id);
-	}
+    /**
+     * Decrement a raw value
+     *
+     * @param	string	$id	Cache ID
+     * @param	int	$offset	Step/value to reduce by
+     * @return	mixed	New value on success or FALSE on failure
+     */
+    public function decrement($id, $offset = 1)
+    {
+        return true;
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Increment a raw value
-	 *
-	 * @param	string	$id	Cache ID
-	 * @param	int	$offset	Step/value to add
-	 * @return	mixed	New value on success or FALSE on failure
-	 */
-	public function increment($id, $offset = 1)
-	{
-		return apc_inc($id, $offset);
-	}
+    /**
+     * Clean the cache
+     *
+     * @return	bool	TRUE, simulating success
+     */
+    public function clean()
+    {
+        return true;
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Decrement a raw value
-	 *
-	 * @param	string	$id	Cache ID
-	 * @param	int	$offset	Step/value to reduce by
-	 * @return	mixed	New value on success or FALSE on failure
-	 */
-	public function decrement($id, $offset = 1)
-	{
-		return apc_dec($id, $offset);
-	}
+    /**
+     * Cache Info
+     *
+     * @param	string	user/filehits
+     * @return	bool	FALSE
+     */
+     public function cache_info($type = null)
+     {
+         return false;
+     }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Clean the cache
-	 *
-	 * @return	bool	false on failure/true on success
-	 */
-	public function clean()
-	{
-		return apc_clear_cache('user');
-	}
+    /**
+     * Get Cache Metadata
+     *
+     * @param	mixed	key to get cache metadata on
+     * @return	bool	FALSE
+     */
+    public function get_metadata($id)
+    {
+        return false;
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Cache Info
-	 *
-	 * @param	string	user/filehits
-	 * @return	mixed	array on success, false on failure
-	 */
-	 public function cache_info($type = NULL)
-	 {
-		 return apc_cache_info($type);
-	 }
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Get Cache Metadata
-	 *
-	 * @param	mixed	key to get cache metadata on
-	 * @return	mixed	array on success/false on failure
-	 */
-	public function get_metadata($id)
-	{
-		$cache_info = apc_cache_info('user', FALSE);
-		if (empty($cache_info) OR empty($cache_info['cache_list']))
-		{
-			return FALSE;
-		}
-
-		foreach ($cache_info['cache_list'] as &$entry)
-		{
-			if ($entry['info'] !== $id)
-			{
-				continue;
-			}
-
-			$success  = FALSE;
-			$metadata = array(
-				'expire' => ($entry['ttl'] ? $entry['mtime'] + $entry['ttl'] : 0),
-				'mtime'  => $entry['ttl'],
-				'data'   => apc_fetch($id, $success)
-			);
-
-			return ($success === TRUE) ? $metadata : FALSE;
-		}
-
-		return FALSE;
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * is_supported()
-	 *
-	 * Check to see if APC is available on this system, bail if it isn't.
-	 *
-	 * @return	bool
-	 */
-	public function is_supported()
-	{
-		return (extension_loaded('apc') && ini_get('apc.enabled'));
-	}
+    /**
+     * Is this caching driver supported on the system?
+     * Of course this one is.
+     *
+     * @return	bool	TRUE
+     */
+    public function is_supported()
+    {
+        return true;
+    }
 }

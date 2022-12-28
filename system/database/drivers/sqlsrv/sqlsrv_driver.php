@@ -35,7 +35,7 @@
  * @since	Version 2.0.3
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+// defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * SQLSRV Database Adapter Class

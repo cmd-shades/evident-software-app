@@ -1,4 +1,6 @@
-<?php if (!defined('BASEPATH'))exit('No direct script access allowed');
+<?php
+
+namespace Application\Modules\Service\Models;
 
 require_once APPPATH . '/libraries/JWT.php';
 use \Firebase\JWT\JWT;

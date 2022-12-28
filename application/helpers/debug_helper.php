@@ -1,7 +1,7 @@
 <?php
 
 if (! defined('BASEPATH')) {
-    exit('No direct script access allowed');
+    // exit('No direct script access allowed');
 }
 
 function debug($todebug, $print_OR_dump = "print", $exit = true)

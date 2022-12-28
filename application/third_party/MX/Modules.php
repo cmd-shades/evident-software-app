@@ -1,6 +1,6 @@
-<?php (defined('BASEPATH')) OR exit('No direct script access allowed');
+<?php
 
-(defined('EXT')) OR define('EXT', '.php');
+namespace Application\Extensions;
 
 global $CFG;
 

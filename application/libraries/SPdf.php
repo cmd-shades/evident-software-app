@@ -1,25 +1,28 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+namespace App\Libraries;
 
 //Composer Autoloader
 //require FCPATH . 'vendor/autoload.php';
 //require APPPATH.'vendor/autoload.php';
 //use Mpdf\Mpdf;
 
-require_once FCPATH. '/vendor/autoload.php';
+require_once FCPATH . '/vendor/autoload.php';
 
-class SPdf{
+class SPdf
+{
+    function __construct()
+    {
+        //$this->mpdf = new Mpdf();
 
-	function __construct(){
-		//$this->mpdf = new Mpdf();
-		
-		$mpdf = new mPDF();
-		//$mpdf->WriteHTML('<h1>Hello world!</h1>');
-		//$mpdf->Output();
+        $mpdf = new mPDF();
+        //$mpdf->WriteHTML('<h1>Hello world!</h1>');
+        //$mpdf->Output();
+    }
+
+    public function create_pdf()
+    {
+        $this->this->mpdf->WriteHTML('<h1>Hello world!</h1>');
+        $this->mpdf->Output();
 	}
-	
-	public function create_pdf( ){
-		$this->this->mpdf->WriteHTML('<h1>Hello world!</h1>');
-		$this->mpdf->Output();
-	}
-	
 }

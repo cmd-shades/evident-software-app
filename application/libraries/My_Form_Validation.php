@@ -1,6 +1,9 @@
-<?php if (!defined('BASEPATH'))exit('No direct script access allowed');
+<?php
 
-class MY_Form_validation extends CI_Form_validation{
+namespace App\Libraries;
+
+class MY_Form_validation extends CI_Form_validation
+{
     /**
      * Verify that a string contains a specified number of
      * uppercase, lowercase, and numbers.
@@ -12,28 +15,25 @@ class MY_Form_validation extends CI_Form_validation{
      *
      * @return int
      */
-    public function password_check( $str, $format ){
-        $ret = TRUE;
+    public function password_check($str, $format)
+    {
+        $ret = true;
 
-        list( $uppercase, $lowercase, $number, $special_chars ) = explode( ',', $format );
+        list( $uppercase, $lowercase, $number ) = explode(',', $format);
 
-        $str_uc  = $this->count_uppercase( $str );
-        $str_lc  = $this->count_lowercase( $str );
-        $str_num = $this->count_numbers( $str );
-        $str_sp  = $this->count_special_chars( $str );
+        $str_uc  = $this->count_uppercase($str);
+        $str_lc  = $this->count_lowercase($str);
+        $str_num = $this->count_numbers($str);
 
-        if ( $str_uc < $uppercase ){ // lacking uppercase characters
-            $ret = FALSE;
-            $this->set_message('password_check', 'Password must contain at least ' . $uppercase . ' uppercase character');
-        } elseif ( $str_lc < $lowercase ){ // lacking lowercase characters
-            $ret = FALSE;
-            $this->set_message('password_check', 'Password must contain at least ' . $lowercase . ' lowercase character');
-        } elseif ( $str_num < $number ){ //  lacking numbers
-            $ret = FALSE;
-            $this->set_message('password_check', 'Password must contain at least ' . $number . ' number character');
-        } elseif ( $str_sp < $special_chars ){ //  lacking special character
-            $ret = FALSE;
-            $this->set_message('password_check', 'Password must contain at least ' . $special_chars . ' special character');
+        if ($str_uc < $uppercase) { // lacking uppercase characters
+            $ret = false;
+            $this->set_message('password_check', 'Password must contain at least ' . $uppercase . ' uppercase characters.');
+        } elseif ($str_lc < $lowercase) { // lacking lowercase characters
+            $ret = false;
+            $this->set_message('password_check', 'Password must contain at least ' . $lowercase . ' lowercase characters.');
+        } elseif ($str_num < $number) { //  lacking numbers
+            $ret = false;
+            $this->set_message('password_check', 'Password must contain at least ' . $number . ' number characters.');
         }
 
         return $ret;
@@ -49,7 +49,8 @@ class MY_Form_validation extends CI_Form_validation{
      *
      * @return int
      */
-    private function count_occurrences( $str, $exp ){
+    private function count_occurrences($str, $exp)
+    {
         $match = array();
         preg_match_all($exp, $str, $match);
 
@@ -65,7 +66,8 @@ class MY_Form_validation extends CI_Form_validation{
      *
      * @return int
      */
-    private function count_lowercase( $str ){
+    private function count_lowercase($str)
+    {
         return $this->count_occurrences($str, '/[a-z]/');
     }
 
@@ -78,7 +80,8 @@ class MY_Form_validation extends CI_Form_validation{
      *
      * @return int
      */
-    private function count_uppercase( $str ){
+    private function count_uppercase($str)
+    {
         return $this->count_occurrences($str, '/[A-Z]/');
     }
 
@@ -91,20 +94,8 @@ class MY_Form_validation extends CI_Form_validation{
      *
      * @return int
      */
-    private function count_numbers( $str ){
-        return $this->count_occurrences( $str, '/[0-9]/' );
-    }
-	
-    /**
-     * count the number of special characters in a string
-     *
-     * @access private
-     *
-     * @param String $str
-     *
-     * @return int
-     */
-    private function count_special_chars( $str ){
-		return $this->count_occurrences( $str, '/[^a-zA-Z\d]/' );
-    }
+    private function count_numbers($str)
+    {
+		return $this->count_occurrences($str, '/[0-9]/');
+	}
 }

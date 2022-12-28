@@ -1,4 +1,6 @@
-<?php (defined('BASEPATH')) OR exit('No direct script access allowed');
+<?php
+
+namespace Application\Extensions;
 
 /* load MX core classes */
 require_once dirname(__FILE__).'/Lang.php';

@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Service\Controllers\Api;
+namespace Application\Modules\Service\Controllers\Api;
 
 use App\Libraries\REST_Controller;
 

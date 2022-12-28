@@ -1,7 +1,5 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 // This can be removed if you use __autoload() in config.php OR use Modular Extensions
 /** @noinspection PhpIncludeInspection */
 require APPPATH . '/libraries/REST_Controller.php';
@@ -17,6 +15,9 @@ require APPPATH . '/libraries/REST_Controller.php';
  * @license         MIT
  * @link            https://github.com/chriskacerguis/codeigniter-restserver
  */
+
+namespace Application\Modules\Service\Controllers\Api;
+
 class Key extends REST_Controller {
 
     protected $methods = [
