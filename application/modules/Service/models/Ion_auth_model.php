@@ -1,0 +1,3438 @@
+<?php
+/**
+* Name:  Ion Auth Model
+*
+* Author:  Ben Edmunds
+* 		   ben.edmunds@gmail.com
+*	  	   @benedmunds
+*
+* Added Awesomeness: Phil Sturgeon
+*
+* Location: http://github.com/benedmunds/CodeIgniter-Ion-Auth
+*
+* Created:  10.01.2009
+*
+* Description:  Modified auth system based on redux_auth with extensive customization.  This is basically what Redux Auth 2 should be.
+* Original Author name has been kept but that does not mean that the method has not been modified.
+*
+* Requirements: PHP5 or above
+*
+*/
+
+namespace Application\Modules\Service\Models;
+
+require_once APPPATH . '/libraries/JWT.php';
+require_once APPPATH . '/libraries/ExpiredException.php';
+
+use Firebase\JWT\JWT;
+
+class Ion_auth_model extends CI_Model
+{
+    /**
+     * Holds an array of tables used
+     *
+     * @var array
+     **/
+    public $tables = array();
+
+    /**
+     * activation code
+     *
+     * @var string
+     **/
+    public $activation_code;
+
+    /**
+     * forgotten password key
+     *
+     * @var string
+     **/
+    public $forgotten_password_code;
+
+    /**
+     * new password
+     *
+     * @var string
+     **/
+    public $new_password;
+
+    /**
+     * Identity
+     *
+     * @var string
+     **/
+    public $identity;
+
+    /**
+     * Where
+     *
+     * @var array
+     **/
+    public $_ion_where = array();
+
+    /**
+     * Select
+     *
+     * @var array
+     **/
+    public $_ion_select = array();
+
+    /**
+     * Like
+     *
+     * @var array
+     **/
+    public $_ion_like = array();
+
+    /**
+     * Limit
+     *
+     * @var string
+     **/
+    public $_ion_limit = null;
+
+    /**
+     * Offset
+     *
+     * @var string
+     **/
+    public $_ion_offset = null;
+
+    /**
+     * Order By
+     *
+     * @var string
+     **/
+    public $_ion_order_by = null;
+
+    /**
+     * Order
+     *
+     * @var string
+     **/
+    public $_ion_order = null;
+
+    /**
+     * Hooks
+     *
+     * @var object
+     **/
+    protected $_ion_hooks;
+
+    /**
+     * Response
+     *
+     * @var string
+     **/
+    protected $response = null;
+
+    /**
+     * message (uses lang file)
+     *
+     * @var string
+     **/
+    protected $messages;
+
+    /**
+     * error message (uses lang file)
+     *
+     * @var string
+     **/
+    protected $errors;
+
+    /**
+     * error start delimiter
+     *
+     * @var string
+     **/
+    protected $error_start_delimiter;
+
+    /**
+     * error end delimiter
+     *
+     * @var string
+     **/
+    protected $error_end_delimiter;
+
+    /**
+     * caching of users and their groups
+     *
+     * @var array
+     **/
+    public $_cache_user_in_group = array();
+
+    /**
+     * caching of groups
+     *
+     * @var array
+     **/
+    protected $_cache_groups = array();
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->database();
+        $this->config->load('ion_auth', true);
+        $this->load->helper('cookie');
+        $this->load->helper('date');
+        $this->lang->load('ion_auth');
+        $this->load->model('serviceapp/Modules_model', 'module_service');
+
+
+        // initialize db tables data
+        $this->tables  = $this->config->item('tables', 'ion_auth');
+
+        //initialize data
+        $this->identity_column = $this->config->item('identity', 'ion_auth');
+        $this->store_salt      = $this->config->item('store_salt', 'ion_auth');
+        $this->salt_length     = $this->config->item('salt_length', 'ion_auth');
+        $this->join			   = $this->config->item('join', 'ion_auth');
+
+
+        // initialize hash method options (Bcrypt)
+        $this->hash_method = $this->config->item('hash_method', 'ion_auth');
+        $this->default_rounds = $this->config->item('default_rounds', 'ion_auth');
+        $this->random_rounds = $this->config->item('random_rounds', 'ion_auth');
+        $this->min_rounds = $this->config->item('min_rounds', 'ion_auth');
+        $this->max_rounds = $this->config->item('max_rounds', 'ion_auth');
+
+
+        // initialize messages and error
+        $this->messages    = array();
+        $this->errors      = array();
+        $delimiters_source = $this->config->item('delimiters_source', 'ion_auth');
+
+        // load the error delimeters either from the config file or use what's been supplied to form validation
+        if ($delimiters_source === 'form_validation') {
+            // load in delimiters from form_validation
+            // to keep this simple we'll load the value using reflection since these properties are protected
+            $this->load->library('form_validation');
+            $form_validation_class = new ReflectionClass("CI_Form_validation");
+
+            $error_prefix = $form_validation_class->getProperty("_error_prefix");
+            $error_prefix->setAccessible(true);
+            $this->error_start_delimiter = $error_prefix->getValue($this->form_validation);
+            $this->message_start_delimiter = $this->error_start_delimiter;
+
+            $error_suffix = $form_validation_class->getProperty("_error_suffix");
+            $error_suffix->setAccessible(true);
+            $this->error_end_delimiter = $error_suffix->getValue($this->form_validation);
+            $this->message_end_delimiter = $this->error_end_delimiter;
+        } else {
+            // use delimiters from config
+            $this->message_start_delimiter = $this->config->item('message_start_delimiter', 'ion_auth');
+            $this->message_end_delimiter   = $this->config->item('message_end_delimiter', 'ion_auth');
+            $this->error_start_delimiter   = $this->config->item('error_start_delimiter', 'ion_auth');
+            $this->error_end_delimiter     = $this->config->item('error_end_delimiter', 'ion_auth');
+        }
+
+
+        // initialize our hooks object
+        $this->_ion_hooks = new stdClass();
+
+        // load the bcrypt class if needed
+        if ($this->hash_method == 'bcrypt') {
+            if ($this->random_rounds) {
+                $rand = rand($this->min_rounds, $this->max_rounds);
+                $params = array('rounds' => $rand);
+            } else {
+                $params = array('rounds' => $this->default_rounds);
+            }
+
+            $params['salt_prefix'] = $this->config->item('salt_prefix', 'ion_auth');
+            $this->load->library('bcrypt', $params);
+        }
+
+        $this->trigger_events('model_constructor');
+    }
+
+    /** Searchable fields **/
+    private $searchable_fields  		= ['user.id', 'first_name', 'last_name', 'email', 'phone', 'username'];
+    public $no_web_access_allowed 		= [3]; //User types with no Web-access, should be a group-name for multi-business setup
+    public $no_web_access_user_types 	= NO_WEB_ACCESS_USER_TYPES;
+
+    /**
+     * Misc functions
+     *
+     * Hash password : Hashes the password to be stored in the database.
+     * Hash password db : This function takes a password and validates it
+     * against an entry in the users table.
+     * Salt : Generates a random salt value.
+     *
+     * @author Mathew
+     */
+
+    /**
+     * Hashes the password to be stored in the database.
+     *
+     * @return void
+     * @author Mathew
+     **/
+    public function hash_password($password, $salt=false, $use_sha1_override=false)
+    {
+        if (empty($password)) {
+            return false;
+        }
+
+        // bcrypt
+        if ($use_sha1_override === false && $this->hash_method == 'bcrypt') {
+            return $this->bcrypt->hash($password);
+        }
+
+
+        if ($this->store_salt && $salt) {
+            return  sha1($password . $salt);
+        } else {
+            $salt = $this->salt();
+            return  $salt . substr(sha1($salt . $password), 0, -$this->salt_length);
+        }
+    }
+
+    /**
+     * This function takes a password and validates it
+     * against an entry in the users table.
+     *
+     * @return void
+     * @author Mathew
+     **/
+    public function hash_password_db($id, $password, $use_sha1_override=false)
+    {
+        if (empty($id) || empty($password)) {
+            return false;
+        }
+
+        $this->trigger_events('extra_where');
+
+        $query = $this->db->select('password, salt')
+                          ->where('id', $id)
+                          ->limit(1)
+                          ->order_by('id', 'desc')
+                          ->get($this->tables['user']);
+
+        $hash_password_db = $query->row();
+
+        if ($query->num_rows() !== 1) {
+            return false;
+        }
+
+        // bcrypt
+        if ($use_sha1_override === false && $this->hash_method == 'bcrypt') {
+            if ($this->bcrypt->verify($password, $hash_password_db->password)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        // sha1
+        if ($this->store_salt) {
+            $db_password = sha1($password . $hash_password_db->salt);
+        } else {
+            $salt = substr($hash_password_db->password, 0, $this->salt_length);
+
+            $db_password =  $salt . substr(sha1($salt . $password), 0, -$this->salt_length);
+        }
+
+        if ($db_password == $hash_password_db->password) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Generates a random salt value for forgotten passwords or any other keys. Uses SHA1.
+     *
+     * @return void
+     * @author Mathew
+     **/
+    public function hash_code($password)
+    {
+        return $this->hash_password($password, false, true);
+    }
+
+    /**
+     * Generates a random salt value.
+     *
+     * Salt generation code taken from https://github.com/ircmaxell/password_compat/blob/master/lib/password.php
+     *
+     * @return void
+     * @author Anthony Ferrera
+     **/
+    public function salt()
+    {
+        $raw_salt_len = 16;
+
+        $buffer = '';
+        $buffer_valid = false;
+
+        if (function_exists('random_bytes')) {
+            $buffer = random_bytes($raw_salt_len);
+            if ($buffer) {
+                $buffer_valid = true;
+            }
+        }
+
+        if (!$buffer_valid && function_exists('mcrypt_create_iv') && !defined('PHALANGER')) {
+            $buffer = mcrypt_create_iv($raw_salt_len, MCRYPT_DEV_URANDOM);
+            if ($buffer) {
+                $buffer_valid = true;
+            }
+        }
+
+        if (!$buffer_valid && function_exists('openssl_random_pseudo_bytes')) {
+            $buffer = openssl_random_pseudo_bytes($raw_salt_len);
+            if ($buffer) {
+                $buffer_valid = true;
+            }
+        }
+
+        if (!$buffer_valid && @is_readable('/dev/urandom')) {
+            $f = fopen('/dev/urandom', 'r');
+            $read = strlen($buffer);
+            while ($read < $raw_salt_len) {
+                $buffer .= fread($f, $raw_salt_len - $read);
+                $read = strlen($buffer);
+            }
+            fclose($f);
+            if ($read >= $raw_salt_len) {
+                $buffer_valid = true;
+            }
+        }
+
+        if (!$buffer_valid || strlen($buffer) < $raw_salt_len) {
+            $bl = strlen($buffer);
+            for ($i = 0; $i < $raw_salt_len; $i++) {
+                if ($i < $bl) {
+                    $buffer[$i] = $buffer[$i] ^ chr(mt_rand(0, 255));
+                } else {
+                    $buffer .= chr(mt_rand(0, 255));
+                }
+            }
+        }
+
+        $salt = $buffer;
+
+        // encode string with the Base64 variant used by crypt
+        $base64_digits   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+        $bcrypt64_digits = './ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        $base64_string   = base64_encode($salt);
+        $salt = strtr(rtrim($base64_string, '='), $base64_digits, $bcrypt64_digits);
+
+        $salt = substr($salt, 0, $this->salt_length);
+
+
+        return $salt;
+    }
+
+    /**
+     * Activation functions
+     *
+     * Activate : Validates and removes activation code.
+     * Deactivate : Updates a users row with an activation code.
+     *
+     * @author Mathew
+     */
+
+    /**
+     * activate
+     *
+     * @return void
+     * @author Mathew
+     **/
+    public function activate($id, $code = false)
+    {
+        $this->trigger_events('pre_activate');
+
+        $id = (isset($id)) ? (is_object($id) ? $id->id : $id) : false;
+
+        if ($code !== false) {
+            $query = $this->db->select($this->identity_column)
+                              ->where('activation_code', $code)
+                              ->where('id', $id)
+                              ->limit(1)
+                              ->order_by('id', 'desc')
+                              ->get($this->tables['user']);
+
+            $result = $query->row();
+
+            if ($query->num_rows() !== 1) {
+                $this->trigger_events(array('post_activate', 'post_activate_unsuccessful'));
+                $this->set_error('activate_unsuccessful');
+                return false;
+            }
+
+            $data = array(
+                'activation_code' => null,
+                'active'          => 1
+            );
+
+            $this->trigger_events('extra_where');
+            $this->db->update($this->tables['user'], $data, array('id' => $id));
+        } else {
+            $data = array(
+                'activation_code' => null,
+                'active'          => 1
+            );
+
+
+            $this->trigger_events('extra_where');
+            $this->db->update($this->tables['user'], $data, array('id' => $id));
+        }
+
+
+        $return = $this->db->affected_rows() == 1;
+        if ($return) {
+            $this->trigger_events(array('post_activate', 'post_activate_successful'));
+            $this->set_message('activate_successful');
+        } else {
+            $this->trigger_events(array('post_activate', 'post_activate_unsuccessful'));
+            $this->set_error('activate_unsuccessful');
+        }
+
+
+        return $return;
+    }
+
+
+    /**
+     * Deactivate
+     *
+     * @return void
+     * @author Mathew
+     **/
+    public function deactivate($id = null)
+    {
+        $this->trigger_events('deactivate');
+
+        $id = (isset($id)) ? (is_object($id) ? $id->id : $id) : false;
+
+        if (!isset($id)) {
+            $this->set_error('deactivate_unsuccessful');
+            return false;
+        } elseif ($this->ion_auth->logged_in() && $this->user()->row()->id == $id) {
+            $this->set_error('deactivate_current_user_unsuccessful');
+            return false;
+        }
+
+        $activation_code       = sha1(md5(microtime()));
+        $this->activation_code = $activation_code;
+
+        $data = array(
+            'activation_code' => $activation_code,
+            'active'          => 0
+        );
+
+        $this->trigger_events('extra_where');
+
+        $this->db->update($this->tables['user'], $data, array('id' => $id));
+
+        $return = $this->db->affected_rows() == 1;
+        if ($return) {
+            $this->set_message('deactivate_successful');
+        } else {
+            $this->set_error('deactivate_unsuccessful');
+        }
+
+        return $return;
+    }
+
+    public function clear_forgotten_password_code($code)
+    {
+        if (empty($code)) {
+            return false;
+        }
+
+        $this->db->where('forgotten_password_code', $code);
+
+        if ($this->db->count_all_results($this->tables['user']) > 0) {
+            $data = array(
+                'forgotten_password_code' => null,
+                'forgotten_password_time' => null
+            );
+
+            $this->db->update($this->tables['user'], $data, array('forgotten_password_code' => $code));
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * reset password
+     *
+     * @return bool
+     * @author Mathew
+     **/
+    public function reset_password($identity, $new)
+    {
+        $this->trigger_events('pre_change_password');
+
+        if (!$this->identity_check($identity)) {
+            $this->trigger_events(array('post_change_password', 'post_change_password_unsuccessful'));
+            return false;
+        }
+
+        $this->trigger_events('extra_where');
+
+        $query = $this->db->select('id, password, salt')
+                          ->where($this->identity_column, $identity)
+                          ->limit(1)
+                          ->order_by('id', 'desc')
+                          ->get($this->tables['user']);
+
+        if ($query->num_rows() !== 1) {
+            $this->trigger_events(array('post_change_password', 'post_change_password_unsuccessful'));
+            $this->set_error('password_change_unsuccessful');
+            return false;
+        }
+
+        $result = $query->row();
+
+        $new = $this->hash_password($new, $result->salt);
+
+        // store the new password and reset the remember code so all remembered instances have to re-login
+        // also clear the forgotten password code
+        $data = array(
+            'password' => $new,
+            'remember_code' => null,
+            'forgotten_password_code' => null,
+            'forgotten_password_time' => null,
+        );
+
+        $this->trigger_events('extra_where');
+        $this->db->update($this->tables['user'], $data, array($this->identity_column => $identity));
+
+        $return = $this->db->affected_rows() == 1;
+        if ($return) {
+            $this->trigger_events(array('post_change_password', 'post_change_password_successful'));
+            $this->set_message('password_change_successful');
+        } else {
+            $this->trigger_events(array('post_change_password', 'post_change_password_unsuccessful'));
+            $this->set_error('password_change_unsuccessful');
+        }
+
+        return $return;
+    }
+
+    /**
+     * change password
+     *
+     * @return bool
+     * @author Mathew
+     **/
+    public function change_password($identity, $old, $new)
+    {
+        $this->trigger_events('pre_change_password');
+
+        $this->trigger_events('extra_where');
+
+        $query = $this->db->select('id, password, salt')
+            ->where($this->identity_column, $identity)
+            ->limit(1)
+            ->order_by('id', 'desc')
+            ->get($this->tables['user']);
+
+        if ($query->num_rows() !== 1) {
+            $this->trigger_events(array('post_change_password', 'post_change_password_unsuccessful'));
+            $this->set_error('password_change_unsuccessful');
+            return false;
+        }
+
+        $user = $query->row();
+
+        $old_password_matches = $this->hash_password_db($user->id, $old);
+
+        if ($old_password_matches === true) {
+            // store the new password and reset the remember code so all remembered instances have to re-login
+            $hashed_new_password  = $this->hash_password($new, $user->salt);
+            $data = array(
+                'password' => $hashed_new_password,
+                'remember_code' => null,
+                'change_password' => null,
+            );
+
+            $this->trigger_events('extra_where');
+
+            $successfully_changed_password_in_db = $this->db->update($this->tables['user'], $data, array($this->identity_column => $identity));
+            if ($successfully_changed_password_in_db) {
+                $this->trigger_events(array('post_change_password', 'post_change_password_successful'));
+                $this->set_message('password_change_successful');
+            } else {
+                $this->trigger_events(array('post_change_password', 'post_change_password_unsuccessful'));
+                $this->set_error('password_change_unsuccessful');
+            }
+
+            return $successfully_changed_password_in_db;
+        }
+        $this->set_error('password_change_unsuccessful');
+        return false;
+    }
+
+    /**
+     * Checks username
+     *
+     * @return bool
+     * @author Mathew
+     **/
+    public function username_check($username = '')
+    {
+        $this->trigger_events('username_check');
+
+        if (empty($username)) {
+            return false;
+        }
+
+        $this->trigger_events('extra_where');
+
+        return $this->db->where('username', $username)
+                                        ->group_by("id")
+                                        ->order_by("id", "ASC")
+                                        ->limit(1)
+                        ->count_all_results($this->tables['user']) > 0;
+    }
+
+    /**
+     * Checks email
+     *
+     * @return bool
+     * @author Mathew
+     **/
+    public function email_check($email = '')
+    {
+        $this->trigger_events('email_check');
+
+        if (empty($email)) {
+            return false;
+        }
+
+        $this->trigger_events('extra_where');
+
+        return $this->db->where('email', $email)
+                                        ->group_by("id")
+                                        ->order_by("id", "ASC")
+                                        ->limit(1)
+                        ->count_all_results($this->tables['user']) > 0;
+    }
+
+    /**
+     * Identity check (check against email address and username fields )
+     *
+     * @return bool
+     * @author Mathew
+     **/
+    public function identity_check($identity = '')
+    {
+        $this->trigger_events('identity_check');
+
+        if (empty($identity)) {
+            return false;
+        }
+
+        return $this->db->where($this->identity_column, $identity)
+            ->or_where('username', $identity)
+            ->count_all_results($this->tables['user']) > 0;
+    }
+
+    /**
+     * Insert a forgotten password key.
+     *
+     * @return bool
+     * @author Mathew
+     * @updated Ryan
+     * @updated 52aa456eef8b60ad6754b31fbdcc77bb
+     **/
+    public function forgotten_password($identity)
+    {
+        if (empty($identity)) {
+            $this->trigger_events(array('post_forgotten_password', 'post_forgotten_password_unsuccessful'));
+            return false;
+        }
+
+        // All some more randomness
+        $activation_code_part = "";
+        if (function_exists("openssl_random_pseudo_bytes")) {
+            $activation_code_part = openssl_random_pseudo_bytes(128);
+        }
+
+        for ($i=0; $i<1024; $i++) {
+            $activation_code_part = sha1($activation_code_part . mt_rand() . microtime());
+        }
+
+        $key = $this->hash_code($activation_code_part.$identity);
+
+        // If enable query strings is set, then we need to replace any unsafe characters so that the code can still work
+        if ($key != '' && $this->config->item('permitted_uri_chars') != '' && $this->config->item('enable_query_strings') == false) {
+            // preg_quote() in PHP 5.3 escapes -, so the str_replace() and addition of - to preg_quote() is to maintain backwards
+            // compatibility as many are unaware of how characters in the permitted_uri_chars will be parsed as a regex pattern
+            if (! preg_match("|^[".str_replace(array('\\-', '\-'), '-', preg_quote($this->config->item('permitted_uri_chars'), '-'))."]+$|i", $key)) {
+                $key = preg_replace("/[^".$this->config->item('permitted_uri_chars')."]+/i", "-", $key);
+            }
+        }
+
+        // Limit to 40 characters since that's how our DB field is setup
+        $this->forgotten_password_code = substr($key, 0, 40);
+
+        $this->trigger_events('extra_where');
+
+        $update = array(
+            'forgotten_password_code' => $key,
+            'forgotten_password_time' => time()
+        );
+
+        $this->db->update($this->tables['user'], $update, array($this->identity_column => $identity));
+
+        $return = $this->db->affected_rows() == 1;
+
+        if ($return) {
+            $this->trigger_events(array('post_forgotten_password', 'post_forgotten_password_successful'));
+        } else {
+            $this->trigger_events(array('post_forgotten_password', 'post_forgotten_password_unsuccessful'));
+        }
+
+        return $return;
+    }
+
+    /**
+     * Forgotten Password Complete
+     *
+     * @return string
+     * @author Mathew
+     **/
+    public function forgotten_password_complete($code, $salt=false)
+    {
+        $this->trigger_events('pre_forgotten_password_complete');
+
+        if (empty($code)) {
+            $this->trigger_events(array('post_forgotten_password_complete', 'post_forgotten_password_complete_unsuccessful'));
+            return false;
+        }
+
+        $profile = $this->where('forgotten_password_code', $code)->users()->row(); //pass the code to profile
+
+        if ($profile) {
+            if ($this->config->item('forgot_password_expiration', 'ion_auth') > 0) {
+                //Make sure it isn't expired
+                $expiration = $this->config->item('forgot_password_expiration', 'ion_auth');
+                if (time() - $profile->forgotten_password_time > $expiration) {
+                    //it has expired
+                    $this->set_error('forgot_password_expired');
+                    $this->trigger_events(array('post_forgotten_password_complete', 'post_forgotten_password_complete_unsuccessful'));
+                    return false;
+                }
+            }
+
+            $password = $this->salt();
+
+            $data = array(
+                'password'                => $this->hash_password($password, $salt),
+                'forgotten_password_code' => null,
+                'active'                  => 1,
+             );
+
+            $this->db->update($this->tables['user'], $data, array('forgotten_password_code' => $code));
+
+            $this->trigger_events(array('post_forgotten_password_complete', 'post_forgotten_password_complete_successful'));
+            return $password;
+        }
+
+        $this->trigger_events(array('post_forgotten_password_complete', 'post_forgotten_password_complete_unsuccessful'));
+        return false;
+    }
+
+    /**
+     * register
+     *
+     * @return bool
+     * @author Mathew
+     **/
+    public function register($identity, $password, $email, $additional_data = array(), $groups = array())
+    {
+        if (!empty($additional_data)) {
+            $account_modules = (isset($additional_data['account_modules']) && !empty($additional_data['account_modules'])) ? $additional_data['account_modules'] : null;
+            unset($additional_data['account_modules']);
+            foreach ($additional_data as $key=>$value) {
+                if (!in_array($key, ['email','username','password','password_confirm'])) {
+                    $filter_add_data[$key] = (!empty($value)) ? trim(ucwords(strtolower($value))) : null;
+                }
+            }
+            $additional_data = $filter_add_data;
+
+            if (!$account_modules) {
+                $modules 	 = $this->module_service->get_modules(false, true);
+                $module_ids = (!empty($modules)) ? array_column($modules, 'module_id') : false;
+                if (!empty($module_ids)) {
+                    $account_modules = $module_ids;
+                }
+            }
+        }
+
+        $this->trigger_events('pre_register');
+
+        $manual_activation = $this->config->item('manual_activation', 'ion_auth');
+
+        if ($this->identity_check($identity)) {
+            $this->set_error('account_creation_duplicate_identity');
+            return false;
+        } elseif (!$this->config->item('default_group', 'ion_auth') && empty($groups)) {
+            $this->set_error('account_creation_missing_default_group');
+            return false;
+        }
+
+        // check if the default set in config exists in database
+        $query = $this->db->get_where($this->tables['groups'], array('name' => $this->config->item('default_group', 'ion_auth')), 1)->row();
+        if (!isset($query->id) && empty($groups)) {
+            $this->set_error('account_creation_invalid_default_group');
+            return false;
+        }
+
+        // capture default group details
+        $default_group = $query;
+
+        // IP Address
+        $ip_address = $this->_prepare_ip($this->input->ip_address());
+        $salt       = $this->store_salt ? $this->salt() : false;
+        $password   = (empty($password)) ? DEFAULT_PASSWORD : $password;
+        $password   = $this->hash_password($password, $salt);
+
+        // Users table.
+        $data = array(
+            $this->identity_column   => $identity,
+            'username'   		=> $identity,
+            'password'   		=> $password,
+            'email'      		=> $email,
+            'ip_address' 		=> $ip_address,
+            'created_on' 		=> time(),
+            'created_by' 		=> !empty($this->ion_auth->_current_user->id) ? $this->ion_auth->_current_user->id : false,
+            'active'     		=> ($manual_activation === false ? 1 : 1),
+            'account_id'		=> (isset($additional_data['account_id']) && !empty($additional_data['account_id'])) ? $additional_data['account_id'] : null,
+            'account_user_id'	=> $this->generate_account_user_id($additional_data['account_id']),
+            'user_type_id'		=> (isset($additional_data['user_type_id']) && !empty($additional_data['user_type_id'])) ? $additional_data['user_type_id'] : DEFAULT_USER_TYPE, //Default user type (Standard User)
+            'external_user_ref' => (isset($additional_data['external_user_ref']) && !empty($additional_data['external_user_ref'])) ? strtoupper($additional_data['external_user_ref']) : null,
+            'external_username' => (isset($additional_data['external_username']) && !empty($additional_data['external_username'])) ? trim($additional_data['external_username']) : null,
+            'external_password' => (isset($additional_data['external_password']) && !empty($additional_data['external_password'])) ? encrypt_str($additional_data['external_password']) : null
+        );
+
+        if ($this->store_salt) {
+            $data['salt'] = $salt;
+        }
+
+        // filter out any data passed that doesnt have a matching column in the users table
+        // and merge the set user data and the additional data
+        $user_data = array_merge($this->_filter_data($this->tables['user'], $additional_data), $data);
+
+        $this->trigger_events('extra_set');
+        $this->db->insert($this->tables['user'], $user_data);
+
+        $id 		= $this->db->insert_id($this->tables['user'] . '_id_seq');
+
+        // add in groups array if it doesn't exists and stop adding into default group if default group ids are set
+        if (isset($default_group->id) && empty($groups)) {
+            $groups[] = $default_group->id;
+        }
+
+        if (!empty($groups)) {
+            // add to groups
+            foreach ($groups as $group) {
+                $this->add_to_group($group, $id);
+            }
+        }
+
+        $this->trigger_events('post_register');
+
+        if (!empty($id) && isset($account_modules) &&  !empty($account_modules)) {
+            $new_user = $this->ion_auth->get_user_by_id($data['account_id'], $id);
+            $this->module_service->create_user_module_access($new_user, $account_modules);
+            $this->account_service->generate_membership_number(false, $id, ['user_id'=>$id]);
+        }
+
+        return (isset($id) &&  !empty($id)) ? $id : false;
+    }
+
+    /**
+     * login
+     *
+     * @return bool
+     * @author Mathew
+     **/
+    public function login($identity, $password, $remember = false)
+    {
+        $login_identity = $this->config->item('identity', 'ion_auth');
+
+        $this->trigger_events('pre_login');
+
+        if (empty($identity) || empty($password)) {
+            $this->set_error('login_unsuccessful');
+            return false;
+        }
+
+        $this->trigger_events('extra_where');
+
+        $this->db->select($this->identity_column . ',id , first_name, last_name, email, username, membership_number, password, change_password, active, last_login, user.profile_image, user.account_id, account.account_name , account.package_id `tier_id`, account_user_id,user_type_id,is_account_holder, is_primary_user, associated_user_id, can_be_assigned_jobs, external_user_ref, external_username, external_password, region_id, buildings_visibility, is_supervisor, supervisor_id, can_view_site_jobs, can_edit_jobs')
+            ->where($this->identity_column, $identity)
+            ->join('account', 'account.account_id = user.account_id', 'left');
+
+        if ($login_identity == 'email') {
+            $this->db->or_where('username', $identity);
+        } else {
+            $this->db->or_where('email', $identity);
+            $this->db->or_where('membership_number', $identity);
+        }
+
+        $query = $this->db->limit(1)
+            ->order_by('id', 'desc')
+            ->get($this->tables['user']);
+
+        if ($this->is_max_login_attempts_exceeded($identity)) {
+            // Hash something anyway, just to take up time
+            $this->hash_password($password);
+
+            $this->trigger_events('post_login_unsuccessful');
+            $this->set_error('login_timeout');
+            return false;
+        }
+
+        if ($query->num_rows() === 1) {
+            $user = $query->row();
+
+            $password = $this->hash_password_db($user->id, $password);
+
+            if ($password === true) {
+                if ($user->active == 0) {
+                    $this->trigger_events('post_login_unsuccessful');
+                    $this->set_error('login_unsuccessful_not_active');
+                    $this->session->set_flashdata('message', 'Account is inactive');
+                    return false;
+                }
+
+                $this->set_session($user);
+
+                $this->update_last_login($user->id);
+
+                $this->clear_login_attempts($identity);
+
+                if ($remember && $this->config->item('remember_users', 'ion_auth')) {
+                    $this->remember_user($user->id);
+                }
+
+                $this->trigger_events(array('post_login', 'post_login_successful'));
+                $this->set_message('login_successful');
+
+                //return TRUE;
+                //$user = $this->session->userdata();
+                unset($user->password);
+
+                ## Check if main account is active
+                $account_status = $this->account_service->check_account_status($user->account_id, true);
+
+                if (!$account_status) {
+                    $message = $this->session->flashdata('message');
+                    $this->session->set_flashdata('message', $message);
+                    return false;
+                }
+
+                ## Unset some fields if
+                if (!in_array($user->id, [1])) {
+                    //unset( $user->is_account_holder, $user->user_type_id, $user->account_user_id  );
+                }
+
+                $user->is_admin   		= $this->ion_auth->is_admin($user->id);
+                $user->is_superuser   	= (in_array($user->id, SUPER_ADMIN_ACCESS)) ? true : false;
+                $user->login_time 		= time();
+                $user->app_version		= !empty($this->input->post('app_version')) ? $this->input->post('app_version') : 'Evident Version '. APP_VERSION .' (Detected)';
+
+                ## Log login success
+                $this->record_login_success($user);
+
+                ## Login to Tesseract
+                $user->external_auth_token = false;
+
+                if (!empty(TESSERACT_LINKED_ACCOUNTS) && (in_array($user->account_id, TESSERACT_LINKED_ACCOUNTS))) {
+                    if (!empty($this->config->item('enable_tesseract_login')) && !empty($user->external_username) && !empty($user->external_password)) {
+                        $this->load->model('Tesseract_model', 'tesseract_service');
+                        $decrypt_pwd 		= decrypt_str($user->external_password);
+                        if ($decrypt_pwd) {
+                            $tess_authenticate 	= $this->tesseract_service->user_login($user->account_id, [ 'username'=>$user->external_username,  'password'=>$decrypt_pwd ]);
+                            if (!empty($tess_authenticate->data->token)) {
+                                $user->external_auth_token = $tess_authenticate->data->token;
+                            }
+                        }
+                        unset($user->external_password);
+                    }
+                }
+                return $user;
+            }
+        }
+
+        // Hash something anyway, just to take up time
+        $this->hash_password($password);
+
+        $this->increase_login_attempts($identity);
+
+        $this->trigger_events('post_login_unsuccessful');
+        $this->set_error('login_unsuccessful');
+
+        return false;
+    }
+
+    /**
+     * recheck_session verifies if the session should be rechecked according to
+     * the configuration item recheck_timer. If it does, then it will check if the user is still active
+     * @return bool
+     */
+    public function recheck_session()
+    {
+        $recheck = (null !== $this->config->item('recheck_timer', 'ion_auth')) ? $this->config->item('recheck_timer', 'ion_auth') : 0;
+
+        if ($recheck!==0) {
+            $last_login = $this->session->userdata('last_check');
+            if ($last_login+$recheck < time()) {
+                $query = $this->db->select('id')
+                    ->where(array($this->identity_column=>$this->session->userdata('identity'),'active'=>'1'))
+                    ->limit(1)
+                    ->order_by('id', 'desc')
+                    ->get($this->tables['user']);
+                if ($query->num_rows() === 1) {
+                    $this->session->set_userdata('last_check', time());
+                } else {
+                    $this->trigger_events('logout');
+
+                    $identity = $this->config->item('identity', 'ion_auth');
+
+                    if (substr(CI_VERSION, 0, 1) == '2') {
+                        $this->session->unset_userdata(array($identity => '', 'id' => '', 'user_id' => ''));
+                    } else {
+                        $this->session->unset_userdata(array($identity, 'id', 'user_id'));
+                    }
+                    return false;
+                }
+            }
+        }
+
+        return (bool) $this->session->userdata('identity');
+    }
+
+    /**
+     * is_max_login_attempts_exceeded
+     * Based on code from Tank Auth, by Ilya Konyukhov (https://github.com/ilkon/Tank-Auth)
+     *
+     * @param string $identity: user's identity
+     * @param string $ip_address: IP address
+     *                            Only used if track_login_ip_address set to TRUE.
+     *                            If NULL (default value), current IP address is used.
+     *                            Use get_last_attempt_ip($identity) to retrieve user's last IP
+     * @return boolean
+     **/
+    public function is_max_login_attempts_exceeded($identity, $ip_address = null)
+    {
+        if ($this->config->item('track_login_attempts', 'ion_auth')) {
+            $max_attempts = $this->config->item('maximum_login_attempts', 'ion_auth');
+            if ($max_attempts > 0) {
+                $attempts = $this->get_attempts_num($identity, $ip_address);
+                return $attempts >= $max_attempts;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get number of attempts to login occured from given IP-address or identity
+     * Based on code from Tank Auth, by Ilya Konyukhov (https://github.com/ilkon/Tank-Auth)
+     *
+     * @param string $identity: user's identity
+     * @param string $ip_address: IP address
+     *                            Only used if track_login_ip_address set to TRUE.
+     *                            If NULL (default value), current IP address is used.
+     *                            Use get_last_attempt_ip($identity) to retrieve user's last IP
+     * @return int
+     */
+    public function get_attempts_num($identity, $ip_address = null)
+    {
+        if ($this->config->item('track_login_attempts', 'ion_auth')) {
+            $this->db->select('1', false);
+            $this->db->where('login', $identity);
+            if ($this->config->item('track_login_ip_address', 'ion_auth')) {
+                if (!isset($ip_address)) {
+                    $ip_address = $this->_prepare_ip($this->input->ip_address());
+                }
+                $this->db->where('ip_address', $ip_address);
+            }
+            $this->db->where('time >', time() - $this->config->item('lockout_time', 'ion_auth'), false);
+            $qres = $this->db->get($this->tables['login_attempts']);
+            return $qres->num_rows();
+        }
+        return 0;
+    }
+
+    /**
+     * Get a boolean to determine if an account should be locked out due to
+     * exceeded login attempts within a given period
+     *
+     * This function is only a wrapper for is_max_login_attempts_exceeded() since it
+     * only retrieve attempts within the given period.
+     * It is kept for retrocompatibility purpose.
+     *
+     * @param string $identity: user's identity
+     * @param string $ip_address: IP address
+     *                            Only used if track_login_ip_address set to TRUE.
+     *                            If NULL (default value), current IP address is used.
+     *                            Use get_last_attempt_ip($identity) to retrieve user's last IP
+     * @return boolean
+     */
+    public function is_time_locked_out($identity, $ip_address = null)
+    {
+        return $this->is_max_login_attempts_exceeded($identity, $ip_address);
+    }
+
+    /**
+     * Get the time of the last time a login attempt occured from given IP-address or identity
+     *
+     * This function is no longer used.
+     * It is kept for retrocompatibility purpose.
+     *
+     * @param string $identity: user's identity
+     * @param string $ip_address: IP address
+     *                            Only used if track_login_ip_address set to TRUE.
+     *                            If NULL (default value), current IP address is used.
+     *                            Use get_last_attempt_ip($identity) to retrieve user's last IP
+     * @return int
+     */
+    public function get_last_attempt_time($identity, $ip_address = null)
+    {
+        if ($this->config->item('track_login_attempts', 'ion_auth')) {
+            $this->db->select('time');
+            $this->db->where('login', $identity);
+            if ($this->config->item('track_login_ip_address', 'ion_auth')) {
+                if (!isset($ip_address)) {
+                    $ip_address = $this->_prepare_ip($this->input->ip_address());
+                }
+                $this->db->where('ip_address', $ip_address);
+            }
+            $this->db->order_by('id', 'desc');
+            $qres = $this->db->get($this->tables['login_attempts'], 1);
+
+            if ($qres->num_rows() > 0) {
+                return $qres->row()->time;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+    * Get the IP address of the last time a login attempt occured from given identity
+    *
+     * @param string $identity: user's identity
+    * @return string
+    */
+    public function get_last_attempt_ip($identity)
+    {
+        if ($this->config->item('track_login_attempts', 'ion_auth') && $this->config->item('track_login_ip_address', 'ion_auth')) {
+            $this->db->select('ip_address');
+            $this->db->where('login', $identity);
+            $this->db->order_by('id', 'desc');
+            $qres = $this->db->get($this->tables['login_attempts'], 1);
+
+            if ($qres->num_rows() > 0) {
+                return $qres->row()->ip_address;
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * increase_login_attempts
+     * Based on code from Tank Auth, by Ilya Konyukhov (https://github.com/ilkon/Tank-Auth)
+     *
+     * Note: the current IP address will be used if track_login_ip_address config value is TRUE
+     *
+     * @param string $identity: user's identity
+     **/
+    public function increase_login_attempts($identity)
+    {
+        if ($this->config->item('track_login_attempts', 'ion_auth')) {
+            $data = array('ip_address' => '', 'login' => $identity, 'time' => time());
+            if ($this->config->item('track_login_ip_address', 'ion_auth')) {
+                $data['ip_address'] = $this->_prepare_ip($this->input->ip_address());
+            }
+            return $this->db->insert($this->tables['login_attempts'], $data);
+        }
+        return false;
+    }
+
+    /**
+     * clear_login_attempts
+     * Based on code from Tank Auth, by Ilya Konyukhov (https://github.com/ilkon/Tank-Auth)
+     *
+     * @param string $identity: user's identity
+     * @param int $old_attempts_expire_period: in seconds, any attempts older than this value will be removed.
+     *                                         It is used for regularly purging the attempts table.
+     *                                         (for security reason, minimum value is lockout_time config value)
+     * @param string $ip_address: IP address
+     *                            Only used if track_login_ip_address set to TRUE.
+     *                            If NULL (default value), current IP address is used.
+     *                            Use get_last_attempt_ip($identity) to retrieve user's last IP
+     **/
+    public function clear_login_attempts($identity, $old_attempts_expire_period = 86400, $ip_address = null)
+    {
+        if ($this->config->item('track_login_attempts', 'ion_auth')) {
+            // Make sure $old_attempts_expire_period is at least equals to lockout_time
+            $old_attempts_expire_period = max($old_attempts_expire_period, $this->config->item('lockout_time', 'ion_auth'));
+
+            $this->db->where('login', $identity);
+            if ($this->config->item('track_login_ip_address', 'ion_auth')) {
+                if (!isset($ip_address)) {
+                    $ip_address = $this->_prepare_ip($this->input->ip_address());
+                }
+                $this->db->where('ip_address', $ip_address);
+            }
+            // Purge obsolete login attempts
+            $this->db->or_where('time <', time() - $old_attempts_expire_period, false);
+
+            return $this->db->delete($this->tables['login_attempts']);
+        }
+        return false;
+    }
+
+    public function limit($limit)
+    {
+        $this->trigger_events('limit');
+        $this->_ion_limit = $limit;
+
+        return $this;
+    }
+
+    public function offset($offset)
+    {
+        $this->trigger_events('offset');
+        $this->_ion_offset = $offset;
+
+        return $this;
+    }
+
+    public function where($where, $value = null)
+    {
+        $this->trigger_events('where');
+
+        if (!is_array($where)) {
+            $where = array($where => $value);
+        }
+
+        array_push($this->_ion_where, $where);
+
+        return $this;
+    }
+
+    public function like($like, $value = null, $position = 'both')
+    {
+        $this->trigger_events('like');
+
+        array_push($this->_ion_like, array(
+            'like'     => $like,
+            'value'    => $value,
+            'position' => $position
+        ));
+
+        return $this;
+    }
+
+    public function select($select)
+    {
+        $this->trigger_events('select');
+
+        $this->_ion_select[] = $select;
+
+        return $this;
+    }
+
+    public function order_by($by, $order='desc')
+    {
+        $this->trigger_events('order_by');
+
+        $this->_ion_order_by = $by;
+        $this->_ion_order    = $order;
+
+        return $this;
+    }
+
+    public function row()
+    {
+        $this->trigger_events('row');
+
+        $row = $this->response->row();
+
+        return $row;
+    }
+
+    public function row_array()
+    {
+        $this->trigger_events(array('row', 'row_array'));
+
+        $row = $this->response->row_array();
+
+        return $row;
+    }
+
+    public function result()
+    {
+        $this->trigger_events('result');
+
+        $result = $this->response->result();
+
+        return $result;
+    }
+
+    public function result_array()
+    {
+        $this->trigger_events(array('result', 'result_array'));
+
+        $result = $this->response->result_array();
+
+        return $result;
+    }
+
+    public function num_rows()
+    {
+        $this->trigger_events(array('num_rows'));
+
+        $result = $this->response->num_rows();
+
+        return $result;
+    }
+
+    /**
+     * users
+     *
+     * @return object Users
+     * @author Ben Edmunds
+     **/
+    public function users($groups = null)
+    {
+        $this->trigger_events('users');
+
+        if (isset($this->_ion_select) && !empty($this->_ion_select)) {
+            foreach ($this->_ion_select as $select) {
+                $this->db->select($select);
+            }
+
+            $this->_ion_select = array();
+        } else {
+            //default selects
+            $this->db->select(array(
+                $this->tables['user'].'.*',
+                $this->tables['user'].'.id as id',
+                $this->tables['user'].'.id as user_id'
+            ));
+        }
+
+        // filter by group id(s) if passed
+        if (isset($groups)) {
+            // build an array if only one group was passed
+            if (!is_array($groups)) {
+                $groups = array($groups);
+            }
+
+            // join and then run a where_in against the group ids
+            if (isset($groups) && !empty($groups)) {
+                $this->db->distinct();
+                $this->db->join(
+                    $this->tables['user_groups'],
+                    $this->tables['user_groups'].'.'.$this->join['user'].'='.$this->tables['user'].'.id',
+                    'inner'
+                );
+            }
+
+            // verify if group name or group id was used and create and put elements in different arrays
+            $group_ids = array();
+            $group_names = array();
+            foreach ($groups as $group) {
+                if (is_numeric($group)) {
+                    $group_ids[] = $group;
+                } else {
+                    $group_names[] = $group;
+                }
+            }
+            $or_where_in = (!empty($group_ids) && !empty($group_names)) ? 'or_where_in' : 'where_in';
+            // if group name was used we do one more join with groups
+            if (!empty($group_names)) {
+                $this->db->join($this->tables['groups'], $this->tables['user_groups'] . '.' . $this->join['groups'] . ' = ' . $this->tables['groups'] . '.id', 'inner');
+                $this->db->where_in($this->tables['groups'] . '.name', $group_names);
+            }
+            if (!empty($group_ids)) {
+                $this->db->{$or_where_in}($this->tables['user_groups'].'.'.$this->join['groups'], $group_ids);
+            }
+        }
+
+        $this->trigger_events('extra_where');
+
+        // run each where that was passed
+        if (isset($this->_ion_where) && !empty($this->_ion_where)) {
+            foreach ($this->_ion_where as $where) {
+                $this->db->where($where);
+            }
+
+            $this->_ion_where = array();
+        }
+
+        if (isset($this->_ion_like) && !empty($this->_ion_like)) {
+            foreach ($this->_ion_like as $like) {
+                $this->db->or_like($like['like'], $like['value'], $like['position']);
+            }
+
+            $this->_ion_like = array();
+        }
+
+        if (isset($this->_ion_limit) && isset($this->_ion_offset)) {
+            $this->db->limit($this->_ion_limit, $this->_ion_offset);
+
+            $this->_ion_limit  = null;
+            $this->_ion_offset = null;
+        } elseif (isset($this->_ion_limit)) {
+            $this->db->limit($this->_ion_limit);
+
+            $this->_ion_limit  = null;
+        }
+
+        // set the order
+        if (isset($this->_ion_order_by) && isset($this->_ion_order)) {
+            $this->db->order_by($this->_ion_order_by, $this->_ion_order);
+
+            $this->_ion_order    = null;
+            $this->_ion_order_by = null;
+        }
+
+        $this->response = $this->db->get($this->tables['user']);
+
+        return $this;
+    }
+
+    /**
+     * user
+     *
+     * @return object
+     * @author Ben Edmunds
+     **/
+    public function user($id = null)
+    {
+        $this->trigger_events('user');
+
+        // if no id was passed use the current users id
+        $id = isset($id) ? $id : $this->session->userdata('user_id');
+
+        $this->limit(1);
+        $this->order_by($this->tables['user'].'.id', 'desc');
+        $this->where($this->tables['user'].'.id', $id);
+
+        $this->users();
+
+        return $this;
+    }
+
+    /**
+     * get_user_groups
+     *
+     * @return array
+     * @author Ben Edmunds
+     **/
+    public function get_user_groups($id=false)
+    {
+        $this->trigger_events('get_users_group');
+
+        // if no id was passed use the current users id
+        $id || $id = $this->session->userdata('user_id');
+
+        return $this->db->select($this->tables['user_groups'].'.'.$this->join['groups'].' as id, '.$this->tables['groups'].'.name, '.$this->tables['groups'].'.description')
+                        ->where($this->tables['user_groups'].'.'.$this->join['user'], $id)
+                        ->join($this->tables['groups'], $this->tables['user_groups'].'.'.$this->join['groups'].'='.$this->tables['groups'].'.id')
+                        ->get($this->tables['user_groups']);
+    }
+
+    /**
+     * add_to_group
+     *
+     * @return bool
+     * @author Ben Edmunds
+     **/
+    public function add_to_group($group_ids, $user_id=false)
+    {
+        $this->trigger_events('add_to_group');
+
+        // if no id was passed use the current users id
+        $user_id || $user_id = $this->session->userdata('user_id');
+
+        if (!is_array($group_ids)) {
+            $group_ids = array($group_ids);
+        }
+
+        $return = 0;
+
+        // Then insert each into the database
+        foreach ($group_ids as $group_id) {
+            if ($this->db->insert($this->tables['user_groups'], array( $this->join['groups'] => (float)$group_id, $this->join['user'] => (float)$user_id))) {
+                if (isset($this->_cache_groups[$group_id])) {
+                    $group_name = $this->_cache_groups[$group_id];
+                } else {
+                    $group = $this->group($group_id)->result();
+                    $group_name = $group[0]->name;
+                    $this->_cache_groups[$group_id] = $group_name;
+                }
+                $this->_cache_user_in_group[$user_id][$group_id] = $group_name;
+
+                // Return the number of groups added
+                $return += 1;
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * remove_from_group
+     *
+     * @return bool
+     * @author Ben Edmunds
+     **/
+    public function remove_from_group($group_ids=false, $user_id=false)
+    {
+        $this->trigger_events('remove_from_group');
+
+        // user id is required
+        if (empty($user_id)) {
+            return false;
+        }
+
+        // if group id(s) are passed remove user from the group(s)
+        if (! empty($group_ids)) {
+            if (!is_array($group_ids)) {
+                $group_ids = array($group_ids);
+            }
+
+            foreach ($group_ids as $group_id) {
+                $this->db->delete($this->tables['user_groups'], array($this->join['groups'] => (float)$group_id, $this->join['user'] => (float)$user_id));
+                if (isset($this->_cache_user_in_group[$user_id]) && isset($this->_cache_user_in_group[$user_id][$group_id])) {
+                    unset($this->_cache_user_in_group[$user_id][$group_id]);
+                }
+            }
+
+            $this->ssid_common->_reset_auto_increment('user_groups', 'id');//housekeeping
+
+            $return = true;
+        }
+        // otherwise remove user from all groups
+        else {
+            if ($return = $this->db->delete($this->tables['user_groups'], array( $this->join['user'] => (float)$user_id ))) {
+                $this->_cache_user_in_group[$user_id] = array();
+                $this->ssid_common->_reset_auto_increment('user_groups', 'id');//housekeeping
+            }
+        }
+        return $return;
+    }
+
+    /**
+     * groups
+     *
+     * @return object
+     * @author Ben Edmunds
+     **/
+    public function groups()
+    {
+        $this->trigger_events('groups');
+
+        // run each where that was passed
+        if (isset($this->_ion_where) && !empty($this->_ion_where)) {
+            foreach ($this->_ion_where as $where) {
+                $this->db->where($where);
+            }
+            $this->_ion_where = array();
+        }
+
+        if (isset($this->_ion_limit) && isset($this->_ion_offset)) {
+            $this->db->limit($this->_ion_limit, $this->_ion_offset);
+
+            $this->_ion_limit  = null;
+            $this->_ion_offset = null;
+        } elseif (isset($this->_ion_limit)) {
+            $this->db->limit($this->_ion_limit);
+
+            $this->_ion_limit  = null;
+        }
+
+        // set the order
+        if (isset($this->_ion_order_by) && isset($this->_ion_order)) {
+            $this->db->order_by($this->_ion_order_by, $this->_ion_order);
+        }
+
+        $this->response = $this->db->get($this->tables['groups']);
+
+        return $this;
+    }
+
+    /**
+     * group
+     *
+     * @return object
+     * @author Ben Edmunds
+     **/
+    public function group($id = null)
+    {
+        $this->trigger_events('group');
+
+        if (isset($id)) {
+            $this->where($this->tables['groups'].'.id', $id);
+        }
+
+        $this->limit(1);
+        $this->order_by('id', 'desc');
+
+        return $this->groups();
+    }
+
+    /**
+     * update
+     *
+     * @return bool
+     * @author Phil Sturgeon
+     **/
+    public function update($account_id = false, $id = false, $data = [])
+    {
+        if (!empty($data)) {
+            $account_modules = (isset($data['account_modules']) && !empty($data['account_modules'])) ? $data['account_modules'] : null;
+            unset($data['account_modules']);
+
+            $user_permissions = (isset($data['permissions']) && !empty($data['permissions'])) ? $data['permissions'] : null;
+            unset($data['permissions']);
+        }
+
+        $this->trigger_events('pre_update_user');
+
+        $user = $this->get_user_by_id($account_id, $id, true);
+
+        $this->db->trans_begin();
+
+        if (array_key_exists($this->identity_column, $data) && $this->identity_check($data[$this->identity_column]) && $user->{$this->identity_column} !== $data[$this->identity_column]) {
+            $this->db->trans_rollback();
+            $this->set_error('account_creation_duplicate_identity');
+
+            $this->trigger_events(array( 'post_update_user', 'post_update_user_unsuccessful' ));
+            $this->set_error('update_unsuccessful');
+
+            return false;
+        }
+
+        $data['last_modified_by'] = $this->ion_auth->_current_user->id;
+
+        $data = $this->_filter_data($this->tables['user'], $data);
+
+        if (array_key_exists($this->identity_column, $data) || array_key_exists('password', $data) || array_key_exists('email', $data)) {
+            if (array_key_exists('password', $data)) {
+                if (! empty($data['password'])) {
+                    $data['password'] = $this->hash_password($data['password'], $user->salt);
+                } else {
+                    // unset password so it doesn't effect database entry if no password passed
+                    unset($data['password']);
+                }
+            }
+        }
+
+        $this->trigger_events('extra_where');
+
+        unset($data['account_id'],$data['is_account_holder']);//Prevent changing account id and is_account_holder fields
+
+        ## Check for updated external user password
+        if (! empty($data['external_password'])) {
+            $data['external_password'] = encrypt_str($data['external_password']);
+        }
+
+        $this->db->update($this->tables['user'], $data, array('id' => $user->id ));
+
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+
+            $this->trigger_events(array('post_update_user', 'post_update_user_unsuccessful'));
+            $this->set_error('update_unsuccessful');
+            return false;
+        }
+
+        $this->db->trans_commit();
+
+        if (isset($account_modules) && !empty($account_modules) && $this->ion_auth->is_admin($this->ion_auth->_current_user()->id)) { //Remember to check the user calling this function is an admin
+            //if( isset($account_modules) && !empty($account_modules) ){
+            $this->module_service->create_user_module_access($user, $account_modules);
+        }
+
+        ##Amend group permissions
+        if (!empty($data['user_type_id'])) {
+            $this->amend_group_permissions($id, $data['user_type_id'], $user->user_type_id);
+        }
+
+        $this->trigger_events(array( 'post_update_user', 'post_update_user_successful' ));
+        $this->set_message('update_successful');
+        return true;
+    }
+
+    /**
+    * delete_user
+    *
+    * @return bool
+    * @author Phil Sturgeon
+    **/
+    public function delete_user($account_id = false, $id = false)
+    {
+        //We're not allowing deletion of user records, user the Archive method
+        $this->session->set_flashdata('message', 'Access denied. You can not delete a user resource');
+        return false;
+
+
+        $result = false;
+        if ($account_id && $id) {
+            $check_user = $this->db->get_where('user', ['account_id'=>$account_id, 'id'=>$id])->row();
+            if (!empty($check_user)) {
+                $this->trigger_events('pre_delete_user');
+
+                $this->db->trans_begin();
+
+                // remove user from groups
+                $this->remove_from_group(null, $id);
+
+                // Remove this user's permissions
+                $this->db->delete('user_permissions', ['fk_user_id'=> $id,'fk_account_id'=>$account_id]);
+
+                // delete user from users table should be placed after remove from group
+                $this->db->delete($this->tables['user'], ['id' => $id, 'account_id'=>$account_id]);
+
+                if ($this->db->trans_status() === false) {
+                    $this->db->trans_rollback();
+                    $this->trigger_events(array('post_delete_user', 'post_delete_user_unsuccessful'));
+                    $this->set_error('delete_unsuccessful');
+                    $this->session->set_flashdata('message', 'User delete request failed');
+                    return $result;
+                }
+
+                $this->db->trans_commit();
+
+                if ($this->db->trans_status() !== false) {
+                    $result = true;
+                    $this->trigger_events(array('post_delete_user', 'post_delete_user_successful'));
+                    $this->set_message('delete_successful');
+                    $this->session->set_flashdata('message', 'User record deleted successfully');
+                }
+            } else {
+                $this->session->set_flashdata('message', 'User record not found. delete request failed');
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * update_last_login
+     * @return bool
+     * @author Ben Edmunds
+     **/
+    public function update_last_login($id)
+    {
+        $this->trigger_events('update_last_login');
+
+        $this->load->helper('date');
+
+        $this->trigger_events('extra_where');
+
+        $this->db->update($this->tables['user'], array( 'last_login' => time(), 'last_active_session' => $this->session->session_id, 'logout_time'=> null ), array('id' => $id));
+
+        return $this->db->affected_rows() == 1;
+    }
+
+    /**
+     * set_lang
+     *
+     * @return bool
+     * @author Ben Edmunds
+     **/
+    public function set_lang($lang = 'en')
+    {
+        $this->trigger_events('set_lang');
+
+        // if the user_expire is set to zero we'll set the expiration two years from now.
+        if ($this->config->item('user_expire', 'ion_auth') === 0) {
+            $expire = (60*60*24*365*2);
+        }
+        // otherwise use what is set
+        else {
+            $expire = $this->config->item('user_expire', 'ion_auth');
+        }
+
+        set_cookie(array(
+            'name'   => 'lang_code',
+            'value'  => $lang,
+            'expire' => $expire
+        ));
+
+        return true;
+    }
+
+    /**
+     * set_session
+     *
+     * @return bool
+     * @author jrmadsen67
+     **/
+    public function set_session($user)
+    {
+        $this->trigger_events('pre_set_session');
+
+        $session_data = array(
+            'identity'             => $user->{$this->identity_column},
+            $this->identity_column             => $user->{$this->identity_column},
+            'email'                => $user->email,
+            'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
+            'old_last_login'       => $user->last_login,
+            'last_check'           => time(),
+            'login_time'           => date('H:i:s'),
+        );
+
+        $this->session->set_userdata($session_data);
+
+        $this->trigger_events('post_set_session');
+
+        return true;
+    }
+
+    /**
+     * remember_user
+     *
+     * @return bool
+     * @author Ben Edmunds
+     **/
+    public function remember_user($id)
+    {
+        $this->trigger_events('pre_remember_user');
+
+        if (!$id) {
+            return false;
+        }
+
+        $user = $this->user($id)->row();
+
+        $salt = $this->salt();
+
+        $this->db->update($this->tables['user'], array('remember_code' => $salt), array('id' => $id));
+
+        if ($this->db->affected_rows() > -1) {
+            // if the user_expire is set to zero we'll set the expiration two years from now.
+            if ($this->config->item('user_expire', 'ion_auth') === 0) {
+                $expire = (60*60*24*365*2);
+            }
+            // otherwise use what is set
+            else {
+                $expire = $this->config->item('user_expire', 'ion_auth');
+            }
+
+            set_cookie(array(
+                'name'   => $this->config->item('identity_cookie_name', 'ion_auth'),
+                'value'  => $user->{$this->identity_column},
+                'expire' => $expire
+            ));
+
+            set_cookie(array(
+                'name'   => $this->config->item('remember_cookie_name', 'ion_auth'),
+                'value'  => $salt,
+                'expire' => $expire
+            ));
+
+            $this->trigger_events(array('post_remember_user', 'remember_user_successful'));
+            return true;
+        }
+
+        $this->trigger_events(array('post_remember_user', 'remember_user_unsuccessful'));
+        return false;
+    }
+
+    /**
+     * login_remembed_user
+     *
+     * @return bool
+     * @author Ben Edmunds
+     **/
+    public function login_remembered_user()
+    {
+        $this->trigger_events('pre_login_remembered_user');
+
+        // check for valid data
+        if (!get_cookie($this->config->item('identity_cookie_name', 'ion_auth'))
+            || !get_cookie($this->config->item('remember_cookie_name', 'ion_auth'))
+            || !$this->identity_check(get_cookie($this->config->item('identity_cookie_name', 'ion_auth')))) {
+            $this->trigger_events(array('post_login_remembered_user', 'post_login_remembered_user_unsuccessful'));
+            return false;
+        }
+
+        // get the user
+        $this->trigger_events('extra_where');
+        $query = $this->db->select($this->identity_column.', id, email, last_login')
+                    ->where($this->identity_column, urldecode(get_cookie($this->config->item('identity_cookie_name', 'ion_auth'))))
+                    ->where('remember_code', get_cookie($this->config->item('remember_cookie_name', 'ion_auth')))
+                    ->where('active', 1)
+                    ->limit(1)
+                    ->order_by('id', 'desc')
+                    ->get($this->tables['user']);
+
+        // if the user was found, sign them in
+        if ($query->num_rows() == 1) {
+            $user = $query->row();
+
+            $this->update_last_login($user->id);
+
+            $this->set_session($user);
+
+            // extend the users cookies if the option is enabled
+            if ($this->config->item('user_extend_on_login', 'ion_auth')) {
+                $this->remember_user($user->id);
+            }
+
+            $this->trigger_events(array('post_login_remembered_user', 'post_login_remembered_user_successful'));
+            return true;
+        }
+
+        $this->trigger_events(array('post_login_remembered_user', 'post_login_remembered_user_unsuccessful'));
+        return false;
+    }
+
+
+    /**
+     * create_group
+     *
+     * @author aditya menon
+    */
+    public function create_group($group_name = false, $group_description = '', $additional_data = array())
+    {
+        // bail if the group name was not passed
+        if (!$group_name) {
+            $this->set_error('group_name_required');
+            return false;
+        }
+
+        // bail if the group name already exists
+        $existing_group = $this->db->get_where($this->tables['groups'], array('name' => $group_name))->num_rows();
+        if ($existing_group !== 0) {
+            $this->set_error('group_already_exists');
+            return false;
+        }
+
+        $data = array('name'=>$group_name,'description'=>$group_description);
+
+        // filter out any data passed that doesnt have a matching column in the groups table
+        // and merge the set group data and the additional data
+        if (!empty($additional_data)) {
+            $data = array_merge($this->_filter_data($this->tables['groups'], $additional_data), $data);
+        }
+
+        $this->trigger_events('extra_group_set');
+
+        // insert the new group
+        $this->db->insert($this->tables['groups'], $data);
+        $group_id = $this->db->insert_id($this->tables['groups'] . '_id_seq');
+
+        // report success
+        $this->set_message('group_creation_successful');
+        // return the brand new group id
+        return $group_id;
+    }
+
+    /**
+     * update_group
+     *
+     * @return bool
+     * @author aditya menon
+     **/
+    public function update_group($group_id = false, $group_name = false, $additional_data = array())
+    {
+        if (empty($group_id)) {
+            return false;
+        }
+
+        $data = array();
+
+        if (!empty($group_name)) {
+            // we are changing the name, so do some checks
+
+            // bail if the group name already exists
+            $existing_group = $this->db->get_where($this->tables['groups'], array('name' => $group_name))->row();
+            if (isset($existing_group->id) && $existing_group->id != $group_id) {
+                $this->set_error('group_already_exists');
+                return false;
+            }
+
+            $data['name'] = $group_name;
+        }
+
+        // restrict change of name of the admin group
+        $group = $this->db->get_where($this->tables['groups'], array('id' => $group_id))->row();
+        if ($this->config->item('admin_group', 'ion_auth') === $group->name && $group_name !== $group->name) {
+            $this->set_error('group_name_admin_not_alter');
+            return false;
+        }
+
+
+        // IMPORTANT!! Third parameter was string type $description; this following code is to maintain backward compatibility
+        // New projects should work with 3rd param as array
+        if (is_string($additional_data)) {
+            $additional_data = array('description' => $additional_data);
+        }
+
+
+        // filter out any data passed that doesnt have a matching column in the groups table
+        // and merge the set group data and the additional data
+        if (!empty($additional_data)) {
+            $data = array_merge($this->_filter_data($this->tables['groups'], $additional_data), $data);
+        }
+
+
+        $this->db->update($this->tables['groups'], $data, array('id' => $group_id));
+
+        $this->set_message('group_update_successful');
+
+        return true;
+    }
+
+    /**
+    * delete_group
+    *
+    * @return bool
+    * @author aditya menon
+    **/
+    public function delete_group($group_id = false)
+    {
+        // bail if mandatory param not set
+        if (!$group_id || empty($group_id)) {
+            return false;
+        }
+        $group = $this->group($group_id)->row();
+        if ($group->name == $this->config->item('admin_group', 'ion_auth')) {
+            $this->trigger_events(array('post_delete_group', 'post_delete_group_notallowed'));
+            $this->set_error('group_delete_notallowed');
+            return false;
+        }
+
+        $this->trigger_events('pre_delete_group');
+
+        $this->db->trans_begin();
+
+        // remove all users from this group
+        $this->db->delete($this->tables['user_groups'], array($this->join['groups'] => $group_id));
+        // remove the group itself
+        $this->db->delete($this->tables['groups'], array('id' => $group_id));
+
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+            $this->trigger_events(array('post_delete_group', 'post_delete_group_unsuccessful'));
+            $this->set_error('group_delete_unsuccessful');
+            return false;
+        }
+
+        $this->db->trans_commit();
+
+        $this->trigger_events(array('post_delete_group', 'post_delete_group_successful'));
+        $this->set_message('group_delete_successful');
+        return true;
+    }
+
+    public function set_hook($event, $name, $class, $method, $arguments)
+    {
+        $this->_ion_hooks->{$event}[$name] = new stdClass();
+        $this->_ion_hooks->{$event}[$name]->class     = $class;
+        $this->_ion_hooks->{$event}[$name]->method    = $method;
+        $this->_ion_hooks->{$event}[$name]->arguments = $arguments;
+    }
+
+    public function remove_hook($event, $name)
+    {
+        if (isset($this->_ion_hooks->{$event}[$name])) {
+            unset($this->_ion_hooks->{$event}[$name]);
+        }
+    }
+
+    public function remove_hooks($event)
+    {
+        if (isset($this->_ion_hooks->$event)) {
+            unset($this->_ion_hooks->$event);
+        }
+    }
+
+    protected function _call_hook($event, $name)
+    {
+        if (isset($this->_ion_hooks->{$event}[$name]) && method_exists($this->_ion_hooks->{$event}[$name]->class, $this->_ion_hooks->{$event}[$name]->method)) {
+            $hook = $this->_ion_hooks->{$event}[$name];
+
+            return call_user_func_array(array($hook->class, $hook->method), $hook->arguments);
+        }
+
+        return false;
+    }
+
+    public function trigger_events($events)
+    {
+        if (is_array($events) && !empty($events)) {
+            foreach ($events as $event) {
+                $this->trigger_events($event);
+            }
+        } else {
+            if (isset($this->_ion_hooks->$events) && !empty($this->_ion_hooks->$events)) {
+                foreach ($this->_ion_hooks->$events as $name => $hook) {
+                    $this->_call_hook($events, $name);
+                }
+            }
+        }
+    }
+
+    /**
+     * set_message_delimiters
+     *
+     * Set the message delimiters
+     *
+     * @return void
+     * @author Ben Edmunds
+     **/
+    public function set_message_delimiters($start_delimiter, $end_delimiter)
+    {
+        $this->message_start_delimiter = $start_delimiter;
+        $this->message_end_delimiter   = $end_delimiter;
+
+        return true;
+    }
+
+    /**
+     * set_error_delimiters
+     *
+     * Set the error delimiters
+     *
+     * @return void
+     * @author Ben Edmunds
+     **/
+    public function set_error_delimiters($start_delimiter, $end_delimiter)
+    {
+        $this->error_start_delimiter = $start_delimiter;
+        $this->error_end_delimiter   = $end_delimiter;
+
+        return true;
+    }
+
+    /**
+     * set_message
+     *
+     * Set a message
+     *
+     * @return void
+     * @author Ben Edmunds
+     **/
+    public function set_message($message)
+    {
+        $this->messages[] = $message;
+
+        return $message;
+    }
+
+
+
+    /**
+     * messages
+     *
+     * Get the messages
+     *
+     * @return void
+     * @author Ben Edmunds
+     **/
+    public function messages()
+    {
+        $_output = '';
+        foreach ($this->messages as $message) {
+            $messageLang = $this->lang->line($message) ? $this->lang->line($message) : '##' . $message . '##';
+            $_output .= $this->message_start_delimiter . $messageLang . $this->message_end_delimiter;
+        }
+
+        return $_output;
+    }
+
+    /**
+     * messages as array
+     *
+     * Get the messages as an array
+     *
+     * @return array
+     * @author Raul Baldner Junior
+     **/
+    public function messages_array($langify = true)
+    {
+        if ($langify) {
+            $_output = array();
+            foreach ($this->messages as $message) {
+                $messageLang = $this->lang->line($message) ? $this->lang->line($message) : '##' . $message . '##';
+                $_output[] = $this->message_start_delimiter . $messageLang . $this->message_end_delimiter;
+            }
+            return $_output;
+        } else {
+            return $this->messages;
+        }
+    }
+
+
+    /**
+     * clear_messages
+     *
+     * Clear messages
+     *
+     * @return void
+     * @author Ben Edmunds
+     **/
+    public function clear_messages()
+    {
+        $this->messages = array();
+
+        return true;
+    }
+
+
+    /**
+     * set_error
+     *
+     * Set an error message
+     *
+     * @return void
+     * @author Ben Edmunds
+     **/
+    public function set_error($error)
+    {
+        $this->errors[] = $error;
+
+        return $error;
+    }
+
+    /**
+     * errors
+     *
+     * Get the error message
+     *
+     * @return void
+     * @author Ben Edmunds
+     **/
+    public function errors()
+    {
+        $_output = '';
+        foreach ($this->errors as $error) {
+            $errorLang = $this->lang->line($error) ? $this->lang->line($error) : '##' . $error . '##';
+            $_output .= $this->error_start_delimiter . $errorLang . $this->error_end_delimiter;
+        }
+
+        return $_output;
+    }
+
+    /**
+     * errors as array
+     *
+     * Get the error messages as an array
+     *
+     * @return array
+     * @author Raul Baldner Junior
+     **/
+    public function errors_array($langify = true)
+    {
+        if ($langify) {
+            $_output = array();
+            foreach ($this->errors as $error) {
+                $errorLang = $this->lang->line($error) ? $this->lang->line($error) : '##' . $error . '##';
+                $_output[] = $this->error_start_delimiter . $errorLang . $this->error_end_delimiter;
+            }
+            return $_output;
+        } else {
+            return $this->errors;
+        }
+    }
+
+
+    /**
+     * clear_errors
+     *
+     * Clear Errors
+     *
+     * @return void
+     * @author Ben Edmunds
+     **/
+    public function clear_errors()
+    {
+        $this->errors = array();
+
+        return true;
+    }
+
+
+
+    protected function _filter_data($table, $data)
+    {
+        $filtered_data = array();
+        $columns = $this->db->list_fields($table);
+
+        if (is_array($data)) {
+            foreach ($columns as $column) {
+                if (array_key_exists($column, $data)) {
+                    $filtered_data[$column] = $data[$column];
+                }
+            }
+        } elseif (is_object($data)) {
+            foreach ($columns as $column) {
+                if (array_key_exists($column, $data)) {
+                    $filtered_data[$column] = $data->$column;
+                }
+            }
+        }
+
+        return $filtered_data;
+    }
+
+    protected function _prepare_ip($ip_address)
+    {
+        // just return the string IP address now for better compatibility
+        return $ip_address;
+    }
+
+    /**
+     * get_users_by_id
+     * @return array
+     **/
+    public function get_user_by_id($account_id=false, $id=false)
+    {
+        $this->trigger_events('get_user_by_id');
+
+        // if no id was passed use the current users id
+        if (!$id && !$account_id) {
+            $this->set_error('resource_not_found');
+            return false;
+        }
+
+        $this->db->select('user.id, first_name, last_name, email, username, external_user_ref, external_username, external_password, salt, account.account_membership_number, membership_number, mobile_number, phone, active, last_login, user.profile_image, user.account_id,user.user_type_id, user_types.user_type_name `user_type`,is_account_holder, account_user_id, account.package_id `tier_id`, is_primary_user, associated_user_id, can_be_assigned_jobs, region_id, buildings_visibility, is_supervisor, supervisor_id, can_view_site_jobs, can_edit_jobs', false);
+        $this->db->join('user_types', 'user.user_type_id = user_types.user_type_id', 'left');
+
+        $query = $this->db->limit(1)
+            ->order_by($this->tables['user'].'.first_name')
+            ->join('account', 'user.account_id = account.account_id', 'left')
+            ->where($this->tables['user'].'.account_id', $account_id)
+            ->where($this->tables['user'].'.id', $id)
+            ->get($this->tables['user']);
+
+        if ($query->num_rows() > 0) {
+            $user 			= $query->result()[0];
+
+            if (!empty($user->external_username) && !empty($user->external_password)) {
+                $decrypt_pwd 			 = decrypt_str($user->external_password);
+                $user->external_password = $decrypt_pwd;
+            }
+
+            $user->is_admin = $this->ion_auth->is_admin($user->id);
+            return $user;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * get_users by account id
+     * @return array
+     **/
+    public function get_users_by_account_id($account_id=false, $where = false)
+    {
+        $users = false;
+        if (!empty($account_id)) {
+            $where = convert_to_array($where);
+
+            $this->trigger_events('get_users_by_account_id');
+
+            if (isset($where['is_supervisor'])) {
+                if (!empty($where['is_supervisor'])) {
+                    $this->db->where($this->tables['user'].'.is_supervisor', $where['is_supervisor']);
+                }
+                unset($where['is_supervisor']);
+            }
+
+            if (isset($where['supervisor_id'])) {
+                if (!empty($where['supervisor_id'])) {
+                    $this->db->where($this->tables['user'].'.supervisor_id', $where['supervisor_id']);
+                }
+                unset($where['supervisor_id']);
+            }
+
+            $query = $this->db->select('user.id, first_name, last_name, email, username, active, LAST_LOGIN,account_id,user_types.user_type_name `user_type`, supervisor_id, is_supervisor, can_view_site_jobs, can_edit_jobs', false)
+                ->join('user_types', 'user.user_type_id = user_types.user_type_id', 'left')
+                ->order_by($this->tables['user'].'.first_name')
+                ->where($this->tables['user'].'.account_id', $account_id)
+                ->get($this->tables['user']);
+            if ($query->num_rows() > 0) {
+                $users = $query->result();
+            }
+        }
+        return $users;
+    }
+
+    public function get_user_types($user_type_id = false)
+    {
+        $result = false;
+        $this->db->where('is_active', 1);
+        if ($user_type_id) {
+            $row = $this->db->get_where('user_types', ['user_type_id'=>$user_type_id])->row();
+            if (!empty($row)) {
+                $this->session->set_flashdata('message', 'User type record found');
+                $result = $row;
+            } else {
+                $this->session->set_flashdata('message', 'User type record not found');
+            }
+            return $result;
+        }
+
+        $user_types = $this->db->order_by('user_type_name')
+            ->get('user_types');
+
+        if ($user_types->num_rows() > 0) {
+            $this->session->set_flashdata('message', 'User type records found');
+            $result = $user_types->result();
+        } else {
+            $this->session->set_flashdata('message', 'User type record(s) not found');
+        }
+        return $result;
+    }
+
+    /**
+    * Get current logged in user
+    */
+    public function _current_user()
+    {
+        $result = false;
+
+        //get header vars
+        $this->_head_args = $this->input->request_headers();
+        $auth_header = (!empty($this->_head_args['Authorization'])) ? $this->_head_args['Authorization'] : (!empty($this->_head_args['authorization']) ? $this->_head_args['authorization'] : false);
+        ;
+
+        if (!empty($auth_header)) {
+            if (preg_match('/Bearer\s(\S+)/', $auth_header, $matches)) {
+                $auth_token = $matches[1];
+            }
+            $result = $this->_authenticate_token($auth_token);
+        } else {
+            $sesh_data 	= $this->session->userdata('auth_data');
+            $result 	= (!empty($sesh_data->user)) ? $sesh_data->user : false;
+        }
+        return $result;
+    }
+
+
+    /**
+    * Check if user is logged in
+    */
+    public function _check_loggin($user_id = false)
+    {
+        $user 	= $this->_current_user();
+        $result = ($user) ? $user->id : false;
+        return $result;
+    }
+
+    /**
+    * Log out current user
+    */
+    public function logout($account_id = false, $id = false)
+    {
+        $result = false;
+        if (!empty($account_id) && !empty($id)) {
+            $check_user = $this->db->get_where('user', ['account_id'=>$account_id, 'id'=>$id])->row();
+            if (!empty($check_user)) {
+                if (!empty($check_user->last_active_session)) {
+                    $this->db->where('id', $check_user->last_active_session)
+                        ->delete('user_sessions');
+
+                    if ($this->db->trans_status() !== false) {
+                        $this->db->where('id', $id)
+                            ->update('user', [ 'logout_time' => time(), 'last_active_session'=> null ]);
+
+                        ## Destroy the session
+                        $this->_head_args = $this->input->request_headers();
+                        if (!empty($this->_head_args['Authorization']) || !empty($this->_head_args['authorization'])) {
+                            unset($this->_head_args['authorization']);
+                            unset($this->_head_args['Authorization']);
+                        }
+
+                        $result = true;
+                        $this->session->set_flashdata('message', 'Signed Out Successfully.');
+                    } else {
+                        $this->session->set_flashdata('message', 'Unable log Out user');
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Check if $auth token is valid and signed correctly.
+     * @access protected
+     */
+    public function _authenticate_token($auth_token = false)
+    {
+        if (!empty($auth_token)) {
+            $jwt_values = explode('.', $auth_token);
+            # extracting the signature from the original JWT
+            $recieved_signature = $jwt_values[2];
+
+            # Get the received header and the payload
+            $received_header = $jwt_values[0];
+            $received_payload= $jwt_values[1];
+
+            # creating the Base 64 encoded new signature generated by applying the HMAC method to the concatenated header and payload values
+            $resulted_signature = JWT::urlsafeB64Encode(hash_hmac('SHA512', $received_header.".".$received_payload, API_SECRET_KEY, true));
+
+            // checking if the created signature is equal to the received signature
+            if ($resulted_signature == $recieved_signature) {
+                try {
+                    $decoded 	= JWT::decode($auth_token, API_SECRET_KEY, [API_JWT_ALGORITHM]);
+
+                    /*
+
+                    $whitelist = array(
+                        '127.0.0.1',
+                        '::1',
+                        'localhost'
+                    );
+
+                    if( $_SERVER['REQUEST_METHOD'] == 'POST' ){
+
+                        if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
+
+
+                            //Do this for all clients except Mobile clients (for now)
+                            $tokenized_xsrf_token 	= !empty( $decoded->xsrf_token ) ? $decoded->xsrf_token: null;
+                            $posted_xsrf_token 		= !empty( $this->input->post( 'xsrf_token' ) ) ? $this->input->post( 'xsrf_token' ) : null;
+                            if( $tokenized_xsrf_token != $posted_xsrf_token ){
+                                $this->session->set_flashdata( 'message', 'Invalid Request. Tokens did not match.' );
+                                return FALSE;
+                            }
+
+                        }
+                    }*/
+
+                    $this->session->set_flashdata('message', 'Token authenticated successfully');
+                    return $decoded->data->user;
+                } catch (\Exception $e) { // Also tried JwtException
+                    $this->session->set_flashdata('message', $e->getMessage());
+                    return false;
+                }
+            } else {
+                $this->session->set_flashdata('message', 'Invalid token. Please sign-in again!');
+                return false;
+            }
+        } else {
+            $this->session->set_flashdata('message', 'Invalid request. Please sign-in again!');
+            return false;
+        }
+    }
+
+
+    public function holiday_allowance_hours_left($id = false, $account_id = false, $holiday_allowance_hours = false)
+    {
+        if (!$id || !$account_id) {
+            return false;
+        } else {
+            $result = false;
+            if (!empty($holiday_allowance_hours)) {
+                $user = $this->get_user_by_id($id, $account_id, true);
+                $holiday_allowance_hours = (!empty($holiday_allowance_hours) && ($holiday_allowance_hours > 0)) ? $holiday_allowance_hours : 0 ;
+            }
+
+            $this->db->select("sum( working_hours ) `working_hours_used`", false);
+            $this->db->where("user_id", $id);
+            $this->db->where("account_id", $account_id);
+            $this->db->where("absence_status", "Approved");
+            $query = $this->db->get("absences");
+
+            if ($query->num_rows() > 0) {
+                $dataset = $query->result();
+                $used_holidays = $dataset[0]->working_hours_used;
+            } else {
+                $used_holidays = 0;
+            }
+            $result = (($holiday_allowance_hours - $used_holidays) > 0) ? ($holiday_allowance_hours - $used_holidays) : 0 ;
+            return $result;
+        }
+    }
+
+    /**
+     * Check if user is_account_holder
+     * @return bool
+     * @author Simply SID
+     **/
+    public function is_account_holder($id=false)
+    {
+        if ($id) {
+            $query = $this->db->select('id,is_account_holder', false)
+                ->where('is_account_holder', 1)
+                ->where('id', $id)
+                ->get('users');
+            return ($query->num_rows() > 0) ? true : false;
+        }
+        return false;
+    }
+
+    /**
+    * Get the hishest account user / employee ID from the users table
+    */
+    public function generate_account_user_id($account_id)
+    {
+        if ($account_id) {
+            $maxid  = 0;
+            $row 	= $this->db->select('MAX(account_user_id) AS `maxid`', false)
+                ->where('user.account_id', $account_id)
+                ->get('user')
+                ->row();
+
+            if ($row) {
+                $maxid = $row->maxid;
+            }
+            $maxid++;
+        }
+        return $maxid;
+    }
+
+    /*
+    * Do user lookup
+    */
+    public function user_lookup($account_id = false, $search_term = false, $user_types = false, $user_statuses = false, $where = false, $order_by = false, $limit = DEFAULT_LIMIT, $offset = DEFAULT_OFFSET)
+    {
+        $result = false;
+        if (!empty($account_id)) {
+            $where = convert_to_array($where);
+
+            $this->db->select('user.id `id`, account_user_id, first_name, last_name, email, username, active, user.user_type_id, user_types.user_type_name, last_login, last_active_session, logout_time, is_supervisor, supervisor_id, can_view_site_jobs, can_edit_jobs', false)
+                ->where('account_id', $account_id)
+                ->where('active', 1)
+                ->join('user_types', 'user_types.user_type_id = user.user_type_id', 'left');
+
+            if (!empty($search_term)) {
+                //Check for spaces in the search term
+                $search_term  = trim(urldecode($search_term));
+                $search_where = [];
+                if (strpos($search_term, ' ') !== false) {
+                    $multiple_terms = explode(' ', $search_term);
+                    foreach ($multiple_terms as $term) {
+                        foreach ($this->searchable_fields as $k=>$field) {
+                            $search_where[$field] = trim($term);
+                        }
+                        $where_combo = format_like_to_where($search_where);
+                        $this->db->where($where_combo);
+                    }
+                } else {
+                    foreach ($this->searchable_fields as $k=>$field) {
+                        $search_where[$field] = $search_term;
+                    }
+                    $where_combo = format_like_to_where($search_where);
+                    $this->db->where($where_combo);
+                }
+            }
+
+            if ($user_types) {
+                $user_types = (!is_array($user_types)) ? json_decode($user_types) : $user_types;
+                $user_types = (is_object($user_types)) ? object_to_array($user_types) : $user_types;
+                $this->db->where_in('user.user_type_id', $user_types);
+            }
+
+            if ($user_statuses) {
+                $user_statuses = (!is_array($user_statuses)) ? json_decode($user_statuses) : $user_statuses;
+                $user_statuses = (is_object($user_statuses)) ? object_to_array($user_statuses) : $user_statuses;
+                $this->db->where_in('user.user_status_id', $user_statuses);
+            }
+
+            if (isset($where['id'])) {
+                if (!empty($where['id'])) {
+                    $this->db->where('user.id', $where['id']);
+                }
+                unset($where['id']);
+            }
+
+            if (isset($where['logged_in'])) {
+                if (!empty($where['logged_in'])) {
+                    #$last_login		= !empty( $user_details->last_login ) ? date( 'd-m-Y H:i:s', $user_details->last_login ) : false;
+                    #$time_logged_in	= !empty( $last_login ) ? strtotime( date( 'd-m-Y H:i:s' ) ) - strtotime( $last_login ) : false;
+                    #$is_logged_in 	= ( !empty( $last_login ) && ( $time_logged_in <= DEFAULT_TOKEN_VALIDITY ) ) ? true : false;
+                    $timestamp 		= strtotime(date('d-m-Y H:i:s'))  - DEFAULT_TOKEN_VALIDITY ;
+                    $this->db->where('user.last_login >=', $timestamp);
+                    $logged_in_check 	= true;
+                }
+                unset($where['logged_in']);
+            }
+
+            if (isset($where['is_supervisor'])) {
+                if (!empty($where['is_supervisor'])) {
+                    $this->db->where('user.is_supervisor', $where['is_supervisor']);
+                }
+                unset($where['is_supervisor']);
+            }
+
+            if (isset($where['supervisor_id'])) {
+                if (!empty($where['supervisor_id'])) {
+                    $this->db->where('user.supervisor_id', $where['supervisor_id']);
+                }
+                unset($where['supervisor_id']);
+            }
+
+            /*if( $where ){
+                $this->db->where( $where );
+            }*/
+
+            if ($order_by) {
+                $this->db->order_by($order_by);
+            } else {
+                if (!empty($logged_in_check)) {
+                    $this->db->order_by('last_login DESC, first_name');
+                } else {
+                    $this->db->order_by('first_name');
+                }
+            }
+
+            $query = $this->db->limit($limit, $offset)
+                ->get('user');
+
+            if ($query->num_rows() > 0) {
+                $result = $query->result();
+                $this->session->set_flashdata('message', 'User(s) data found.');
+            } else {
+                $this->session->set_flashdata('message', 'No records found matching your criteria.');
+            }
+        }
+
+        return $result;
+    }
+
+    /** Get a  **/
+    public function get_total_users($account_id = false, $search_term = false, $user_types = false, $user_statuses = false, $where = false, $limit = DEFAULT_LIMIT, $offset = 0)
+    {
+        $result = false;
+        if (!empty($account_id)) {
+            $where = convert_to_array($where);
+
+            $this->db->select('user.id `id`, account_user_id, first_name, last_name, email, username, active, user.user_type_id, user_types.user_type_name', false)
+                ->where('account_id', $account_id)
+                ->where('active', 1)
+                ->join('user_types', 'user_types.user_type_id = user.user_type_id', 'left');
+
+            if (!empty($search_term)) {
+                //Check for spaces in the search term
+                $search_term  = trim(urldecode($search_term));
+                $search_where = [];
+                if (strpos($search_term, ' ') !== false) {
+                    $multiple_terms = explode(' ', $search_term);
+
+                    foreach ($multiple_terms as $term) {
+                        foreach ($this->searchable_fields as $k=>$field) {
+                            $search_where[$field] = trim($term);
+                        }
+                        $where_combo = format_like_to_where($search_where);
+                        $this->db->where($where_combo);
+                    }
+                } else {
+                    foreach ($this->searchable_fields as $k=>$field) {
+                        $search_where[$field] = $search_term;
+                    }
+                    $where_combo = format_like_to_where($search_where);
+                    $this->db->where($where_combo);
+                }
+            }
+
+            if ($user_types) {
+                $user_types = (!is_array($user_types)) ? json_decode($user_types) : $user_types;
+                $user_types = (is_object($user_types)) ? object_to_array($user_types) : $user_types;
+                $this->db->where_in('user.user_type_id', $user_types);
+            }
+
+            if ($user_statuses) {
+                $user_statuses = (!is_array($user_statuses)) ? json_decode($user_statuses) : $user_statuses;
+                $user_statuses = (is_object($user_statuses)) ? object_to_array($user_statuses) : $user_statuses;
+                $this->db->where_in('user.user_status_id', $user_statuses);
+            }
+
+            if (isset($where['logged_in'])) {
+                if (!empty($where['logged_in'])) {
+                    $timestamp 		= strtotime(date('d-m-Y H:i:s'))  - DEFAULT_TOKEN_VALIDITY ;
+                    $this->db->where('user.last_login >=', $timestamp);
+                }
+                unset($where['logged_in']);
+            }
+
+            if (isset($where['is_supervisor'])) {
+                if (!empty($where['is_supervisor'])) {
+                    $this->db->where('user.is_supervisor', $where['is_supervisor']);
+                }
+                unset($where['is_supervisor']);
+            }
+
+            if (isset($where['supervisor_id'])) {
+                if (!empty($where['supervisor_id'])) {
+                    $this->db->where('user.supervisor_id', $where['supervisor_id']);
+                }
+                unset($where['supervisor_id']);
+            }
+
+            $query = $this->db->from('user')->count_all_results();
+            $results['total'] = !empty($query) ? $query : 0;
+            $results['pages'] = !empty($query) ? ceil($query / $limit) : 0;
+            return json_decode(json_encode($results));
+        }
+        return $result;
+    }
+
+    /** Get user-statuses by account id **/
+    public function get_user_statuses($account_id = false, $status_id = false)
+    {
+        $result = null;
+        if ($account_id) {
+            $this->db->where('user_statuses.account_id', $account_id);
+
+            if ($status_id) {
+                $this->db->where('user_statuses.status_id', $status_id);
+            }
+        } else {
+            $this->db->where('( user_statuses.account_id IS NULL OR user_statuses.account_id = "" OR user_statuses.account_id = 0 )');
+        }
+
+        $query = $this->db->select('user_statuses.*', false)
+            ->where('user_statuses.is_active', 1)
+            ->get('user_statuses');
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+        } else {
+            $result = $this->get_user_statuses();
+        }
+        return $result;
+    }
+
+    /*
+    * Archive a user record
+    */
+    public function archive_user($account_id = false, $user_id = false)
+    {
+        $result = false;
+        if ($this->account_service->check_account_status($account_id) && !empty($user_id)) {
+            $conditions 	= ['account_id'=>$account_id,'id'=>$user_id];
+            $person_exists 	= $this->db->get_where('user', $conditions)->row();
+            if (!empty($person_exists)) {
+                $data = ['active'=>0];
+                $this->db->where($conditions)->update('user', $data);
+                if ($this->db->trans_status() !== false) {
+                    ## Deactivate the attached user
+                    $person_data = [
+                        'is_active'=>0,
+                        'last_modified_by'=>$this->ion_auth->_current_user()->id
+                    ];
+                    $this->db->where(['account_id'=>$account_id,'person_id'=>$user_id])->update('people', $person_data);
+                    $this->session->set_flashdata('message', 'Record deleted successfully.');
+                    $result = true;
+                }
+            } else {
+                $this->session->set_flashdata('message', 'Invalid user ID.');
+            }
+        } else {
+            $this->session->set_flashdata('message', 'No user record found.');
+        }
+        return $result;
+    }
+
+    /** Amend group permissions **/
+    public function amend_group_permissions($user_id = false, $update_user_type_id = false, $current_user_type_id = false)
+    {
+        ##Drop permissions just before updating user details
+        if (!empty($user_id) && !empty($update_user_type_id) && ($update_user_type_id != $current_user_type_id)) {
+            //Drop current groups
+            $this->ion_auth->remove_from_group('', $user_id);
+
+            $group_ids 			= [2];//refer to user-group-db-types table
+            $updated_user_type  = $this->get_user_types($update_user_type_id);
+
+            switch($updated_user_type->user_group) {
+                case 'admin':
+                    $group_ids[] = 1;
+                    //Add to admin & standard groups
+                    $this->add_to_group($group_ids, $user_id);
+                    return true;
+                    break;
+                case 'standard':
+                    //Add to standrad group only
+                    $this->add_to_group($group_ids, $user_id);
+                    return true;
+                    break;
+            }
+        }
+        return false;
+    }
+
+    /** Record Login Success **/
+    private function record_login_success($user_data)
+    {
+        if (!empty($user_data)) {
+            $platform = $this->agent->platform();
+
+            if ($this->agent->is_browser()) {
+                $user_agent = $this->agent->browser().' '.$this->agent->version();
+            } elseif ($this->agent->is_robot()) {
+                $user_agent = $this->agent->robot();
+            } elseif ($this->agent->is_mobile()) {
+                $user_agent = $this->agent->mobile();
+            } else {
+                $user_agent = (!empty($this->agent->agent)) ? $this->agent->agent : 'Unidentified User Agent';
+            }
+
+            $data = [
+                'user_id'	 => $user_data->id,
+                'account_id' => $user_data->account_id,
+                'platform' 	 => !empty($platform) ? $platform : 'Unknown Platform',
+                'app_version'=> !empty($user_data->app_version) ? $user_data->app_version : null,
+                'user_agent' => $user_agent
+            ];
+
+            $this->db->insert('user_login_success', $data);
+        }
+        return true;
+    }
+
+
+        /*
+    *	Get list of Field Operatives and search through them
+    */
+    public function get_field_operatives($account_id = false, $search_term = false, $where = false, $order_by = false, $limit = DEFAULT_LIMIT, $offset = DEFAULT_OFFSET)
+    {
+        $result = false;
+
+        if (!empty($account_id)) {
+            $where = $raw_where = convert_to_array($where);
+            $inc_user_types 	= [];
+
+            //Include supplied User-Type ID
+            if (isset($where['user_type_id'])) {
+                if (!empty($where['user_type_id'])) {
+                    $user_type_ids = is_array($where['user_type_id']) ? $where['user_type_id'] : [$where['user_type_id']];
+                    $inc_user_types = array_merge($inc_user_types, $user_type_ids);
+                }
+                unset($where['user_type_id']);
+            }
+
+            $this->db->where('user.can_be_assigned_jobs', 1);
+
+            if (isset($where['include_admins'])) {
+                if (!empty($where['include_admins'])) {
+                    $inc_user_types[] = 1;
+                }
+                unset($where['include_admins']);
+            }
+
+            $this->db->select('user.id `id`, account_user_id, first_name, last_name, email, username, active, user.user_type_id, user_types.user_type_name, last_login, is_primary_user, associated_user_id, can_be_assigned_jobs', false)
+                ->where('user.account_id', $account_id)
+                ->where('user.active', 1)
+                //->where_in( 'user_types.user_type_id', $inc_user_types )
+                ->join('user_types', 'user_types.user_type_id = user.user_type_id', 'left')
+                ->join('associated_users', 'associated_users.user_id = user.id', 'left');
+
+
+
+            if (isset($where['id']) || isset($where['id'])) {
+                $field_operative_id	= (!empty($where['id'])) ? $where['id'] : (!empty($where['user_id']) ? $where['user_id'] : null);
+                if (!empty($field_operative_id)) {
+                    $row = $this->db->get_where('field_operatives', ['id'=>$field_operative_id ])->row();
+
+                    if (!empty($row)) {
+                        $result = $row;
+                        $this->session->set_flashdata('message', 'Field Operatives data found');
+                        return $result;
+                    } else {
+                        $this->session->set_flashdata('message', 'Field Operatives data not found');
+                        return false;
+                    }
+                }
+                unset($where['id'],$where['user_id']);
+            }
+
+            if (!empty($search_term)) {
+                //Check for spaces in the search term
+                $search_term  = trim(urldecode($search_term));
+                $search_where = [];
+                if (strpos($search_term, ' ') !== false) {
+                    $multiple_terms = explode(' ', $search_term);
+                    foreach ($multiple_terms as $term) {
+                        foreach ($this->field_operative_search_fields as $k=>$field) {
+                            $search_where[$field] = trim($term);
+                        }
+
+                        $where_combo = format_like_to_where($search_where);
+                        $this->db->where($where_combo);
+                    }
+                } else {
+                    foreach ($this->field_operative_search_fields as $k=>$field) {
+                        $search_where[$field] = $search_term;
+                    }
+
+                    $where_combo = format_like_to_where($search_where);
+                    $this->db->where($where_combo);
+                }
+            }
+
+            ## Limit operatives by Associated user
+            if (isset($where['associated_user_id'])) {
+                if (!empty($where['associated_user_id'])) {
+                    $include_ids 	= is_array($where['associated_user_id']) ? $where['associated_user_id'] : [ $where['associated_user_id'] ];
+                    $included_where = '( associated_users.primary_user_id IN ('.implode(',', $include_ids).') OR user.id = "'.$where['associated_user_id'].'" )';
+                    $this->db->where($included_where);
+                    #$this->db->where_in( 'user.associated_user_id', $include_ids );
+                }
+                unset($where['associated_user_id']);
+            }
+
+            if (!empty($where)) {
+                $this->db->where($where);
+            }
+
+            if (!empty($order_by)) {
+                $this->db->order_by($order_by);
+            } else {
+                $this->db->order_by('user.first_name');
+            }
+
+            $this->db->group_by('user.id');
+
+            $query = $this->db->get('user');
+
+            if ($query->num_rows() > 0) {
+                $result_data = $query->result();
+
+                $result 					= ( object )[ 'records' =>( object )[], 'counters'=>( object )[] ];
+                $result->records 			= $result_data;
+                $counters 					= $this->get_field_operative_totals($account_id, $search_term, $raw_where, $limit);
+                $result->counters->total 	= (!empty($counters->total)) ? $counters->total : null;
+                $result->counters->pages 	= (!empty($counters->pages)) ? $counters->pages : null;
+                $result->counters->limit  	= (!empty($apply_limit)) ? $limit : $result->counters->total;
+                $result->counters->offset 	= $offset;
+
+                $this->session->set_flashdata('message', 'Field Operatives data found');
+            } else {
+                $this->session->set_flashdata('message', 'There\'s currently no Field Operatives setup for your Account');
+            }
+        } else {
+            $this->session->set_flashdata('message', 'Your request is missing required information');
+        }
+
+        return $result;
+    }
+
+    /** Get Field Operatives lookup counts **/
+    public function get_field_operative_totals($account_id = false, $search_term = false, $where = false, $limit = DEFAULT_LIMIT)
+    {
+        $result = false;
+        if (!empty($account_id)) {
+            $where = convert_to_array($where);
+            $inc_user_types = [];
+
+            //Include supplied User-Type ID
+            if (isset($where['user_type_id'])) {
+                if (!empty($where['user_type_id'])) {
+                    $user_type_ids = is_array($where['user_type_id']) ? $where['user_type_id'] : [$where['user_type_id']];
+                    $inc_user_types = array_merge($inc_user_types, $user_type_ids);
+                }
+                unset($where['user_type_id']);
+            }
+
+            $this->db->where('user.can_be_assigned_jobs', 1);
+
+            if (isset($where['include_admins'])) {
+                if (!empty($where['include_admins'])) {
+                    $inc_user_types[] = 1;
+                }
+                unset($where['include_admins']);
+            }
+
+            $this->db->select('user.id `id`, account_user_id, first_name, last_name, email, username, active, user.user_type_id, user_types.user_type_name', false)
+                ->where('user.account_id', $account_id)
+                ->where('user.active', 1)
+                //->where_in( 'user_types.user_type_id', $inc_user_types )
+                ->join('user_types', 'user_types.user_type_id = user.user_type_id', 'left')
+                ->join('associated_users', 'associated_users.user_id = user.id', 'left');
+
+
+
+            if (!empty($search_term)) {
+                //Check for spaces in the search term
+                $search_term  = trim(urldecode($search_term));
+                $search_where = [];
+                if (strpos($search_term, ' ') !== false) {
+                    $multiple_terms = explode(' ', $search_term);
+                    foreach ($multiple_terms as $term) {
+                        foreach ($this->field_operative_search_fields as $k=>$field) {
+                            $search_where[$field] = trim($term);
+                        }
+
+                        $where_combo = format_like_to_where($search_where);
+                        $this->db->where($where_combo);
+                    }
+                } else {
+                    foreach ($this->field_operative_search_fields as $k=>$field) {
+                        $search_where[$field] = $search_term;
+                    }
+
+                    $where_combo = format_like_to_where($search_where);
+                    $this->db->where($where_combo);
+                }
+            }
+
+            ## Limit operatives by Associated user
+            if (isset($where['associated_user_id'])) {
+                if (!empty($where['associated_user_id'])) {
+                    $include_ids 	= is_array($where['associated_user_id']) ? $where['associated_user_id'] : [ $where['associated_user_id'] ];
+                    $included_where = '( associated_users.primary_user_id IN ('.implode(',', $include_ids).') OR user.id = "'.$where['associated_user_id'].'" )';
+                    $this->db->where($included_where);
+                }
+                unset($where['associated_user_id']);
+            }
+
+            if (!empty($where)) {
+                $this->db->where($where);
+            }
+
+            $this->db->group_by('user.id');
+
+            $query 			  = $this->db->from('user')->count_all_results();
+            $results['total'] = !empty($query) ? $query : 0;
+            $limit 			  = (!empty($limit > 0)) ? $limit : $results['total'];
+            $results['pages'] = !empty($query) ? ceil($query / $limit) : 0;
+            return json_decode(json_encode($results));
+        }
+        return $result;
+    }
+
+
+    /* Associate User */
+    public function associate_users($account_id = false, $primary_user_id = false, $people_data = false)
+    {
+        $result = false;
+
+        if (!empty($account_id) && !empty($primary_user_id) && !empty($people_data)) {
+            $people_data 		= convert_to_array($people_data);
+            $user_ids			= !empty($people_data['associated_users']) ? $people_data['associated_users'] : false;
+            $user_ids			= (is_json($user_ids)) ? json_decode($user_ids) : $user_ids;
+
+            if (!empty($user_ids)) {
+                $user_ids 	= array_diff($user_ids, [ $primary_user_id ]);
+                foreach ($user_ids as $user_id) {
+                    $condition = $data = [
+                        'primary_user_id'	=> $primary_user_id,
+                        'user_id'			=> $user_id,
+                        'account_id'		=> $account_id
+                    ];
+
+                    $check_exists = $this->db->get_where('associated_users', $data)->row();
+                    if (!empty($check_exists)) {
+                        $data['last_modified_by'] = $this->ion_auth->_current_user->id;
+                        $this->db->where('associated_users.id', $check_exists->id)
+                            ->update('associated_users', $data);
+                    } else {
+                        $data['linked_by'] = $this->ion_auth->_current_user->id;
+                        $this->db->insert('associated_users', $data);
+                    }
+                }
+
+                if ($this->db->affected_rows() > 0 || ($this->db->trans_status() !== false)) {
+                    $result = $this->get_associated_users($account_id, $primary_user_id);
+                    $this->session->set_flashdata('message', 'Users associated successfully.');
+                }
+            } else {
+                $this->session->set_flashdata('message', 'There was a problem problem processing your request.');
+            }
+        } else {
+            $this->session->set_flashdata('message', 'Your request is missing required information.');
+        }
+        return $result;
+    }
+
+
+    /**
+    * Disassociate Users
+    */
+    public function disassociate_users($account_id = false, $primary_user_id = false, $postdata = false)
+    {
+        $result = false;
+        if (!empty($primary_user_id) && !empty($postdata)) {
+            $postdata 			= convert_to_array($postdata);
+            $associated_users		= !empty($postdata['associated_users']) ? $postdata['associated_users'] : false;
+            $associated_users		= (is_json($associated_users)) ? json_decode($associated_users) : $associated_users;
+            $deleted			= [];
+
+            if (!empty($associated_users)) {
+                foreach ($associated_users as $k => $val) {
+                    $data = [
+                        'primary_user_id'	=> $primary_user_id,
+                        'user_id'			=> $val
+                    ];
+
+                    $check_exists = $this->db->limit(1)->get_where('associated_users', $data)->row();
+                    if (!empty($check_exists)) {
+                        $this->db->where($data);
+                        $this->db->delete('associated_users');
+                        $this->ssid_common->_reset_auto_increment('associated_users', 'id');
+                    }
+                    $deleted[] = $data;
+                }
+            } elseif (!empty($postdata['user_id'])) {
+                $data = [
+                    'primary_user_id'=> $primary_user_id,
+                    'user_id'		 => $postdata['user_id']
+                ];
+
+                $check_exists = $this->db->limit(1)->get_where('associated_users', $data)->row();
+                if (!empty($check_exists)) {
+                    $this->db->where($data);
+                    $this->db->delete('associated_users');
+                    $deleted[] = $data;
+                    $this->ssid_common->_reset_auto_increment('associated_users', 'id');
+
+                    ## Update record with associated user
+                    $this->db->where('user.account_id', $account_id)
+                        ->where('user.id', $postdata['user_id'])
+                        ->update('user', [ 'associated_user_id'=>null ]);
+                }
+            }
+
+            if (!empty($deleted)) {
+                $result = $deleted;
+                $this->session->set_flashdata('message', 'Users disassociated successfully');
+            } else {
+                $this->session->set_flashdata('message', 'No users were associated');
+            }
+        } else {
+            $this->session->set_flashdata('message', 'You request is missing required information');
+        }
+        return $result;
+    }
+
+
+    /*
+    * 	Get a list of all Associated Users based on Primary User
+    */
+    public function get_associated_users($account_id = false, $primary_user_id = false, $user_id = false, $where = false, $limit = DEFAULT_LIMIT, $offset = 0)
+    {
+        $result = null;
+        if (!empty($account_id)) {
+            $where		 	= convert_to_array($where);
+            $primary_user_id 	= !empty($primary_user_id) ? $primary_user_id : (!empty($where['primary_user_id']) ? $where['primary_user_id'] : false);
+            $user_id 		= !empty($user_id) ? $user_id : (!empty($where['user_id']) ? $where['user_id'] : false);
+            $as_arraay		= (!empty($where['as_arraay'])) ? true : false;
+
+            if (!empty($primary_user_id)) {
+                $this->db->where('au.primary_user_id', $primary_user_id);
+            }
+
+            if (!empty($user_id)) {
+                $this->db->select('u.first_name, u.last_name, u.email, au.id, au.user_id, au.primary_user_id, au.date_linked, concat(creator.first_name," ",creator.last_name) `linked_by`, concat(modifier.first_name," ",modifier.last_name) `last_modified_by`, concat(pu.first_name," ",pu.last_name) `primary_user`', false)
+                    ->join('user u', 'u.id = au.user_id', 'left')
+                    ->join('user pu', 'pu.id = au.primary_user_id', 'left')
+                    ->join('user creator', 'creator.id = au.linked_by', 'left')
+                    ->join('user modifier', 'modifier.id = au.last_modified_by', 'left')
+                    ->where('au.user_id', $user_id)
+                    ->where('u.active', 1)
+                    ->where('u.account_id', $account_id)
+                    ->group_by('au.primary_user_id');
+            } else {
+                $this->db->select('u.first_name, u.last_name, u.email, au.id, au.user_id, au.primary_user_id, au.date_linked, concat(creator.first_name," ",creator.last_name) `linked_by`, concat(modifier.first_name," ",modifier.last_name) `last_modified_by`, concat(pu.first_name," ",pu.last_name) `primary_user`', false)
+                    ->join('user u', 'u.id = au.user_id', 'left')
+                    ->join('user pu', 'pu.id = au.primary_user_id', 'left')
+                    ->join('user creator', 'creator.id = au.linked_by', 'left')
+                    ->join('user modifier', 'modifier.id = au.last_modified_by', 'left')
+                    ->where('u.active', 1)
+                    ->where('u.account_id', $account_id);
+            }
+
+            $query = $this->db->get('associated_users `au`');
+
+            if ($query->num_rows() > 0) {
+                $this->session->set_flashdata('message', 'Associated users data found.');
+                $result = !empty($as_arraay) ? $query->result() : $query->result_array();
+            }
+        } else {
+            $this->session->set_flashdata('message', 'Your request is missing required information.');
+        }
+        return $result;
+    }
+
+
+    /*
+    * 	Switch User Account for a Superuser
+    */
+    public function switch_user_account($account_id = false, $user_id = false, $source_account_id = false, $destination_account_id = false)
+    {
+        $result = null;
+        if (!empty($account_id) && (in_array($this->ion_auth->_current_user->id, SUPER_ADMIN_ACCESS))) {
+            $user_account_exists = $this->db->select('id, account_id', false)
+                ->where('user.id', $user_id)
+                ->where('user.account_id', $source_account_id)
+                ->get('user')
+                ->row();
+
+            if (!empty($user_account_exists)) {
+                $update_data = [
+                    'account_id' => $destination_account_id
+                ];
+
+                $this->db->where('user.id', $user_id)
+                    ->update('user', $update_data);
+
+                if ($this->db->trans_status() !== false) {
+                    $result = true;
+                    $this->session->set_flashdata('message', 'User Account switched Successfully.');
+                } else {
+                    $this->session->set_flashdata('message', 'Unable to Switch User Accoun!');
+                }
+            } else {
+                $this->session->set_flashdata('message', 'Invalid or inadequate permissions to complete this operation.');
+            }
+        } else {
+            $this->session->set_flashdata('message', 'Your request is missing required information.');
+        }
+        return $result;
+    }
+
+
+    /**
+    * Force user logout
+    *
+    * @return bool
+    **/
+    public function force_user_logout($account_id = false, $id = false)
+    {
+        $result = false;
+
+        if (!empty($this->ion_auth->_current_user->is_admin)) {
+            if ($account_id && $id) {
+                $check_user = $this->db->get_where('user', ['account_id'=>$account_id, 'id'=>$id])->row();
+                if (!empty($check_user)) {
+                    if (!empty($check_user->last_active_session)) {
+                        $this->db->where('id', $check_user->last_active_session)
+                            ->delete('user_sessions');
+                        if ($this->db->trans_status() !== false) {
+                            $this->db->where('id', $id)
+                                ->update('user', [ 'logout_time' => time(), 'last_active_session'=> null ]);
+
+                            $result = true;
+                            $this->session->set_flashdata('message', 'User Signed Out Successfully (Forced).');
+                        } else {
+                            $this->session->set_flashdata('message', 'Unable to Force User Log Out');
+                        }
+                    }
+                } else {
+                    $this->session->set_flashdata('message', 'User record not found.');
+                }
+            }
+        } else {
+            $this->session->set_flashdata('message', 'You have insufficient permissions to complete this action.');
+        }
+
+        return $result;
+    }
+}

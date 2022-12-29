@@ -359,25 +359,25 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
     protected function _release_lock()
     {
         if (! $this->_lock) {
-			return true;
-		}
+            return true;
+        }
 
         if ($this->_platform === 'mysql') {
-			if ($this->_db->query("SELECT RELEASE_LOCK('".$this->_lock."') AS ci_session_lock")->row()->ci_session_lock) {
-				$this->_lock = false;
-				return true;
-			}
+            if ($this->_db->query("SELECT RELEASE_LOCK('".$this->_lock."') AS ci_session_lock")->row()->ci_session_lock) {
+                $this->_lock = false;
+                return true;
+            }
 
             return false;
-		} elseif ($this->_platform === 'postgre') {
-			if ($this->_db->simple_query('SELECT pg_advisory_unlock('.$this->_lock.')')) {
-				$this->_lock = false;
-				return true;
-			}
+        } elseif ($this->_platform === 'postgre') {
+            if ($this->_db->simple_query('SELECT pg_advisory_unlock('.$this->_lock.')')) {
+                $this->_lock = false;
+                return true;
+            }
 
             return false;
-		}
+        }
 
         return parent::_release_lock();
-	}
+    }
 }

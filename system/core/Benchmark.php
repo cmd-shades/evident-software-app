@@ -55,14 +55,14 @@ namespace System\Core;
  */
 class CI_Benchmark
 {
-	/**
+    /**
      * List of all benchmark markers
      *
      * @var	array
      */
     public $marker = array();
 
-	/**
+    /**
      * Set a benchmark marker
      *
      * Multiple calls to this function can be made so that several
@@ -72,9 +72,9 @@ class CI_Benchmark
      * @return	void
      */
     public function mark($name)
-	{
-		$this->marker[$name] = microtime(true);
-	}
+    {
+        $this->marker[$name] = microtime(true);
+    }
 
     // --------------------------------------------------------------------
 
@@ -97,21 +97,21 @@ class CI_Benchmark
      *			or an empty string if $point1 is not found.
      */
     public function elapsed_time($point1 = '', $point2 = '', $decimals = 4)
-	{
-		if ($point1 === '') {
-			return '{elapsed_time}';
-		}
+    {
+        if ($point1 === '') {
+            return '{elapsed_time}';
+        }
 
         if (! isset($this->marker[$point1])) {
-			return '';
-		}
+            return '';
+        }
 
         if (! isset($this->marker[$point2])) {
-			$this->marker[$point2] = microtime(true);
-		}
+            $this->marker[$point2] = microtime(true);
+        }
 
         return number_format($this->marker[$point2] - $this->marker[$point1], $decimals);
-	}
+    }
 
     // --------------------------------------------------------------------
 
@@ -127,7 +127,7 @@ class CI_Benchmark
      * @return	string	'{memory_usage}'
      */
     public function memory_usage()
-	{
-		return '{memory_usage}';
-	}
+    {
+        return '{memory_usage}';
+    }
 }
