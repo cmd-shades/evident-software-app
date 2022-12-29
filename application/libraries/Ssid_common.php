@@ -10,11 +10,11 @@ namespace App\Libraries;
 */
 class Ssid_common
 {
-    function __construct()
+    public function __construct()
     {
 //        $this->ci =& get_instance();
 //        $this->ci->load->database();
-//        $this->api_end_point = api_end_point();
+        $this->api_end_point = api_end_point();
 //        $this->load = clone load_class('Loader');
     }
 
