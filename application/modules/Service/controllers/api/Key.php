@@ -2,7 +2,7 @@
 
 // This can be removed if you use __autoload() in config.php OR use Modular Extensions
 /** @noinspection PhpIncludeInspection */
-require APPPATH . '/libraries/REST_Controller.php';
+//require APPPATH . '/libraries/REST_Controller.php';
 
 /**
  * Keys Controller
@@ -18,7 +18,9 @@ require APPPATH . '/libraries/REST_Controller.php';
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Key extends REST_Controller
+use App\Adapter\RESTController;
+
+class Key extends RESTController
 {
     protected $methods = [
             'index_put' => ['level' => 10, 'limit' => 10],

@@ -2,15 +2,31 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Customer extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\AccountModel;
+use Application\Modules\Service\Models\CustomerModel;
+
+class Customer extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\CustomerModel
+	 */
+	private $customer_service;
+	/**
+	 * @var \Application\Modules\Service\Models\AccountModel
+	 */
+	private $account_service;
+
+	public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Customer_model', 'customer_service');
-        $this->load->model('Account_model', 'account_service');
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+        $this->customer_service = new CustomerModel();
+        $this->account_service = new AccountModel();
+        $this->form_validation->set_error_delimiters(
+			$this->config->item('error_start_delimiter', 'ion_auth'),
+			$this->config->item('error_end_delimiter', 'ion_auth')
+		);
         $this->lang->load('auth');
     }
 

@@ -2,16 +2,40 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Job extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\DiaryModel;
+use Application\Modules\Service\Models\JobModel;
+use Application\Modules\Service\Models\PeopleModel;
+
+class Job extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\JobModel
+	 */
+	private $job_service;
+
+	/**
+	 * @var \Application\Modules\Service\Models\DiaryModel
+	 */
+	private $diary_service;
+
+	/**
+	 * @var \Application\Modules\Service\Models\PeopleModel
+	 */
+	private $people_service;
+
+
+	public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Job_model', 'job_service');
-        $this->load->model('serviceapp/Diary_model', 'diary_service');
-        $this->load->model('serviceapp/People_model', 'people_service');
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+        $this->job_service = new JobModel();
+        $this->diary_service = new DiaryModel();
+        $this->people_service = new PeopleModel();
+        $this->form_validation->set_error_delimiters(
+			$this->config->item('error_start_delimiter', 'ion_auth'),
+			$this->config->item('error_end_delimiter', 'ion_auth')
+		);
         $this->lang->load('auth');
     }
 

@@ -2,14 +2,25 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Stock extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\StockModel;
+
+class Stock extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\StockModel
+	 */
+	private $stock_service;
+
+	public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Stock_model', 'stock_service');
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+        $this->stock_service = new StockModel();
+        $this->form_validation->set_error_delimiters(
+			$this->config->item('error_start_delimiter', 'ion_auth'),
+			$this->config->item('error_end_delimiter', 'ion_auth')
+		);
         $this->lang->load('auth');
     }
 

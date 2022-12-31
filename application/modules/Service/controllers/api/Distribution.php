@@ -2,17 +2,22 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-use App\Libraries\REST_Controller;
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\CogginsApiModel;
+use Application\Modules\Service\Models\DistributionModel;
 
-class Distribution extends REST_Controller
+class Distribution extends RESTController
 {
     public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Distribution_model', 'distribution_service');
-        $this->load->model('Coggins_Api_model', 'coggins_service');
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+		$this->distribution_service = new DistributionModel();
+		$this->coggins_service = new CogginsApiModel();
+        $this->form_validation->set_error_delimiters(
+			$this->config->item('error_start_delimiter', 'ion_auth'),
+			$this->config->item('error_end_delimiter', 'ion_auth')
+		);
         $this->lang->load('auth');
     }
 

@@ -2,14 +2,25 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Quote extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\QuoteModel;
+
+class Quote extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\QuoteModel
+	 */
+	private $quote_service;
+
+	public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Quote_model', 'quote_service');
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+        $this->quote_service = new QuoteModel();
+        $this->form_validation->set_error_delimiters(
+			$this->config->item('error_start_delimiter', 'ion_auth'),
+			$this->config->item('error_end_delimiter', 'ion_auth')
+		);
         $this->lang->load('auth');
     }
 

@@ -2,13 +2,20 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Report extends REST_Controller
+use App\Adapter\RESTController;
+
+class Report extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Controllers\Api\ReportModel
+	 */
+	private $report_service;
+
+	public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Report_model', 'report_service');
+        $this->report_service = new ReportModel();
     }
 
     /**

@@ -2,17 +2,31 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Alert_Handler extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\account_service;
+use Application\Modules\Service\Models\AccountModel;
+use Application\Modules\Service\Models\AlertHandlerModel;
+
+class Alert_Handler extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\AlertHandlerModel $alert_service
+	 */
+	private $alert_service;
+	/**
+	 * @var \Application\Modules\Service\Models\AccountModel $account_service
+	 */
+	private $account_service;
+
+	public function __construct(AlertHandlerModel $alert_service, AccountModel $account_service)
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Alert_Handler_model', 'alert_service');
-        $this->load->model('Account_model', 'account_service');
+		$this->alert_service = $$alert_service;
+		$this->account_service = $account_service;
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
         $this->lang->load('auth');
-    }
+	}
 
         /**
     * Create new Alert resource

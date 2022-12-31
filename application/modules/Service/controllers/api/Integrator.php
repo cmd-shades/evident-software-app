@@ -2,17 +2,23 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-use App\Libraries\REST_Controller;
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\IntegratorModel;
 
-class Integrator extends REST_Controller
+class Integrator extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\IntegratorModel
+	 */
+	private $integrator_service;
+
+	public function __construct()
     {
         parent::__construct();
         $this->load->library("Ssid_common");
         $this->load->library("form_validation");
         $this->load->library("email");
-        $this->load->model("Integrator_model", "integrator_service");
+        $this->integrator_service = new IntegratorModel();
     }
 
 

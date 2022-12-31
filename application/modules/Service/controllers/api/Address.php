@@ -2,17 +2,31 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Address extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\AddressBankModel;
+use Application\Modules\Service\Models\AddressModel;
+
+class Address extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\AddressModel
+	 */
+	private AddressModel $address_service;
+	/**
+	 * @var \Application\Modules\Service\Models\AddressBankModel
+	 */
+	private AddressBankModel $addressbank_service;
+
+	public function __construct(AddressModel $address_service, AddressBankModel $addressbank_service)
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Address_model', 'address_service');
-        $this->load->model('Address_Bank_model', 'addressbank_service');
+		$this->address_service = $address_service;
+		$this->addressbank_service = $addressbank_service;
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
         $this->lang->load('auth');
-    }
+
+	}
 
     /**
     * Create new Address resource

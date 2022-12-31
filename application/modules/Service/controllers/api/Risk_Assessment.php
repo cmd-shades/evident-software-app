@@ -4,15 +4,31 @@ namespace Application\Modules\Service\Controllers\Api;
 
 /*@comment: Risk Assessment, abbreviated as RA in all system references */
 
-class Risk_Assessment extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\JobModel;
+use Application\Modules\Service\Models\RiskAssessmentModel;
+
+class Risk_Assessment extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\RiskAssessmentModel
+	 */
+	private $ra_service;
+	/**
+	 * @var \Application\Modules\Service\Models\JobModel
+	 */
+	private $job_service;
+
+	public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Risk_Assessment_model', 'ra_service');
-        $this->load->model('Job_model', 'job_service');
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+        $this->ra_service = new RiskAssessmentModel();
+        $this->job_service = new JobModel();
+        $this->form_validation->set_error_delimiters(
+			$this->config->item('error_start_delimiter', 'ion_auth'),
+			$this->config->item('error_end_delimiter', 'ion_auth')
+		);
         $this->lang->load('auth');
     }
 

@@ -2,13 +2,16 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Asset extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\AssetModel;
+
+class Asset extends RESTController
 {
     public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Asset_model', 'asset_service');
+        $this->asset_service = new AssetModel();
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
         $this->lang->load('auth');
     }

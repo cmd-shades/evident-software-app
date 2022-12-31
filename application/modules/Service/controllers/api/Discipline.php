@@ -2,13 +2,19 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Discipline extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\DisciplineModel;
+
+class Discipline extends RESTController
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Discipline_model', 'discipline_service');
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+        $this->discipline_service = new DisciplineModel();
+        $this->form_validation->set_error_delimiters(
+			$this->config->item('error_start_delimiter', 'ion_auth'),
+			$this->config->item('error_end_delimiter', 'ion_auth')
+		);
         $this->lang->load('auth');
     }
 

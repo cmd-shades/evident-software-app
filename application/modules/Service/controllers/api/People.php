@@ -2,14 +2,20 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class People extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\PeopleModel;
+
+class People extends RESTController
 {
     public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('People_model', 'people_service');
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+        $this->people_service = new PeopleModel();
+        $this->form_validation->set_error_delimiters(
+			$this->config->item('error_start_delimiter', 'ion_auth'),
+			$this->config->item('error_end_delimiter', 'ion_auth')
+		);
         $this->lang->load('auth');
     }
 

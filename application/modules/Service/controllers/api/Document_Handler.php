@@ -2,14 +2,20 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Document_Handler extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\DocumentHandlerModel;
+
+class Document_Handler extends RESTController
 {
     public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Document_Handler_model', 'document_service');
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+        $this->document_service = new DocumentHandlerModel();
+        $this->form_validation->set_error_delimiters(
+			$this->config->item('error_start_delimiter', 'ion_auth'),
+			$this->config->item('error_end_delimiter', 'ion_auth')
+		);
         $this->lang->load('auth');
     }
 

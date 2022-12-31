@@ -2,14 +2,20 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-use App\Libraries\REST_Controller;
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\EaselApiModel;
 
-class Easeltv extends REST_Controller
+class Easeltv extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\EaselApiModel
+	 */
+	private $easel_service;
+
+	public function __construct()
     {
         parent::__construct();
-        $this->load->model('Easel_Api_model', 'easel_service');
+        $this->easel_service = new EaselApiModel();
     }
 
     /** Check Easel Server Connection **/

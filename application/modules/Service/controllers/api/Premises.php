@@ -2,13 +2,24 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Premises extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\PremisesModel;
+
+class Premises extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\PremisesModel
+	 */
+	private $premises_service;
+
+	public function __construct()
     {
         parent::__construct();
-        $this->load->model('Premises_model', 'premises_service');
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+        $this->premises_service = new PremisesModel();
+        $this->form_validation->set_error_delimiters(
+			$this->config->item('error_start_delimiter', 'ion_auth'),
+			$this->config->item('error_end_delimiter', 'ion_auth')
+		);
         $this->lang->load('auth');
     }
 

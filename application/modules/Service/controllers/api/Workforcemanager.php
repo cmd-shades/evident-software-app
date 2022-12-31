@@ -2,7 +2,10 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Workforcemanager extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\WorkforcemanagerModel;
+
+class Workforcemanager extends RESTController
 {
     public function __construct()
     {
@@ -10,7 +13,7 @@ class Workforcemanager extends REST_Controller
         $this->load->library("Ssid_common");
         $this->load->library("form_validation");
         $this->load->library("email");
-        $this->load->model("Workforcemanager_model", "Workforcemanager_service");
+        $this->Workforcemanager_service = new WorkforcemanagerModel();
     }
 
     /**

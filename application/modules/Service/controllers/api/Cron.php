@@ -2,9 +2,16 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
+use Application\Extensions\MX_Controller;
+
 class Cron extends MX_Controller
 {
-    public function __construct()
+	/**
+	 * @var array|null[]
+	 */
+	private $options = [];
+
+	public function __construct()
     {
         parent::__construct();
         if (!$this->identity()) {

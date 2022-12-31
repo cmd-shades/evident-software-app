@@ -2,14 +2,20 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-use App\Libraries\REST_Controller;
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\MarketingModel;
 
-class Marketing extends REST_Controller
+class Marketing extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\MarketingModel
+	 */
+	private $marketing_service;
+
+	public function __construct()
     {
         parent::__construct();
-        $this->load->model('Marketing_model', 'marketing_service');
+        $this->marketing_service = new MarketingModel();
     }
 
     /**

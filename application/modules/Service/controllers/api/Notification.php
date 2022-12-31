@@ -2,13 +2,21 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Notification extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\NotificationModel;
+
+class Notification extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\NotificationModel
+	 */
+	private $notification_service;
+
+	public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Notification_model', 'notification_service');
+        $this->notification_service = new NotificationModel();
     }
 
     /**

@@ -2,18 +2,29 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-use App\Libraries\REST_Controller;
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\ProductModel;
+use Application\Modules\Service\Models\SiteModel;
 
-class Product extends REST_Controller
+class Product extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\ProductModel
+	 */
+	private $product_service;
+	/**
+	 * @var \Application\Modules\Service\Models\SiteModel
+	 */
+	private $site_service;
+
+	public function __construct()
     {
         parent::__construct();
         $this->load->library("Ssid_common");
         $this->load->library("form_validation");
         $this->load->library("email");
-        $this->load->model("Product_model", "product_service");
-        $this->load->model("Site_model", "site_service");
+        $this->product_service = new ProductModel();
+        $this->site_service = new SiteModel();
     }
 
 

@@ -2,15 +2,23 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Fleet extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\FleetModel;
+
+class Fleet extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\FleetModel
+	 */
+	private $Fleet_service;
+
+	public function __construct()
     {
         parent::__construct();
         $this->load->library("Ssid_common");
         $this->load->library("form_validation");
         $this->load->library("email");
-        $this->load->model("Fleet_model", "Fleet_service");
+        $this->Fleet_service = new FleetModel();
     }
 
     /**

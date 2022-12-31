@@ -2,13 +2,21 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Settings extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\SettingsModel;
+
+class Settings extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\SettingsModel
+	 */
+	private $settings_service;
+
+	public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Settings_model', 'settings_service');
+        $this->settings_service = new SettingsModel();
     }
 
     /**

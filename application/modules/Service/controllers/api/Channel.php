@@ -2,17 +2,24 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
+use App\Adapter\RESTController;
 use App\Libraries\REST_Controller;
+use Application\Modules\Service\Models\ChannelModel;
 
-class Channel extends REST_Controller
+class Channel extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Controllers\Api\ChannelModel
+	 */
+	private $channel_service;
+
+	public function __construct()
     {
         parent::__construct();
         $this->load->library("Ssid_common");
         $this->load->library("form_validation");
         $this->load->library("email");
-        $this->load->model("Channel_model", "channel_service");
+        $this->channel_service = new ChannelModel();
     }
 
 

@@ -2,17 +2,24 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
+use App\Adapter\RESTController;
 use App\Libraries\REST_Controller;
+use Application\Modules\Service\Models\ContentModel;
 
-class Content extends REST_Controller
+class Content extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Controllers\Api\ContentModel
+	 */
+	private $content_service;
+
+	public function __construct()
     {
         parent::__construct();
         $this->load->library("Ssid_common");
         $this->load->library("form_validation");
         $this->load->library("email");
-        $this->load->model("Content_model", "content_service");
+        $this->content_service = new ContentModel();
     }
 
     /**

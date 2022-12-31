@@ -2,7 +2,10 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Project extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\ProjectModel;
+
+class Project extends RESTController
 {
     public function __construct()
     {
@@ -10,7 +13,7 @@ class Project extends REST_Controller
         $this->load->library("Ssid_common");
         $this->load->library("form_validation");
         $this->load->library("email");
-        $this->load->model("Project_model", "project_service");
+        $this->project_service = new ProjectModel();
     }
 
 

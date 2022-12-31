@@ -2,15 +2,33 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Attribute extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\AccessModel;
+use Application\Modules\Service\Models\AttributeModel;
+use Application\Modules\Service\Models\ModulesModel;
+
+class Attribute extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Controllers\Api\AttributeModel
+	 */
+	private $attribute_service;
+	/**
+	 * @var \Application\Modules\Service\Controllers\Api\AccessModel
+	 */
+	private $access_service;
+	/**
+	 * @var \Application\Modules\Service\Controllers\Api\ModulesModel
+	 */
+	private $modules_service;
+
+	public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Attribute_model', 'attribute_service');
-        $this->load->model('Access_model', 'access_service');
-        $this->load->model('Modules_model', 'modules_service');
+        $this->attribute_service = new AttributeModel();
+        $this->access_service = new AccessModel();
+        $this->modules_service = new ModulesModel();
     }
 
 

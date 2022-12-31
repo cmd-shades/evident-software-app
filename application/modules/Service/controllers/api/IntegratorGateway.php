@@ -2,14 +2,20 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-use App\Libraries\REST_Controller;
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\IntegratorGatewayModel;
 
-class IntegratorGateway extends REST_Controller
+class IntegratorGateway extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\IntegratorGatewayModel
+	 */
+	private $IntegratorGateway_services;
+
+	public function __construct()
     {
         parent::__construct();
-        $this->load->model('IntegratorGateway_model', 'IntegratorGateway_services');
+        $this->IntegratorGateway_services = new IntegratorGatewayModel();
     }
 
     public function check_integrator_token($received_token = false)

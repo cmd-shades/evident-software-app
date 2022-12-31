@@ -2,17 +2,32 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-use App\Libraries\REST_Controller;
 
-class Device extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\AccountModel;
+use Application\Modules\Service\Models\DeviceModel;
+
+class Device extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\DeviceModel
+	 */
+	private $device_service;
+	/**
+	 * @var \Application\Modules\Service\Models\AccountModel
+	 */
+	private $account_service;
+
+	public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Device_model', 'device_service');
-        $this->load->model('Account_model', 'account_service');
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+        $this->device_service = new DeviceModel();
+        $this->account_service = new AccountModel();
+        $this->form_validation->set_error_delimiters(
+			$this->config->item('error_start_delimiter', 'ion_auth'),
+			$this->config->item('error_end_delimiter', 'ion_auth')
+		);
         $this->lang->load('auth');
     }
 

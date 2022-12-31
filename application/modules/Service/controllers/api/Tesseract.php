@@ -2,12 +2,15 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Tesseract extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\TesseractModel;
+
+class Tesseract extends RESTController
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Tesseract_model', 'tesseract_service');
+        $this->tesseract_service = new TesseractModel();
     }
 
 

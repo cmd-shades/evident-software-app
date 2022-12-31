@@ -2,13 +2,16 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Billable_item extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\BillableItemModel;
+
+class Billable_item extends RESTController
 {
     public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Billable_item_model', 'billable_item_service');
+        $this->billable_item_service = new BillableItemModel();
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
         $this->lang->load('auth');
     }

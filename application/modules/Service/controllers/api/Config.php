@@ -2,13 +2,16 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Config extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\ConfigModel;
+
+class Config extends RESTController
 {
     public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Config_model', 'config_service');
+        $this->config_service = new ConfigModel();
     }
 
     /**

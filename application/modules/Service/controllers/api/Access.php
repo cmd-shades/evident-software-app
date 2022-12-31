@@ -2,15 +2,29 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
+use App\Libraries\REST_Controller;
+use Application\Modules\Service\Models\AccessModel;
+use Application\Modules\Service\Models\ModulesModel;
+
 class Access extends REST_Controller
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\AccessModel
+	 */
+	private AccessModel $access_service;
+	/**
+	 * @var \Application\Modules\Service\Models\ModulesModel
+	 */
+	private ModulesModel $modules_service;
+
+	public function __construct(AccessModel $access_service, ModulesModel $modules_service)
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Access_model', 'access_service');
-        $this->load->model('Modules_model', 'modules_service');
-    }
+
+		$this->access_service = $access_service;
+		$this->modules_service = $modules_service;
+	}
 
     /**
     * Check user's access to module(s)

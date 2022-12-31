@@ -2,13 +2,21 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Cost extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\CostModel;
+
+class Cost extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\CostModel
+	 */
+	private $cost_service;
+
+	public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Cost_model', 'cost_service');
+        $this->cost_service = new CostModel();
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
         $this->lang->load('auth');
     }

@@ -2,14 +2,27 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Account extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\AccountModel;
+use Application\Modules\Service\Models\ModulesModel;
+
+class Account extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\AccountModel
+	 */
+	private AccountModel $account_service;
+	/**
+	 * @var \Application\Modules\Service\Models\ModulesModel
+	 */
+	private ModulesModel $module_service;
+
+	public function __construct(AccountModel $account_service, ModulesModel $module_service)
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Account_model', 'account_service');
-        $this->load->model('Modules_model', 'module_service');
+		$this->account_service = $account_service;
+		$this->module_service = $module_service;
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
         $this->lang->load('auth');
 

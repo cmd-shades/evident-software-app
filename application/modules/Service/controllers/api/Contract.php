@@ -2,15 +2,23 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Contract extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\ContractModel;
+
+class Contract extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\ContractModel
+	 */
+	private $contract_service;
+
+	public function __construct()
     {
         parent::__construct();
         $this->load->library("Ssid_common");
         $this->load->library("form_validation");
         $this->load->library("email");
-        $this->load->model("Contract_model", "contract_service");
+        $this->contract_service = new ContractModel();
     }
 
     /**

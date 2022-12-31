@@ -2,14 +2,20 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-use App\Libraries\REST_Controller;
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\CogginsApiModel;
 
-class Coggins extends REST_Controller
+class Coggins extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\CogginsApiModel
+	 */
+	private $coggins_service;
+
+	public function __construct()
     {
         parent::__construct();
-        $this->load->model('Coggins_Api_model', 'coggins_service');
+        $this->coggins_service = new CogginsApiModel();
     }
 
 

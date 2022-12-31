@@ -2,6 +2,10 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\AccountModel;
+use Application\Modules\Service\Models\ModulesModel;
+
 /**
  * This is an example of a few basic user interaction methods you could use
  * all done with a hardcoded array
@@ -13,13 +17,18 @@ namespace Application\Modules\Service\Controllers\Api;
  * @license         MIT
  * @link            https://github.com/chriskacerguis/codeigniter-restserver
  */
-
-require_once APPPATH . '/libraries/JWT.php';
-use Firebase\JWT\JWT;
-
-class User extends REST_Controller
+class User extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\ModulesModel
+	 */
+	private $module_service;
+	/**
+	 * @var \Application\Modules\Service\Models\AccountModel
+	 */
+	private $account_service;
+
+	public function __construct()
     {
         // Construct the parent class
         parent::__construct();
@@ -28,9 +37,12 @@ class User extends REST_Controller
         $this->methods['users_get']['limit'] 	= 500; // 500 requests per hour per user/key
         $this->methods['users_post']['limit'] 	= 100; // 100 requests per hour per user/key
         $this->methods['users_delete']['limit'] = 50; // 50 requests per hour per user/key
-        $this->load->model('Modules_model', 'module_service');
-        $this->load->model('Account_model', 'account_service');
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+        $this->module_service = new ModulesModel();
+        $this->account_service = new AccountModel();
+        $this->form_validation->set_error_delimiters(
+			$this->config->item('error_start_delimiter', 'ion_auth'),
+			$this->config->item('error_end_delimiter', 'ion_auth')
+		);
         $this->lang->load('auth');
         $this->tables = $this->config->item('tables', 'ion_auth');
     }

@@ -2,13 +2,16 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Audit extends REST_Controller
+use App\Adapter\RESTController;
+use Application\Modules\Service\Models\AuditModel;
+
+class Audit extends RESTController
 {
     public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Audit_model', 'evidocs_service');
+        $this->evidocs_service = new AuditModel();
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
         $this->lang->load('auth');
     }

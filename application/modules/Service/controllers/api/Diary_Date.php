@@ -2,14 +2,24 @@
 
 namespace Application\Modules\Service\Controllers\Api;
 
-class Diary_Date extends REST_Controller
+use Application\Modules\Service\Models\DiaryDateModel;
+
+class Diary_Date extends RESTController
 {
-    public function __construct()
+	/**
+	 * @var \Application\Modules\Service\Models\DiaryDateModel
+	 */
+	private $diary_date_service;
+
+	public function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Diary_Date_model', 'diary_date_service');
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+        $this->diary_date_service = new DiaryDateModel();
+        $this->form_validation->set_error_delimiters(
+			$this->config->item('error_start_delimiter', 'ion_auth'),
+			$this->config->item('error_end_delimiter', 'ion_auth')
+		);
         $this->lang->load('auth');
     }
 
