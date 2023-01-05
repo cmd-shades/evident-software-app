@@ -109,7 +109,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $appTimezone = 'America/Chicago';
+    public $appTimezone = 'Europe/London';
 
     /**
      * --------------------------------------------------------------------------
@@ -163,7 +163,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $sessionCookieName = 'ci_session';
+    public $sessionCookieName = '_ssid_session';
 
     /**
      * --------------------------------------------------------------------------
@@ -194,7 +194,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $sessionSavePath = WRITEPATH . 'session';
+    public $sessionSavePath = WRITEPATH . 'user_session';
 
     /**
      * --------------------------------------------------------------------------
@@ -297,7 +297,7 @@ class App extends BaseConfig
      *
      * @deprecated use Config\Cookie::$httponly property instead.
      */
-    public $cookieHTTPOnly = true;
+    public $cookieHTTPOnly = false;
 
     /**
      * --------------------------------------------------------------------------

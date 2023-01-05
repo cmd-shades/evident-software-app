@@ -33,9 +33,9 @@ class Database extends Config
     public $default = [
         'DSN'      => '',
         'hostname' => 'localhost',
-        'username' => '',
-        'password' => '',
-        'database' => '',
+		'username' => ( ENVIRONMENT !== 'production' ) ? 'ssid_admin' 		: 'root',
+		'password' => ( ENVIRONMENT !== 'production' ) ? 'mDz*dM$?2EuUZ9Pj' 	: 'carriacou',
+        'database' => 'evident-core',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
@@ -48,6 +48,12 @@ class Database extends Config
         'strictOn' => false,
         'failover' => [],
         'port'     => 3306,
+
+		'dbdriver' => 'mysqli',
+		'dbprefix' => '',
+		'cache_on' => FALSE,
+		'cachedir' => '',
+		'save_queries' => TRUE
     ];
 
     /**
