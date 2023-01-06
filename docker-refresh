@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# Docker refresh with status
+make docker-down && make docker-build && make docker-up && docker ps -a

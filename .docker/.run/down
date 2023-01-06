@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+cwd=$(pwd)/;
+
+dockerfile=${cwd}compose/docker-compose.yml;
+
+echo "${dockerfile}";
+
+docker-compose down -f ${dockerfile} --remove-orphans -v;
+#docker-compose down --remove-orphans -v;
+
+docker ps -a;

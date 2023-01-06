@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+
+echo "Docker status...";
+
+docker ps -a;

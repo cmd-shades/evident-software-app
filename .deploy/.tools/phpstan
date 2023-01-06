@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# PHPStan
+#./vendor/bin/phpstan analyse app src tests --level=8 --error-format=table
+./vendor/bin/phpstan analyse -c phpstan.neon --memory-limit 1G --xdebug --ansi
