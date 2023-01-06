@@ -76,14 +76,14 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root', 
+	'hostname' => 'mysql',
+	'username' => 'root',
 	'password' => 'root',
-	'database' => 'evident_core_tess',
+	'database' => 'evident-core',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
+	'db_debug' => true,
 	'cache_on' => FALSE,
 	'cachedir' => '',
 	'char_set' => 'utf8',
