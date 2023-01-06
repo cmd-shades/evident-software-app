@@ -111,7 +111,8 @@ services:
     ports:
       - "${MYSQL_HOST_PORT:-3307}:3306"
     environment:
-      MYSQL_DATABASE: envx
+      MYSQL_DATABASE: evident-core
+      MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: root
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
