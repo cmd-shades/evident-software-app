@@ -949,4 +949,3 @@ yarn-error.log
 # Docker local files
 /data/mysql
 /data/redis
->>>>>>> app/docker-build
