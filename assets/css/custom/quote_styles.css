@@ -1,0 +1,55 @@
+/** Quote module custom styles **/
+.nav_menu {
+    background: rgba(173, 214, 48);
+    background-color: #ADD630 !important;
+}
+
+.nav.side-menu>li.current-page, 
+.nav.side-menu>li.active {
+    background: rgba(173, 214, 48);
+    background-color: #ADD630 !important;
+}
+
+.nav.side-menu>li.active>a {
+   background: rgba(173, 214, 48);
+    background-color: #ADD630 !important;
+}
+
+a{  
+	color: #ADD630;
+	font-weight: bold;
+}
+
+.quote-color,
+.color-quote,
+.text-quote{
+	color:#ADD630 !important;
+}
+
+.quote-bg{
+	background: #ADD630 !important;
+    background-color: #ADD630 !important;
+	color: #fff !important;
+}
+
+.btn-quote {
+    color: #fff;
+    background-color: #ADD630;
+    border-color: #ADD630;
+}
+
+.top_search .form-control {
+    border: 1px solid rgba(173, 214, 48, 0.6) !important;
+}
+
+.quote-border,
+.border-quote {
+	border: 1px solid rgba(173, 214, 48, 0.6) !important;
+}
+
+.quote-shadow,
+.shadow-quote{
+	-webkit-box-shadow: 4px 4px 4px 0px rgba(173, 214, 48,0.3);
+	-moz-box-shadow: 4px 4px 4px  0px rgba(173, 214, 48,0.3);
+	box-shadow: 4px 4px 4px  0px rgba(173, 214, 48,0.3);	
+}

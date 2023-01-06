@@ -1,0 +1,66 @@
+/** Home module custom styles **/
+.green-shadow,
+.shadow-green,
+.red-shadow,
+.shadow-red,
+.dark-red-shadow,
+.shadow-dark-red,
+.orange-shadow,
+.shadow-orange,
+.orange-light-shadow,
+.shadow-orange-light,
+.light-yellow-shadow,
+.shadow-light-yellow,
+.yellow-shadow,
+.shadow-yellow{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(92, 92, 92,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(92, 92, 92,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(92, 92, 92,0.6);
+}
+
+/** USE THIS IF THE SHADOWS NEED TO BE SPECIFIC TO THE COLOUR**/
+/*
+.green-shadow,
+.shadow-green{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(108, 209, 103,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(108, 209, 103,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(108, 209, 103,0.6);
+}
+
+
+.red-shadow,
+.shadow-red{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(252, 91, 91,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(252, 91, 91,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(252, 91, 91,0.6);
+}
+
+.dark-red-shadow,
+.shadow-dark-red{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(192, 54, 54,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(192, 54, 54,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(192, 54, 54,0.6);
+}
+
+
+.orange-shadow,
+.shadow-orange{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(255, 140, 0,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(255, 140, 0,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(255, 140, 0,0.6);
+}
+
+.light-yellow-shadow,
+.shadow-light-yellow{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(255, 221, 99,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(255, 221, 99,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(255, 221, 99,0.6);
+}
+
+.yellow-shadow,
+.shadow-yellow{
+	-webkit-box-shadow: 4px 8px 4px 0px rgba(247, 200, 72,0.6);
+	-moz-box-shadow: 4px 8px 4px  0px rgba(247, 200, 72,0.6);
+	box-shadow: 4px 8px 4px  0px rgba(247, 200, 72,0.6);
+}
+*/

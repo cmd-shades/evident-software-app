@@ -1,0 +1,149 @@
+.mydetails-modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: lightgray;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 1900;
+}
+
+.swal2-container {
+  z-index: 2000;
+}
+
+.mydetails-modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  width: 35%;
+  min-width: 450px;
+  position: relative;
+}
+
+
+.profile-modules {
+  padding-left:20px;
+  padding-right: 20px;
+}
+
+
+.mydetails-profile-header {
+    margin: 20px auto;
+    padding: 30px;
+}
+
+
+/*   profile image   */
+
+.profile-icon-container {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    display: inline-block;
+}
+
+.profile-icon-image {
+    position: absolute;
+    display: inline-block;
+    left: calc(50% - 40px);
+    top: calc(50% - 60px);
+    font-size:80px;
+}
+
+
+.profile-icon {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    border: 5px solid white;
+}
+
+
+.profile-image {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+
+
+.upload-hover {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    clip: rect(0px,400px,100px,0px);
+}
+
+.delete-hover {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    clip: rect(100px,200px,200px,0px);
+}
+
+.delete-has-profile-image {
+    display: none;
+}
+
+.upload-has-profile-image {
+    clip: inherit;
+}
+
+.upload-hover:hover, .delete-hover:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.upload-icon {
+    position: absolute;
+    left: 50px;
+    top: calc(50% - 30px);
+    font-size: 40px;
+    color: white;
+}
+
+.delete-icon {
+    position: absolute;
+    left: 64px;
+    bottom: 13px;
+    font-size: 16px;
+    color: white;
+}
+
+.delete-icon:hover {
+    color: #e36868 !important;
+}
+
+.mydetails-top {
+    width:100%;
+    background-color:#0092CD;
+    background-image: linear-gradient(to bottom right, #0092CD, #67c8f0);
+}
+
+
+.mydetails-module-link {
+   /*  min-width: 150px; */
+    background-color: #5C5C5C;
+    color: white;
+    text-decoration: none;
+}
+
+.mydetails-module-btn-active {
+    background-color: #0092CD !important;
+    color: white !important;
+}
+
+
+.md-update-btn {
+    background-color: #5cb85c;
+    color: white;
+}

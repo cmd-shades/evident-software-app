@@ -1,0 +1,2 @@
+temp_user_id,account_id,employee_id,first_name,last_name,preferred_name,personal_email,department_id,job_title_id,business,location,status_id,user_type_id,line_manager,line_manager_temp,hs_category,worker_category,user_access_type
+,1,2,Test,User,Test,test.user@website.co.uk,3,27,Company,Address,1,1,,Line Manager,Director,OFFICE,Web

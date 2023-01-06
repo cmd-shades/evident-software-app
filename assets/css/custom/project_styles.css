@@ -1,0 +1,87 @@
+.workflow-header {
+
+    line-height: 50px;
+    background-color: rgb(74, 74, 74);
+    color: white;
+    font-size: 18px;
+    font-family: 'Quicksand', sans-serif !important;
+    padding-left: 17px;
+    width: 100%;
+    text-align: left;
+}
+
+.workflow-expand i {
+    color: rgb(248, 201, 0);
+}
+
+.eviPageElement {
+    -webkit-box-shadow: 0px 0px 42px -17px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 42px -17px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 42px -17px rgba(0,0,0,0.75);
+    margin-bottom: 15px;
+}
+
+.workflow-body table {
+    box-sizing: border-box;
+    width: 100%;
+    font-family: 'Quicksand', sans-serif !important;
+    font-size: 17px;
+    margin-bottom: 20px;
+}
+
+.workflow-body table tr th:last-child {
+    text-align: right;
+}
+
+.workflow-body table tr td:last-child {
+    text-align: right;
+}
+
+.workflow-body {
+    padding-bottom: 0px;
+    padding: 20px;
+    padding-bottom: 5px;
+}
+
+.no-entries-message {
+    text-align: center;
+    font-size: 15px;
+    color: #0092CD;
+    font-style: italic;
+    margin-bottom:20px;
+    padding-bottom: 20px;
+}
+
+.pagination {
+    margin: 0px;
+    margin-top: 15px;
+}
+
+.form-group.top_search .project-search_input, .form-group.top_search .project-search_input:focus {
+    border: 1px solid rgba( 92, 92, 92, 0.6);
+    -webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+    box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+    background-color: rgba( 92, 92, 92, 1 );
+    color: #fff;
+}
+
+.pgn-btn {
+    min-width: 50px;
+    text-align: center;
+    -webkit-touch-callout: none;
+      -webkit-user-select: none;
+       -khtml-user-select: none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none;
+
+}
+
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
+    background-color: #5c5c5c;
+}
+
+.pgn-btn-active {
+    background-color: #0092CD !important;
+}

@@ -1,0 +1,95 @@
+.bkg{
+	background:url("blue.png") repeat-x;
+	width:100%;
+	height:25vh;
+	}
+.slide{
+	background:#5c5c5c;
+	color:white;
+	margin-top:-50px;
+	min-height:30%;
+}
+.slide li{
+	list-style:none;
+}
+.slide li::before {
+	content:"\2022";
+	color:#ebc700;
+	font-weight:bold;
+	display: inline-block;
+	width: 1em;
+	margin-left: -1em;
+}
+.content{
+	margin:25px 40px;
+	position:relative;
+}
+.first {
+	margin-top:10px;
+}
+.content h3{
+	letter-spacing:5px;
+	font-weight:bold;
+}
+#welcome h1{
+	font-weight:bold;
+	margin-bottom:25px;
+	letter-spacing:5px;
+}
+#welcome img{
+	width:50%;
+	margin-bottom:25px;
+}
+.center{
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+}
+.big-button{
+	background-color:#5fb760;
+	padding:15px 64px;
+	margin:10px auto 30px;
+	display:block;
+	width:25%;
+}
+.btn-back{
+	padding:10px 32px;
+	background-color:#0092cd;
+	float:left;
+}
+.btn-next{
+	padding:10px 32px;
+	background-color:#5fb760;
+	float:right;
+}
+#evidocs img{
+	width:100%;
+	margin-top:15px;
+	margin-bottom:25px;
+}
+#profile img{
+	width:100%;
+	margin-top:15px;
+	margin-bottom:25px;
+}
+#blue img{
+	width:100%;
+	margin-top:15px;
+	margin-bottom:25px;
+}
+#attributes img{
+	width:100%;
+	margin-top:15px;
+	margin-bottom:25px;
+}
+.icon{
+	width:7%!important;
+	vertical-align:baseline;
+	margin-bottom:0px!important;
+	margin-left:5px;
+}
+#last img{
+	width:40%;
+	margin-top:15px;
+	margin-bottom:25px;
+}

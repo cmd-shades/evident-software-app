@@ -1,0 +1,70 @@
+#timetable {
+    
+    font-family: sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color :black;
+    border-style: none;
+}
+
+
+
+.user_title{
+
+    font-size: 15px;
+}
+
+
+
+.travel-element {
+    background: repeating-linear-gradient(
+        45deg,
+        rgb(230,230,230),
+        rgb(230,230,230) 10px,
+        rgb(195,195,195) 10px,
+        rgb(195,195,195) 20px
+    );
+    
+}
+
+.vis-item {
+    border-width: 0px;
+    height: 120px;
+    font-size: 13px;
+    color: white;   
+    border-color: black;
+}
+
+
+.vis-inner {
+    color: rgb(42, 95, 126);
+    font-weight: 400;
+}
+
+.timeline-title {
+    padding-top: 5px;
+   padding-left: 100px;
+   color: white;
+   font-weight: 300;
+}
+
+.vis-label, .vis-group{
+
+    height: 150px !important;
+}
+
+
+.jobstatus1{
+    background-color: rgb(22, 132, 191)
+
+}
+
+.jobstatus2{
+    background-color: rgb(229, 174, 91)
+
+}
+
+.jobstatus3{
+    background-color: rgb(91, 185, 91)
+
+}

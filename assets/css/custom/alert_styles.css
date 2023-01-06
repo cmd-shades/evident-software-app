@@ -1,0 +1,88 @@
+/** alert module custom styles **/
+.nav_menu {
+    background: rgba(0, 146, 205);
+    background-color: #0092CD !important;
+}
+
+.nav.side-menu>li.current-page, 
+.nav.side-menu>li.active {
+    background: rgba(0, 146, 205);
+	background-color: #0092CD !important;
+}
+
+.nav.side-menu>li.active>a {
+   background: rgba(0, 146, 205);
+	background-color: #0092CD !important;
+}
+
+a{ color: #0092CD;
+	font-weight: bold;
+}
+
+
+.alert-color,
+.color-alert,
+.text-alert{
+	color:#0092CD !important;
+}
+
+.alert-bg{
+	background: #0092CD !important;
+    background-color: #0092CD !important;
+	color: #fff !important;
+}
+
+.btn-alert {
+    color: #fff !important;
+    background-color: #0092CD;
+    border-color: #0092CD;
+}
+ 
+.top_search .form-control {
+    border: 1px solid rgba(0, 146, 205, 0.6) !important;
+}
+
+.top_search .alert-bg.btn-default, .alert-bg.btn-default,
+.top_search .alert-bg.btn-default:hover, .alert-bg.btn-default:hover,
+.top_search .alert-bg.btn-default:focus, .alert-bg.btn-default:focus,
+.top_search .alert-bg.btn-default:vialertd, .alert-bg.btn-default:vialertd, 
+.top_search .alert-bg.btn-default:active, .alert-bg.btn-default:active{
+	background-color: #0092CD;
+	color: #fff;
+    border: 1px solid rgba( 0, 146, 205, 0.6 );
+    -webkit-box-shadow: 4px 4px 4px 0px rgba( 0, 146, 205, 0.3 );
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 0, 146, 205, 0.3 );
+    box-shadow: 4px 4px 4px 0px rgba( 0, 146, 205, 0.3 );
+}
+
+.alert-border,
+.border-alert {
+	border: 1px solid rgba(0, 146, 205, 0.6) !important;
+}
+
+.alert-shadow,
+.shadow-alert{
+	-webkit-box-shadow: 4px 4px 4px 0px rgba(0, 146, 205,0.3);
+	-moz-box-shadow: 4px 4px 4px  0px rgba(0, 146, 205,0.3);
+	box-shadow: 4px 4px 4px  0px rgba(0, 146, 205,0.3);	
+}
+
+.alert-shadow:hover,
+.alert-shadow:focus,
+.alert-shadow:vialertd,
+.alert-shadow:active,
+.shadow-alert:hover,
+.shadow-alert:focus,
+.shadow-alert:vialertd,
+.shadow-alert:active{
+	color: #0092CD;
+}
+
+.form-group.top_search .alert-search_input,
+.form-group.top_search .alert-search_input:focus{
+	border: 1px solid rgba(0, 146, 205, 0.6);
+    -webkit-box-shadow: 4px 4px 4px 0px rgba(0, 146, 205, 0.3) !important;
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 0, 146, 205, 0.3) !important;
+    box-shadow: 4px 4px 4px 0px rgba( 0, 146, 205, 0.3) !important;
+}
+

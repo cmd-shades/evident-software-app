@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14.724" height="34.357" viewBox="0 0 14.724 34.357">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_197" data-name="Path 197" d="M0,0H14.724V-34.357H0Z" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="Rectangle_70" data-name="Rectangle 70" width="48.724" height="48.357" transform="translate(-17 -47.357)" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-3">
+      <rect id="Rectangle_68" data-name="Rectangle 68" width="30.27" height="20.27" transform="translate(-7.773 -41.357)" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-4">
+      <rect id="Rectangle_69" data-name="Rectangle 69" width="32.724" height="27.633" transform="translate(-9 -26.633)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Group_450" data-name="Group 450" transform="translate(0 34.357)">
+    <g id="Group_449" data-name="Group 449" clip-path="url(#clip-path)">
+      <g id="Group_448" data-name="Group 448" style="mix-blend-mode: multiply;isolation: isolate">
+        <g id="Group_447" data-name="Group 447">
+          <g id="Group_446" data-name="Group 446" clip-path="url(#clip-path-2)">
+            <g id="Group_441" data-name="Group 441" style="mix-blend-mode: multiply;isolation: isolate">
+              <g id="Group_440" data-name="Group 440">
+                <g id="Group_439" data-name="Group 439" clip-path="url(#clip-path-3)">
+                  <g id="Group_438" data-name="Group 438" transform="translate(12.497 -28.222)">
+                    <path id="Path_195" data-name="Path 195" d="M0,0A5.134,5.134,0,0,1-5.135,5.135,5.134,5.134,0,0,1-10.27,0,5.134,5.134,0,0,1-5.135-5.135,5.134,5.134,0,0,1,0,0Z" fill="none" stroke="#5c5c5c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+            <g id="Group_445" data-name="Group 445" style="mix-blend-mode: multiply;isolation: isolate">
+              <g id="Group_444" data-name="Group 444">
+                <g id="Group_443" data-name="Group 443" clip-path="url(#clip-path-4)">
+                  <g id="Group_442" data-name="Group 442" transform="translate(11.18 -3.519)">
+                    <path id="Path_196" data-name="Path 196" d="M0,0,2.545,2.519H-10.18L-7.635,0V-12.6l-2.545-2.519H0Z" fill="none" stroke="#5c5c5c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

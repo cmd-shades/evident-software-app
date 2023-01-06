@@ -1,0 +1,68 @@
+#app-top {
+    background-color: rgb(19, 133, 193);
+    height: 210px;
+    text-align: center;
+    color: white;
+    padding-top: 50px;
+    padding-left: 50px;
+}
+
+.app-prompt {
+    font-size: 20px;
+}
+
+#prompt-date-picker,
+#prompt-submit {
+    height: 40px;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+body {
+    background-color: aliceblue;
+}
+
+#timeline {
+    background-color: white;
+}
+
+#timeline-error-message {
+    text-align: center;
+}
+
+.vis-item {
+    border-width: 0px !important;
+}
+
+.jobstatus1 {
+    background-color: rgb(22, 132, 191) !important;
+}
+
+.jobstatus2 {
+    background-color: rgb(229, 174, 91) !important;
+}
+
+.jobstatus3 {
+    background-color: rgb(91, 185, 91) !important;
+}
+
+.travel-element {
+    background: repeating-linear-gradient( 45deg, rgb(230, 230, 230), rgb(230, 230, 230) 10px, rgb(195, 195, 195) 10px, rgb(195, 195, 195) 20px);
+}
+
+.travel-element-missing {
+    background: repeating-linear-gradient( 45deg, rgb(229, 146, 146), rgb(229, 146, 146) 10px, rgb(193, 116, 116) 10px, rgb(193, 116, 116) 20px);
+}
+
+.legend-dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+#legend-help {
+    margin-top: 5px;
+    font-size: 10px;
+    font-weight: 0px;
+}

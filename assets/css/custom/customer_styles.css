@@ -1,0 +1,93 @@
+/** customer module custom styles **/
+.nav_menu {
+    background: rgba(0, 146, 205);
+    background-color: #0092CD !important;
+}
+
+.nav.side-menu>li.current-page, 
+.nav.side-menu>li.active {
+    background: rgba(0, 146, 205);
+    background-color: #0092CD !important;
+}
+
+.nav.side-menu>li.active>a {
+   background: rgba(0, 146, 205);
+    background-color: #0092CD !important;
+}
+
+a{ color: #0092CD;
+	font-weight: bold;
+}
+
+.customer-color,
+.color-customer,
+.text-customer{
+	color:#0092CD !important;
+}
+
+.customer-bg{
+	background: #0092CD !important;
+    background-color: #0092CD !important;
+	color: #fff !important;
+}
+
+.btn-customer {
+    color: #fff;
+    background-color: #0092CD;
+    border-color: #0092CD;
+}
+
+.top_search .form-control {
+    border: 1px solid rgba(0, 146, 205, 0.6) !important;
+}
+
+.customer-border,
+.border-customer {
+	border: 1px solid rgba(0, 146, 205, 0.6) !important;
+}
+
+.customer-shadow,
+.shadow-customer{
+	-webkit-box-shadow: 4px 4px 4px 0px rgba(0, 146, 205,0.3);
+	-moz-box-shadow: 4px 4px 4px  0px rgba(0, 146, 205,0.3);
+	box-shadow: 4px 4px 4px  0px rgba(0, 146, 205,0.3);	
+}
+
+
+/* .top_customer  */
+
+	
+.table > thead > tr > th{
+	cursor:pointer;
+}
+
+.customer-addresses-container .full_block,
+.customer-notes-container .full_block{
+	width: 100%;
+	display: block;
+	float: left;
+}
+
+.customer-addresses-container .rows,
+.customer-notes-container .rows{
+	margin-top: 0px;
+	margin-bottom: 6px;
+}
+
+.customer-addresses-container .create_address_right_box,
+.customer-notes-container .create_address_right_box{
+	min-height: 300px;
+	padding-top: 20px;
+	padding-bottom: 80px;
+}
+
+.customer-addresses-container .add_address_row,
+.customer-notes-container .add_address_row{
+	position: absolute;
+    bottom:  20px;
+    width: calc(100% - 17px);
+    box-sizing: border-box;
+    margin-left: -10px;
+    padding-left: 0;
+    margin-right:  -10px;
+}

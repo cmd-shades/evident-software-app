@@ -1,0 +1,216 @@
+{
+    "auth_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2V2aWRlbnQtZGV2XC8iLCJzdWIiOiIxIiwiaWF0IjoxNTYxNDU1NDg4LCJleHAiOjE1NjE0ODQyODgsIm5iZiI6MTU2MTQ1NTQ4OCwiZGF0YSI6eyJ1c2VyIjp7InVzZXJuYW1lIjoiYWRtaW4iLCJpZCI6IjEiLCJmaXJzdF9uYW1lIjoiQWRtaW4iLCJsYXN0X25hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AbG92ZWRpZ2l0YWx0di5jby51ayIsIm1lbWJlcnNoaXBfbnVtYmVyIjoiMjQyNDI0IiwiY2hhbmdlX3Bhc3N3b3JkIjpudWxsLCJhY3RpdmUiOiIxIiwibGFzdF9sb2dpbiI6IjE1NjE0NTQ4NDEiLCJhY2NvdW50X2lkIjoiMyIsInRpZXJfaWQiOiIyIiwiYWNjb3VudF91c2VyX2lkIjoiMSIsInVzZXJfdHlwZV9pZCI6IjEiLCJpc19hY2NvdW50X2hvbGRlciI6IjEiLCJpc19hZG1pbiI6dHJ1ZSwibG9naW5fdGltZSI6MTU2MTQ1NTQ4OH19fQ.Ee8yU5yI8o6vgocbE8Hh1oVPD0lNAtRJ28PhqChmb55Jp3vX8hJr_CmD8dgQKO2oTrJApJ5LWYLQcYVXwpjymw",
+    "status": true,
+    "message": "Job records found",
+    "jobs": {
+        "1": {
+            "engineer_data": null,
+            "engineer_jobs": {
+                "2019-06-19": [
+                    {
+                        "job_id": "3",
+                        "job_date": "2019-06-19",
+                        "job_type": "TV Installation Test",
+                        "job_type_desc": "Airwave TV Install test",
+                        "job_description": "h",
+                        "job_duration": "1.0",
+                        "job_order": "1",
+                        "status_id": "1",
+                        "job_status": "Assigned",
+                        "status_group": "assigned",
+                        "assigned_to": "1",
+                        "assignee": "Admin Admin",
+                        "job_postcode": "SW11 3RJ",
+                        "job_address": "Apartment 3, Oyster Wharf, 18 Lombard Road, London, Greater London, SW11 3RJ"
+                    }
+                ],
+                "2019-06-20": [
+                    {
+                        "job_id": "2",
+                        "job_date": "2019-06-20",
+                        "job_type": "TV Installation Test",
+                        "job_type_desc": "Airwave TV Install test",
+                        "job_description": "Install TV",
+                        "job_duration": "1.0",
+                        "job_order": "2",
+                        "status_id": "1",
+                        "job_status": "Assigned",
+                        "status_group": "assigned",
+                        "assigned_to": "1",
+                        "assignee": "Admin Admin",
+                        "job_postcode": "SW11 3RJ",
+                        "job_address": "Apartment 1, Oyster Wharf, 18 Lombard Road, London, Greater London, SW11 3RJ"
+                    },
+                    {
+                        "job_id": "5",
+                        "job_date": "2019-06-20",
+                        "job_type": "Installation",
+                        "job_type_desc": "Installation work to be performed",
+                        "job_description": "work",
+                        "job_duration": "1.0",
+                        "job_order": "3",
+                        "status_id": "1",
+                        "job_status": "Assigned",
+                        "status_group": "assigned",
+                        "assigned_to": "1",
+                        "assignee": "Admin Admin",
+                        "job_postcode": "SW11 3RJ",
+                        "job_address": "Apartment 2, Oyster Wharf, 18 Lombard Road, London, Greater London, SW11 3RJ"
+                    }
+                ]
+            }
+        },
+        "98": {
+            "engineer_data": null,
+            "engineer_jobs": {
+                "2019-06-20": [
+                    {
+                        "job_id": "1",
+                        "job_date": "2019-06-20",
+                        "job_type": "Jobs Meeting Test",
+                        "job_type_desc": "Created in our meeting for Jobs functionality",
+                        "job_description": "Demo",
+                        "job_duration": "1.0",
+                        "job_order": "4",
+                        "status_id": "1",
+                        "job_status": "Assigned",
+                        "status_group": "assigned",
+                        "assigned_to": "98",
+                        "assignee": "Alex Anderson",
+                        "job_postcode": "CR0 9XP",
+                        "job_address": "Humane Recruitment, Grosvenor House, 125 High Street, Croydon, Surrey, CR0 9XP"
+                    }
+                ]
+            }
+        },
+        "101": {
+            "engineer_data": {
+                "engineer_id": "101",
+                "first_name": "Barry",
+                "last_name": "Glandfield",
+                "home_address": "Frozen For U, 103 Twycross Street, Leicester, Leicestershire, LE2 0DX",
+                "home_postcode": "LE2 0DX",
+                "availability": {
+                    "start_time": "06:00",
+                    "finish_time": "20:00",
+                    "total_slots": "10",
+                    "on_call": true
+                }
+            },
+            "engineer_jobs": {
+                "2019-06-18": [
+                    {
+                        "job_id": "17",
+                        "job_date": "2019-06-18",
+                        "job_type": "Installation",
+                        "job_type_desc": "Installation work to be performed",
+                        "job_description": "6",
+                        "job_duration": "1.0",
+                        "job_order": "5",
+                        "status_id": "1",
+                        "job_status": "Assigned",
+                        "status_group": "assigned",
+                        "assigned_to": "101",
+                        "assignee": "Barry Glandfield",
+                        "job_postcode": "SW11 3RJ",
+                        "job_address": "Apartment 11, Oyster Wharf, 18 Lombard Road, London, Greater London, SW11 3RJ"
+                    }
+                ],
+                "2019-06-19": [
+                    {
+                        "job_id": "6",
+                        "job_date": "2019-06-19",
+                        "job_type": "TV Installation Test",
+                        "job_type_desc": "Airwave TV Install test",
+                        "job_description": "work",
+                        "job_duration": "1.0",
+                        "job_order": "6",
+                        "status_id": "1",
+                        "job_status": "Assigned",
+                        "status_group": "assigned",
+                        "assigned_to": "101",
+                        "assignee": "Barry Glandfield",
+                        "job_postcode": "KT8 0DQ",
+                        "job_address": "The Print Shop, 40 Walton Road, East Molesey, Surrey, KT8 0DQ"
+                    }
+                ]
+            }
+        },
+        "102": {
+            "engineer_data": {
+                "engineer_id": "102",
+                "first_name": "Dean",
+                "last_name": "Stone",
+                "home_address": "164 Oak Avenue, Croydon, Surrey, CR0 8EJ",
+                "home_postcode": "CR0 8EJ",
+                "availability": {
+                    "start_time": "06:00",
+                    "finish_time": "20:00",
+                    "total_slots": "10",
+                    "on_call": true
+                }
+            },
+            "engineer_jobs": {
+                "2019-06-20": [
+                    {
+                        "job_id": "8",
+                        "job_date": "2019-06-20",
+                        "job_type": "TV Installation Test",
+                        "job_type_desc": "Airwave TV Install test",
+                        "job_description": "Tgtgt",
+                        "job_duration": "1.0",
+                        "job_order": "7",
+                        "status_id": "1",
+                        "job_status": "Assigned",
+                        "status_group": "assigned",
+                        "assigned_to": "102",
+                        "assignee": "Dean Stone",
+                        "job_postcode": "CR0 4GE",
+                        "job_address": "Love Digital TV Ltd, Unit 1, Mariner Business Centre, 1 Kings Way, Croydon, Surrey, CR0 4GE"
+                    }
+                ],
+                "2022-06-19": [
+                    {
+                        "job_id": "69",
+                        "job_date": "2022-06-19",
+                        "job_type": "Bugs Test",
+                        "job_type_desc": "Test bugs",
+                        "job_description": null,
+                        "job_duration": "1.0",
+                        "job_order": "8",
+                        "status_id": "1",
+                        "job_status": "Assigned",
+                        "status_group": "assigned",
+                        "assigned_to": "102",
+                        "assignee": "Dean Stone",
+                        "job_postcode": "CR0 9XP",
+                        "job_address": "Love Digital TV Ltd, Grosvenor House, 125 High Street, Croydon, Surrey, CR0 9XP"
+                    }
+                ]
+            }
+        },
+        "105": {
+            "engineer_data": null,
+            "engineer_jobs": {
+                "2019-06-18": [
+                    {
+                        "job_id": "25",
+                        "job_date": "2019-06-18",
+                        "job_type": "TV Installation - Wall Mount",
+                        "job_type_desc": "Wall mount a TV in bedroom",
+                        "job_description": "Install TV on provided wall bracket opposite bed.",
+                        "job_duration": "1.0",
+                        "job_order": "9",
+                        "status_id": "1",
+                        "job_status": "Assigned",
+                        "status_group": "assigned",
+                        "assigned_to": "105",
+                        "assignee": null,
+                        "job_postcode": "B16 6DP",
+                        "job_address": "N X Imaging, PO Box 13526, Birmingham, West Midlands, B16 6DP"
+                    }
+                ]
+            }
+        }
+    }
+}

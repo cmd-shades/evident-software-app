@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="44.723" height="48.163" viewBox="0 0 44.723 48.163">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_78" data-name="Path 78" d="M0,0H44.723V-48.163H0Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Group_162" data-name="Group 162" transform="translate(0 48.163)" clip-path="url(#clip-path)">
+    <g id="Group_158" data-name="Group 158" transform="translate(22.361 -42.143)">
+      <path id="Path_74" data-name="Path 74" d="M0,0V3.44M2.58-2.58A2.58,2.58,0,0,1,0,0,2.58,2.58,0,0,1-2.58-2.58,2.58,2.58,0,0,1,0-5.16,2.58,2.58,0,0,1,2.58-2.58ZM-5.16,8.6a2.581,2.581,0,0,0-2.581,2.58,2.581,2.581,0,0,0,2.581,2.58,2.58,2.58,0,0,0,2.58-2.58A2.58,2.58,0,0,0-5.16,8.6Zm10.32,0a2.58,2.58,0,1,0,2.581,2.58A2.58,2.58,0,0,0,5.16,8.6Z" fill="none" stroke="#fff" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+    <g id="Group_159" data-name="Group 159" transform="translate(24.512 -24.942)">
+      <path id="Path_75" data-name="Path 75" d="M0,0A3.117,3.117,0,0,1-4.3,0M-20.211,5.16V0L-2.15,5.16V24.082l-18.061-5.161v-6.88M15.911,5.16V0L-2.15,5.16V24.082l18.061-5.161v-6.88M9.031,1.966V-11.181a2.581,2.581,0,0,0-2.581-2.58h-17.2a2.58,2.58,0,0,0-2.58,2.58V1.966" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+    <g id="Group_160" data-name="Group 160" transform="translate(7.74 -16.341)">
+      <path id="Path_76" data-name="Path 76" d="M0,0A3.44,3.44,0,0,1-3.44,3.44,3.44,3.44,0,0,1-6.88,0,3.44,3.44,0,0,1-3.44-3.44,3.44,3.44,0,0,1,0,0ZM36.122,0a3.44,3.44,0,0,1-3.44,3.44A3.44,3.44,0,0,1,29.242,0a3.44,3.44,0,0,1,3.44-3.44A3.44,3.44,0,0,1,36.122,0Z" fill="none" stroke="#fff" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+    <g id="Group_161" data-name="Group 161" transform="translate(33.542 -33.542)">
+      <path id="Path_77" data-name="Path 77" d="M0,0H2.58a.86.86,0,0,1,.86.86V6.02a.86.86,0,0,1-.86.86H0M-22.362,0h-2.58a.86.86,0,0,0-.86.86V6.02a.86.86,0,0,0,.86.86h2.58M-15.733,3.188ZM-5.412,3.188Z" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

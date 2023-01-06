@@ -1,0 +1,112 @@
+/** Asset module custom styles **/
+.nav_menu {
+    background: rgba( 92, 92, 92, 1);
+    background-color: rgba( 92, 92, 92, 1)!important;
+}
+
+.nav.side-menu>li.current-page, 
+.nav.side-menu>li.active {
+    background: rgba( 92, 92, 92, 1);
+    background-color: rgba( 92, 92, 92, 1)!important;
+}
+
+.nav.side-menu>li.active>a {
+    background: rgba( 92, 92, 92, 1);
+    background-color: rgba( 92, 92, 92, 1)!important;
+}
+
+a{ 
+	color: #0092CD;
+	/*font-weight: bold;*/
+}
+
+.config-color,
+.color-config,
+.text-config{
+	color:#0092CD !important;
+}
+
+.config-bg{
+	background-color: rgba( 92, 92, 92, 1) !important;
+	color: #FFF !important;
+}
+
+.btn-config {
+    color: #fff !important;
+    background-color: #0092CD;
+    border-color: #0092CD;
+}
+
+.top_search .form-control {
+    /* border: 1px solid rgba( 92, 92, 92,  0.6) !important; */
+}
+
+.config-border,
+.border-config {
+	border: 1px solid rgba( 92, 92, 92,  0.6) !important;
+}
+
+.config-shadow,
+.shadow-config{
+	-webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3);
+	-moz-box-shadow: 4px 4px 4px  0px rgba( 92, 92, 92, 0.3);
+	box-shadow: 4px 4px 4px  0px rgba( 92, 92, 92, 0.3);	
+}
+
+.config-shadow:hover,
+.config-shadow:focus,
+.config-shadow:viconfigd,
+.config-shadow:active,
+.shadow-config:hover,
+.shadow-config:focus,
+.shadow-config:viconfigd,
+.shadow-config:active{
+	color: #f4f4f4;
+}
+
+.form-group.top_search .config-search_input,
+.form-group.top_search .config-search_input:focus{
+	border: 1px solid rgba( 92, 92, 92,  0.6);
+    -webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92,  0.3 ) !important;
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+    box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+	background-color: rgba( 92, 92, 92, 1 );
+	color: #fff;
+}
+
+.top_search .config-bg.btn-default, .config-bg.btn-default,
+.top_search .config-bg.btn-default:hover, .config-bg.btn-default:hover,
+.top_search .config-bg.btn-default:focus, .config-bg.btn-default:focus,
+.top_search .config-bg.btn-default:viconfigd, .config-bg.btn-default:viconfigd, 
+.top_search .config-bg.btn-default:active, .config-bg.btn-default:active{
+	background-color: #0092CD;
+	color: #fff;
+    border: 1px solid rgba( 92, 92, 92, 0.6 );
+    -webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 );
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 );
+    box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 );
+}
+
+.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front{
+	z-index: 3000;
+}
+
+.config_item{
+    min-height: 36px;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    font-size: 14px;
+    padding-left: 12px !important;
+	font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
+}
+
+.config_details .search_config_btn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 99;
+}
+
+.config_details .form-control{
+	min-height: 34.4px;
+}

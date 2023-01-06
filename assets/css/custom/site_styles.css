@@ -1,0 +1,89 @@
+/** Site module custom styles **/
+.nav_menu {
+    background: rgba( 92, 92, 92, 1);
+    background-color: rgba( 92, 92, 92, 1) !important;
+}
+
+.nav.side-menu>li.current-page, 
+.nav.side-menu>li.active {
+    background: rgba( 92, 92, 92, 1);
+	background-color: rgba( 92, 92, 92, 1) !important;
+}
+
+.nav.side-menu>li.active>a {
+   background: rgba( 92, 92, 92, 1);
+	background-color: rgba( 92, 92, 92, 1) !important;
+}
+
+a{ color: #0092CD;
+	font-weight: bold;
+}
+
+.site-color,
+.color-site,
+.text-site{
+	color:#0092CD !important;
+}
+
+.site-bg{
+	background-color: rgba( 92, 92, 92, 1) !important;
+	color: #FFF !important;
+}
+
+.btn-site {
+    color: #fff !important;
+    background-color: #0092CD;
+    border-color: #0092CD;
+}
+ 
+.top_search .form-control {
+    /* border: 1px solid rgba( 92, 92, 92,  0.6) !important; */
+}
+
+.top_search .site-bg.btn-default, .site-bg.btn-default,
+.top_search .site-bg.btn-default:hover, .site-bg.btn-default:hover,
+.top_search .site-bg.btn-default:focus, .site-bg.btn-default:focus,
+.top_search .site-bg.btn-default:visited, .site-bg.btn-default:visited, 
+.top_search .site-bg.btn-default:active, .site-bg.btn-default:active{
+	background-color: #0092CD;
+	color: #fff;
+    border: 1px solid rgba( 92, 92, 92, 0.6 );
+    -webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 );
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 );
+    box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 );
+}
+
+
+.site-border,
+.border-site {
+	border: 1px solid rgba( 92, 92, 92,  0.6) !important;
+}
+
+.site-shadow,
+.shadow-site{
+	-webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 );
+	-moz-box-shadow: 4px 4px 4px  0px rgba( 92, 92, 92, 0.3 );
+	box-shadow: 4px 4px 4px  0px rgba( 92, 92, 92, 0.3 );	
+}
+
+.site-shadow:hover,
+.site-shadow:focus,
+.site-shadow:visited,
+.site-shadow:active,
+.shadow-site:hover,
+.shadow-site:focus,
+.shadow-site:visited,
+.shadow-site:active{
+	color: #f4f4f4;
+}
+
+.form-group.top_search .site-search_input,
+.form-group.top_search .site-search_input:focus{
+	border: 1px solid rgba( 92, 92, 92,  0.6 );
+    -webkit-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92,  0.3 ) !important;
+    -moz-box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+    box-shadow: 4px 4px 4px 0px rgba( 92, 92, 92, 0.3 ) !important;
+	background-color: rgba( 92, 92, 92, 1 );
+	color: #fff;
+}
+
