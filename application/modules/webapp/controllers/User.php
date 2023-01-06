@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
 
 class User extends MX_Controller {
 
@@ -6,7 +7,21 @@ class User extends MX_Controller {
 		parent::__construct();
 		$this->module_id 	   = $this->_get_module_id();
 		$this->load->library('pagination');
-		$this->load->model('serviceapp/Modules_model','module_service');
+		$m = $this->load->model('serviceapp/Modules_model','module_service');
+
+		// $m = $this->module_service = new Modules_model();
+
+		$ds = DIRECTORY_SEPARATOR;
+		$model = sprintf(APPPATH.'modules%sserviceapp%smodels%sModules_model.php', $ds, $ds, $ds);
+		require_once $model;
+
+
+		echo '<pre>';
+		// print_r($m); 
+		// print_r($model); 
+		print_r(new Modules_model());
+		echo '</pre>';
+		exit();
 	}
 
 	//redirect if needed, otherwise display the user list
@@ -28,6 +43,8 @@ class User extends MX_Controller {
 
 	//log the user in
 	function login(){
+
+		dd($this);
 	
 		if ( $this->input->post() ){
 	
