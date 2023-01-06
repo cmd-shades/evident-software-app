@@ -77,8 +77,8 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => ( ENVIRONMENT !== 'production' ) ? 'ssid_admin' 		: 'ssid_admin', 
-	'password' => ( ENVIRONMENT !== 'production' ) ? 'mDz*dM$?2EuUZ9Pj' 	: 'mDz*dM$?2EuUZ9Pj',
+	'username' => 'root', 
+	'password' => 'root',
 	'database' => 'evident_core_tess',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
